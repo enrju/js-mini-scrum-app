@@ -4,6 +4,8 @@ import ProjectListPanel from './ProjectListPanel';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
+    {id: 2, title: "project 2", description: "project 2"},
+    {id: 3, title: "project 3", description: "project 3"},
 ];
 
 let tasks = [
@@ -16,15 +18,21 @@ let sprints = [
 ];
 
 class App extends React.Component {
-    // pobranie danych musi być przed zmontowaniem
-    // componentWillMount() został zdeprecjonowany
-    // więc inicjalizację state przeniesiono do 
-    // konstruktora
+    // data fetch MUST BE before mount components 
+    // because we use this data in components
+    // componentDidMount() can't use because it work after render()
+    // componentWillMount() was deprecated
+    // state initialization has been transferred to constructor
     constructor() {
         super();
-        let newProjects = projects.map((item) => {
+        let newProjects = projects.map((item, index) => {
             let newItem = item;
-            newItem.isHide = true;
+            if(index % 2) {
+                newItem.isHide = false;
+            } else {
+                newItem.isHide = true;
+            }
+            
             return newItem;
         });
 
@@ -44,6 +52,10 @@ class App extends React.Component {
             return (
                 <ProjectListPanel
                     projectList={this.state.projectList}
+                    handleAddProject={null}
+                    handleEditProject={null}
+                    handleDeleteProject={null}
+                    handleHideShowProject={null}
                 />
             )
         } else {
