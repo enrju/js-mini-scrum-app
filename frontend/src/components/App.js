@@ -16,12 +16,12 @@ let sprints = [
 ];
 
 class App extends React.Component {
-    state = {
-        idChosenProject: null,
-        projectList: []
-    }
-
-    componentDidMount() {
+    // pobranie danych musi być przed zmontowaniem
+    // componentWillMount() został zdeprecjonowany
+    // więc inicjalizację state przeniesiono do 
+    // konstruktora
+    constructor() {
+        super();
         let newProjects = projects.map((item) => {
             let newItem = item;
             newItem.isHide = true;
@@ -33,15 +33,19 @@ class App extends React.Component {
         sprints.map(() => {return true});
         //----------------------------------
 
-        this.setState({
+        this.state = {
             idChosenProject: null,
             projectList: newProjects
-        });
+        }
     }
 
     render() {
         if(this.state.idChosenProject === null) {
-            return (<ProjectListPanel/>)
+            return (
+                <ProjectListPanel
+                    projectList={this.state.projectList}
+                />
+            )
         } else {
             return null;
         }
