@@ -6,11 +6,14 @@ function ProjectListPanel(props) {
         <>
             <h1>PROJECTS</h1>
             <Button 
-                click={null}
+                click={props.handleAddProject}
                 description={"+ project"}
             />
             <ProjectList
                 projectList={props.projectList}
+                handleEditProject={props.handleEditProject}
+                handleDeleteProject={props.handleDeleteProject}
+                handleHideShowProject={props.handleHideShowProject}
             />
         </>
     )
