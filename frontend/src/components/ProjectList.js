@@ -1,15 +1,17 @@
+import ProjectListItem from "./ProjectListItem";
+
 function ProjectList (props) {
     return (
         <ul>
             {props.projectList.map((item) => {
                 return(
-                    <li key={item.id}>
-                        <h2>title</h2>
-                        <p>description</p>
-                        <button>edit</button>
-                        <button>delete</button>
-                        <button>hide/show</button>
-                    </li>
+                    <ProjectListItem
+                        key={item.id}
+                        item={item}
+                        handleEditProject={props.handleEditProject}
+                        handleDeleteProject={props.handleDeleteProject}
+                        handleHideShowProject={props.handleHideShowProject}
+                    />
                 )
             })}
         </ul>
