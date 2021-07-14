@@ -1,6 +1,7 @@
 import Button from './Button';
+import ProjectList from './ProjectList';
 
-function ProjectListPanel() {
+function ProjectListPanel(props) {
     return (
         <>
             <h1>PROJECTS</h1>
@@ -8,15 +9,9 @@ function ProjectListPanel() {
                 click={null}
                 description={"+ project"}
             />
-            <ul>
-                <li>
-                    <h2>title</h2>
-                    <p>description</p>
-                    <button>edit</button>
-                    <button>delete</button>
-                    <button>hide/show</button>
-                </li>
-            </ul>
+            <ProjectList
+                projectList={props.projectList}
+            />
         </>
     )
 }
