@@ -1,8 +1,13 @@
+import Button from './Button';
+
 function ProjectListPanel() {
     return (
         <>
             <h1>PROJECTS</h1>
-            <button>+ project</button>
+            <Button 
+                click={null}
+                description={"+ project"}
+            />
             <ul>
                 <li>
                     <h2>title</h2>
