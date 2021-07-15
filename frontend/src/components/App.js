@@ -72,6 +72,19 @@ class App extends React.Component {
         });
     }
 
+    getDataFromForm(){
+        const inpTitle = document.querySelector("input[name='title']");
+        const inpDescription = document.querySelector("textarea[name='description']");
+        
+        const title = inpTitle.value;
+        const description = inpDescription.value;
+
+        return {
+            title,
+            description
+        }
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
