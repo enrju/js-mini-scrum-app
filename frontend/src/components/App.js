@@ -18,13 +18,10 @@ let sprints = [
 ];
 
 class App extends React.Component {
-    // data fetch MUST BE before mount components 
-    // because we use this data in components
-    // componentDidMount() can't use because it work after render()
-    // componentWillMount() was deprecated
-    // state initialization has been transferred to constructor
-    constructor() {
-        super();
+
+    }
+
+    handleGetProjects() {
         let newProjects = projects.map((item, index) => {
             let newItem = item;
             if(index % 2) {
@@ -32,7 +29,6 @@ class App extends React.Component {
             } else {
                 newItem.isHide = true;
             }
-            
             return newItem;
         });
 
@@ -40,11 +36,11 @@ class App extends React.Component {
         tasks.map(() => {return true});
         sprints.map(() => {return true});
         //----------------------------------
-
-        this.state = {
+    
+        this.setState({
             idChosenProject: null,
             projectList: newProjects
-        }
+        });
     }
 
     render() {
