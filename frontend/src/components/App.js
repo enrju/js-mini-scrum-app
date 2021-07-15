@@ -18,6 +18,16 @@ let sprints = [
     {id: 1, id_project: 1, title: "sprint - week 1"},
 ];
 
+function db_calcNextId(table) {
+    let maxId = 0;
+    
+    table.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+    });
+
+    return maxId + 1;
+}
+
 class App extends React.Component {
     state = {
         idChosenProject: null,
