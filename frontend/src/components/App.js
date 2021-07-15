@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProjectListPanel from './ProjectListPanel';
+import PopupForm from './PopupForm';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -20,7 +21,8 @@ let sprints = [
 class App extends React.Component {
     state = {
         idChosenProject: null,
-        projectList: []
+        projectList: [],
+        isShowFormAddProject: false
     }
 
     componentDidMount() {
@@ -52,16 +54,38 @@ class App extends React.Component {
         });
     }
 
+    setShowFormAddProject(what) {
+        this.setState(() => {
+            return ({
+                isShowFormAddProject: what
+            })
+        });
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
-                <ProjectListPanel
-                    projectList={this.state.projectList}
-                    handleAddProject={null}
-                    handleEditProject={null}
-                    handleDeleteProject={null}
-                    handleHideShowProject={null}
-                />
+                <>
+                    <ProjectListPanel
+                        projectList={this.state.projectList}
+                        handleAddProject={this.setShowFormAddProject.bind(this, true)}
+                        handleEditProject={null}
+                        handleDeleteProject={null}
+                        handleHideShowProject={null}
+                    />
+                    {this.state.isShowFormAddProject ?
+                        <PopupForm
+                            name = "new project"
+                            isDescription={true}
+                            handleCancelAddBtn={this.setShowFormAddProject.bind(this, false)}
+                            handleAddBtn={e => {
+                                e.preventDefault();
+                                console.log('add');
+                            }} //tutaj handleAddProject
+                        />
+                        : null
+                    }
+                </>
             )
         } else {
             return null;
