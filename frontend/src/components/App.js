@@ -23,6 +23,11 @@ class App extends React.Component {
         projectList: []
     }
 
+    componentDidMount() {
+        this.handleGetProjects();
+        //MUST BE rendered after update state
+        //beacuse this method is call after render()
+        this.render();  
     }
 
     handleGetProjects() {
