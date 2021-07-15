@@ -85,6 +85,21 @@ class App extends React.Component {
         }
     }
 
+    handleAddProject(e) {
+        e.preventDefault();
+
+        const data = this.getDataFromForm();
+        const nextId = db_calcNextId(projects);
+
+        projects.push({
+            id: nextId, 
+            ...data
+        });
+
+        this.setShowFormAddProject(false);
+        this.handleGetProjects();
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
@@ -101,10 +116,7 @@ class App extends React.Component {
                             name = "new project"
                             isDescription={true}
                             handleCancelAddBtn={this.setShowFormAddProject.bind(this, false)}
-                            handleAddBtn={e => {
-                                e.preventDefault();
-                                console.log('add');
-                            }} //tutaj handleAddProject
+                            handleAddBtn={this.handleAddProject.bind(this)}
                         />
                         : null
                     }
