@@ -18,6 +18,10 @@ let sprints = [
 ];
 
 class App extends React.Component {
+    state = {
+        idChosenProject: null,
+        projectList: []
+    }
 
     }
 
