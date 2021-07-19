@@ -158,6 +158,21 @@ class App extends React.Component {
         this.setShowFormAddProject(false);
     }
 
+    handleEditProject() {
+        const index = this.state.editedProjectIndex;
+        const id = this.state.projectList[index].id;
+        this.setEditedProjectIndex(-1);
+
+        const data = this.getDataFromForm();
+        const dbIndex = db_findIndexForId(projects, id);
+
+        projects[dbIndex].title = data.title;
+        projects[dbIndex].description = data.description;
+
+        this.setShowFormEditProject(false);
+        this.handleGetProjects();
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
