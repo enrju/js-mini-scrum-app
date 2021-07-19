@@ -7,13 +7,23 @@ function PopupForm (props) {
                 <h2>{props.name}</h2>
                 <div>
                     <label>title:
-                        <input name="title" type="text" />
+                        <input 
+                            name="title" 
+                            type="text" 
+                            defaultValue={props.title} 
+                        />
                     </label>
                 </div>
                 {props.isDescription ?
                     <div>
                         <label>description:
-                            <textarea name="description" id="" cols="30" rows="10"></textarea>
+                            <textarea 
+                                name="description" 
+                                id="" 
+                                cols="30" 
+                                rows="10"
+                                defaultValue={props.description}
+                            ></textarea>
                         </label>
                     </div>
                     : null
