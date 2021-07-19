@@ -113,6 +113,10 @@ class App extends React.Component {
         }
     }
 
+    handleShowFormAddProject() {
+        this.setShowFormAddProject(true);
+    }
+
     handleAddProject(e) {
         e.preventDefault();
 
