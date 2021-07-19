@@ -154,6 +154,10 @@ class App extends React.Component {
         this.setEditedProjectIndex(index);
     }
 
+    handleHideFormEditProject() {
+        this.setShowFormAddProject(false);
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
