@@ -176,6 +176,19 @@ class App extends React.Component {
         this.handleGetProjects();
     }
 
+    handleDeleteProject(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+
+        const dbIndex = db_findIndexForId(projects, id);
+
+        projects.splice(dbIndex, 1);
+        
+        this.handleGetProjects();
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
@@ -184,7 +197,7 @@ class App extends React.Component {
                         projectList={this.state.projectList}
                         handleAddProject={this.handleShowFormAddProject.bind(this)}
                         handleEditProject={this.handleShowFormEditProject.bind(this)}
-                        handleDeleteProject={null}
+                        handleDeleteProject={this.handleDeleteProject.bind(this)}
                         handleHideShowProject={null}
                     />
                     {this.state.isShowFormAddProject ?
