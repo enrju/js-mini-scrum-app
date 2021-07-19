@@ -136,14 +136,30 @@ class App extends React.Component {
         this.handleGetProjects();
     }
 
+    handleShowFormEditProject(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+    
+        let index = -1;
+        for(let i = 0; i < this.state.projectList.length; i++) {
+            if(this.state.projectList[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        this.setShowFormEditProject(true);
+        this.setEditedProjectIndex(index);
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
                 <>
                     <ProjectListPanel
                         projectList={this.state.projectList}
-                        handleAddProject={this.setShowFormAddProject.bind(this, true)}
-                        handleEditProject={null}
                         handleDeleteProject={null}
                         handleHideShowProject={null}
                     />
