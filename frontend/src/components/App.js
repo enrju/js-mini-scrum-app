@@ -92,6 +92,10 @@ class App extends React.Component {
         });
     }
 
+    setEditedProjectIndex(index) {
+        this.setState(() => {
+            return ({
+                editedProjectIndex: index
             })
         });
     }
