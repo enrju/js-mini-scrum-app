@@ -45,6 +45,9 @@ class App extends React.Component {
     state = {
         idChosenProject: null,
         projectList: [],
+        editedProjectIndex: -1,
+        isShowFormAddProject: false,
+        isShowFormEditProject: false,
     }
 
     componentDidMount() {
@@ -52,6 +55,11 @@ class App extends React.Component {
         //MUST BE rendered after update state
         //beacuse this method is call after render()
         this.render();  
+
+        //tmp using variable to fix warnings
+        tasks.map(() => {return true});
+        sprints.map(() => {return true});
+        //----------------------------------
     }
 
     handleGetProjects() {
@@ -64,11 +72,6 @@ class App extends React.Component {
             }
             return newItem;
         });
-
-        //tmp using variable to fix warnings
-        tasks.map(() => {return true});
-        sprints.map(() => {return true});
-        //----------------------------------
     
         this.setState({
             idChosenProject: null,
@@ -179,6 +182,8 @@ class App extends React.Component {
                 <>
                     <ProjectListPanel
                         projectList={this.state.projectList}
+                        handleAddProject={this.handleShowFormAddProject.bind(this)}
+                        handleEditProject={this.handleShowFormEditProject.bind(this)}
                         handleDeleteProject={null}
                         handleHideShowProject={null}
                     />
@@ -186,8 +191,21 @@ class App extends React.Component {
                         <PopupForm
                             name = "new project"
                             isDescription={true}
-                            handleCancelAddBtn={this.setShowFormAddProject.bind(this, false)}
+                            title=""
+                            description=""
+                            handleCancelAddBtn={this.handleHideFormAddProject.bind(this)}
                             handleAddBtn={this.handleAddProject.bind(this)}
+                        />
+                        : null
+                    }
+                    {this.state.isShowFormEditProject ?
+                        <PopupForm
+                            name = "edit project"
+                            isDescription={true}
+                            title={this.state.projectList[this.state.editedProjectIndex].title}
+                            description={this.state.projectList[this.state.editedProjectIndex].description}
+                            handleCancelAddBtn={this.handleHideFormEditProject.bind(this)}
+                            handleAddBtn={this.handleEditProject.bind(this)}
                         />
                         : null
                     }
