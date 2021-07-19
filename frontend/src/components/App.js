@@ -76,10 +76,14 @@ class App extends React.Component {
         });
     }
 
-    setShowFormAddProject(what) {
+    setShowFormAddProject(bool) {
         this.setState(() => {
             return ({
-                isShowFormAddProject: what
+                isShowFormAddProject: bool
+            })
+        });
+    }
+
             })
         });
     }
