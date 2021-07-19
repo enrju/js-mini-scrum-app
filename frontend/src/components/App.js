@@ -28,11 +28,23 @@ function db_calcNextId(table) {
     return maxId + 1;
 }
 
+function db_findIndexForId(table, id) {
+    let index = -1;
+
+    for(let i = 0; i < table.length; i++) {
+        if(table[i].id === Number(id)) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
+
 class App extends React.Component {
     state = {
         idChosenProject: null,
         projectList: [],
-        isShowFormAddProject: false
     }
 
     componentDidMount() {
