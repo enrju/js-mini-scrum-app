@@ -65,11 +65,7 @@ class App extends React.Component {
     handleGetProjects() {
         let newProjects = projects.map((item, index) => {
             let newItem = item;
-            if(index % 2) {
-                newItem.isHide = false;
-            } else {
-                newItem.isHide = true;
-            }
+            newItem.isHide = true;  //default
             return newItem;
         });
     
