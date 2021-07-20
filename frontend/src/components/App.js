@@ -189,6 +189,29 @@ class App extends React.Component {
         this.handleGetProjects();
     }
 
+    handleHideShowProjectDescription(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+
+        const index = db_findIndexForId(this.state.projectList, id);
+
+        //copy of table
+        let newProjectList = [ ...this.state.projectList ];
+        
+        newProjectList[index].isHide = !newProjectList[index].isHide;
+
+        this.setState(() => {
+            return ({
+                projectList: newProjectList
+            })
+        });
+
+        //don't get projects from DB 
+        //because changes are only in state from App
+    }
+
     render() {
         if(this.state.idChosenProject === null) {
             return (
@@ -198,7 +221,7 @@ class App extends React.Component {
                         handleAddProject={this.handleShowFormAddProject.bind(this)}
                         handleEditProject={this.handleShowFormEditProject.bind(this)}
                         handleDeleteProject={this.handleDeleteProject.bind(this)}
-                        handleHideShowProject={null}
+                        handleHideShowProject={this.handleHideShowProjectDescription.bind(this)}
                     />
                     {this.state.isShowFormAddProject ?
                         <PopupForm
