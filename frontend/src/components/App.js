@@ -241,6 +241,11 @@ class App extends React.Component {
         });
     }
 
+    handleCloseProject() {
+        this.handleGetProjects();
+        this.render();
+    }
+
     render() {
         if(this.state.idOpenedProject === null) {
             return (
