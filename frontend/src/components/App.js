@@ -43,7 +43,15 @@ function db_findIndexForId(table, id) {
 
 class App extends React.Component {
     state = {
-        idChosenProject: null,
+        idOpenedProject: null,
+        //---------------------------
+        titleOpenedProject: '',
+        descriptionOpenedProject: '',
+        taskListOpenedProject: [],
+        sprintListOpenedProject: [],
+        isBacklogHide: false,
+        idChosenSprint: null,
+        //---------------------------
         projectList: [],
         editedProjectIndex: -1,
         isShowFormAddProject: false,
@@ -55,11 +63,6 @@ class App extends React.Component {
         //MUST BE rendered after update state
         //beacuse this method is call after render()
         this.render();  
-
-        //tmp using variable to fix warnings
-        tasks.map(() => {return true});
-        sprints.map(() => {return true});
-        //----------------------------------
     }
 
     handleGetProjects() {
@@ -258,6 +261,7 @@ class App extends React.Component {
     }
 
     render() {
+        // console.log('idOpenedProject = ', this.state.idOpenedProject);
         if(this.state.idOpenedProject === null) {
             return (
                 <>
@@ -267,6 +271,7 @@ class App extends React.Component {
                         handleEditProject={this.handleShowFormEditProject.bind(this)}
                         handleDeleteProject={this.handleDeleteProject.bind(this)}
                         handleHideShowProject={this.handleHideShowProjectDescription.bind(this)}
+                        handleOpenProject={this.handleOpenProject.bind(this)}
                     />
                     {this.state.isShowFormAddProject ?
                         <PopupForm
@@ -293,9 +298,17 @@ class App extends React.Component {
                 </>
             )
         } else {
-            return null;
+            return (
+                <>
+                    <h1>Project</h1>
+                    <button 
+                        onClick={this.handleCloseProject.bind(this)}
+                    >
+                        Close project
+                    </button>
+                </>
+            )
         }
-        
     }
 }
 
