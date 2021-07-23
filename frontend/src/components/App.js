@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
+import TaskListItem from './TaskListItem';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -321,12 +322,19 @@ class App extends React.Component {
                             </header>
                             <section>
                                 <ul>
-                                    <li>
-                                        <h2>task title</h2>
-                                        <button>edit</button>
-                                        <button>delete</button>
-                                        <button>&#62;</button>
-                                    </li>
+                                    <TaskListItem
+                                        item={{
+                                            id: 1, 
+                                            id_project: 1, 
+                                            id_sprint: null, 
+                                            title: "task 1", 
+                                            where_is: "BACKLOG", 
+                                            minutes: 0}}
+                                        handleEditTask={null}
+                                        handleDeleteTask={null}
+                                        handleMoveLeftTask={null}
+                                        handleMoveRightTask={null}
+                                    />
                                 </ul>
                             </section>
                         </div>
@@ -349,13 +357,19 @@ class App extends React.Component {
                                                 <h2>TODO</h2>
                                                 <section>
                                                     <ul>
-                                                        <li>
-                                                            <h2>task title</h2>
-                                                            <button>edit</button>
-                                                            <button>delete</button>
-                                                            <button>&#60;</button>
-                                                            <button>&#62;</button>
-                                                        </li>
+                                                        <TaskListItem
+                                                            item={{
+                                                                id: 1, 
+                                                                id_project: 1, 
+                                                                id_sprint: null, 
+                                                                title: "task 2", 
+                                                                where_is: "TODO", 
+                                                                minutes: 0}}
+                                                            handleEditTask={null}
+                                                            handleDeleteTask={null}
+                                                            handleMoveLeftTask={null}
+                                                            handleMoveRightTask={null}
+                                                        />
                                                     </ul>
                                                 </section>
                                             </div>
@@ -363,13 +377,19 @@ class App extends React.Component {
                                                 <h2>DOING</h2>
                                                 <section>
                                                     <ul>
-                                                        <li>
-                                                            <h2>task title</h2>
-                                                            <button>edit</button>
-                                                            <button>delete</button>
-                                                            <button>&#60;</button>
-                                                            <button>&#62;</button>
-                                                        </li>
+                                                        <TaskListItem
+                                                            item={{
+                                                                id: 1, 
+                                                                id_project: 1, 
+                                                                id_sprint: null, 
+                                                                title: "task 3", 
+                                                                where_is: "DOING", 
+                                                                minutes: 0}}
+                                                            handleEditTask={null}
+                                                            handleDeleteTask={null}
+                                                            handleMoveLeftTask={null}
+                                                            handleMoveRightTask={null}
+                                                        />
                                                     </ul>
                                                 </section>
                                             </div>
@@ -377,12 +397,19 @@ class App extends React.Component {
                                                 <h2>DONE</h2>
                                                 <section>
                                                     <ul>
-                                                        <li>
-                                                            <h2>task title</h2>
-                                                            <button>edit</button>
-                                                            <button>delete</button>
-                                                            <button>&#60;</button>
-                                                        </li>
+                                                        <TaskListItem
+                                                            item={{
+                                                                id: 1, 
+                                                                id_project: 1, 
+                                                                id_sprint: null, 
+                                                                title: "task 4", 
+                                                                where_is: "DONE", 
+                                                                minutes: 0}}
+                                                            handleEditTask={null}
+                                                            handleDeleteTask={null}
+                                                            handleMoveLeftTask={null}
+                                                            handleMoveRightTask={null}
+                                                        />
                                                     </ul>
                                                 </section>
                                             </div>
