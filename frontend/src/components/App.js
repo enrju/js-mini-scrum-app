@@ -70,8 +70,19 @@ class App extends React.Component {
         });
     
         this.setState({
-            idChosenProject: null,
-            projectList: newProjects
+            idOpenedProject: null,
+            //---------------------------
+            titleOpenedProject: '',
+            descriptionOpenedProject: '',
+            taskListOpenedProject: [],
+            sprintListOpenedProject: [],
+            isBacklogHide: false,
+            idChosenSprint: null,
+            //---------------------------
+            projectList: newProjects,
+            editedProjectIndex: -1,
+            isShowFormAddProject: false,
+            isShowFormEditProject: false,
         });
     }
 
