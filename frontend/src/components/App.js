@@ -208,8 +208,41 @@ class App extends React.Component {
         //because changes are only in state from App
     }
 
+    handleOpenProject(e){
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+        const index = db_findIndexForId(projects, id);
+        const title = projects[index].title;
+        const description = projects[index].description;
+
+        //tmp using variable to fix warnings
+        tasks.map(() => {return true});
+        sprints.map(() => {return true});
+        //----------------------------------
+        
+        this.setState(() => {
+            return ({
+                idOpenedProject: id,
+                //---------------------------
+                titleOpenedProject: title,
+                descriptionOpenedProject: description,
+                taskListOpenedProject: [],
+                sprintListOpenedProject: [],
+                isBacklogHide: false,
+                idChosenSprint: null,
+                //---------------------------
+                projectList: [],
+                editedProjectIndex: -1,
+                isShowFormAddProject: false,
+                isShowFormEditProject: false,
+            })
+        });
+    }
+
     render() {
-        if(this.state.idChosenProject === null) {
+        if(this.state.idOpenedProject === null) {
             return (
                 <>
                     <ProjectListPanel
