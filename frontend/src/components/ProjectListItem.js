@@ -19,6 +19,10 @@ function ProjectListItem (props) {
                 click={props.handleHideShowProject}
                 description={props.item.isHide ? "more..." : "less..."}
             />
+            <Button
+                click={props.handleOpenProject}
+                description={"open"}
+            />
         </li> 
     )
 }
