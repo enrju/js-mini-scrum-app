@@ -13,3 +13,31 @@ li {
     margin: 10px;
     background-color: beige;
 }
+
+.backlog {
+    display: inline-block;
+    width: 29%;
+    vertical-align: top;
+    background-color: #666;
+}
+
+.sprints {
+    display: inline-block;
+    width: 69%;
+    vertical-align: top;
+    background-color: #999;
+}
+
+.sprints>section>ul>li {
+    background-color: green;
+}
+
+.todo,
+.doing,
+.done {
+    display: inline-block;
+    width: 31%;
+    margin: 1%;
+    vertical-align: top;
+    background-color: #fff;
+}
