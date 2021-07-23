@@ -11,6 +11,7 @@ function ProjectList (props) {
                         handleEditProject={props.handleEditProject}
                         handleDeleteProject={props.handleDeleteProject}
                         handleHideShowProject={props.handleHideShowProject}
+                        handleOpenProject={props.handleOpenProject}
                     />
                 )
             })}
