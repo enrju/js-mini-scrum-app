@@ -299,14 +299,100 @@ class App extends React.Component {
             )
         } else {
             return (
-                <>
-                    <h1>Project</h1>
-                    <button 
-                        onClick={this.handleCloseProject.bind(this)}
-                    >
-                        Close project
-                    </button>
-                </>
+                // <!--    JSX - WYMAGA encji HTML  -->
+                // <!--    <	&#60; &#x003C;  -->
+                // <!--    >	&#62; &#x003E;	-->
+                // <!--    /	&#47; &#x002F;  -->
+                <main>
+                    <header>
+                        <h1>PROJECT</h1>
+                        <h2>{this.state.titleOpenedProject}</h2>
+                        <p>{this.state.descriptionOpenedProject}</p>
+                        <button 
+                            onClick={this.handleCloseProject.bind(this)}
+                        >Close</button>
+                    </header>
+                    <section>
+                        <div className="backlog">
+                            <header>
+                                <h2>BACKLOG</h2>
+                                <button>+task</button>
+                                <button>less...</button>
+                            </header>
+                            <section>
+                                <ul>
+                                    <li>
+                                        <h2>task title</h2>
+                                        <button>edit</button>
+                                        <button>delete</button>
+                                        <button>&#62;</button>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                        <div className="sprints">
+                            <header>
+                                <h2>SPRINTS</h2>
+                                <button>+sprint</button>
+                            </header>
+                            <section>
+                                <ul>
+                                    <li>
+                                        <header>
+                                            <h2>sprint title</h2>
+                                            <button>edit</button>
+                                            <button>delete</button>
+                                            <button>less...</button>
+                                        </header>
+                                        <section>
+                                            <div className="todo">
+                                                <h2>TODO</h2>
+                                                <section>
+                                                    <ul>
+                                                        <li>
+                                                            <h2>task title</h2>
+                                                            <button>edit</button>
+                                                            <button>delete</button>
+                                                            <button>&#60;</button>
+                                                            <button>&#62;</button>
+                                                        </li>
+                                                    </ul>
+                                                </section>
+                                            </div>
+                                            <div className="doing">
+                                                <h2>DOING</h2>
+                                                <section>
+                                                    <ul>
+                                                        <li>
+                                                            <h2>task title</h2>
+                                                            <button>edit</button>
+                                                            <button>delete</button>
+                                                            <button>&#60;</button>
+                                                            <button>&#62;</button>
+                                                        </li>
+                                                    </ul>
+                                                </section>
+                                            </div>
+                                            <div className="done">
+                                                <h2>DONE</h2>
+                                                <section>
+                                                    <ul>
+                                                        <li>
+                                                            <h2>task title</h2>
+                                                            <button>edit</button>
+                                                            <button>delete</button>
+                                                            <button>&#60;</button>
+                                                        </li>
+                                                    </ul>
+                                                </section>
+                                            </div>
+                                        </section>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </section>
+                </main>
             )
         }
     }
