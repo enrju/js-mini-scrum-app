@@ -2,9 +2,8 @@ import React from 'react';
 
 import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
-import TaskListItem from './TaskListItem';
 import TaskList from './TaskList';
-import SprintListItem from './SprintListItem';
+import SprintList from './SprintList';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -301,11 +300,31 @@ class App extends React.Component {
                 </>
             )
         } else {
+            const tmpSprintList = [
+                {
+                    id: 1, 
+                    id_project: 1, 
+                    title: "sprint - week 1",
+                    isHide: false
+                },
+                {
+                    id: 2, 
+                    id_project: 1, 
+                    title: "sprint - week 2",
+                    isHide: false
+                },
+                {
+                    id: 3, 
+                    id_project: 1, 
+                    title: "sprint - week 3",
+                    isHide: false
+                },
+            ];
             const tmpTaskList = [
                 {
                     id: 1, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 1, 
                     title: "task 1", 
                     where_is: "BACKLOG", 
                     minutes: 0
@@ -313,7 +332,7 @@ class App extends React.Component {
                 {
                     id: 2, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 2, 
                     title: "task 2", 
                     where_is: "BACKLOG", 
                     minutes: 0
@@ -321,7 +340,7 @@ class App extends React.Component {
                 {
                     id: 3, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 1, 
                     title: "task 3", 
                     where_is: "TODO", 
                     minutes: 0
@@ -329,7 +348,7 @@ class App extends React.Component {
                 {
                     id: 4, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 2, 
                     title: "task 4", 
                     where_is: "DOING", 
                     minutes: 0
@@ -337,7 +356,7 @@ class App extends React.Component {
                 {
                     id: 5, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 3, 
                     title: "task 5", 
                     where_is: "DOING", 
                     minutes: 0
@@ -345,7 +364,7 @@ class App extends React.Component {
                 {
                     id: 6, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 1, 
                     title: "task 6", 
                     where_is: "DONE", 
                     minutes: 0
@@ -353,7 +372,7 @@ class App extends React.Component {
                 {
                     id: 7, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 2, 
                     title: "task 7", 
                     where_is: "DONE", 
                     minutes: 0
@@ -361,7 +380,7 @@ class App extends React.Component {
                 {
                     id: 8, 
                     id_project: 1, 
-                    id_sprint: null, 
+                    id_sprint: 3, 
                     title: "task 8", 
                     where_is: "DONE", 
                     minutes: 0
@@ -408,24 +427,17 @@ class App extends React.Component {
                                 <button>+sprint</button>
                             </header>
                             <section>
-                                <ul>
-                                    <SprintListItem
-                                        item={{
-                                            id: 1, 
-                                            id_project: 1, 
-                                            title: "sprint - week 1",
-                                            isHide: false
-                                        }}
-                                        taskList={tmpTaskList}
-                                        handleEditSprint={null}
-                                        handleDeleteSprint={null}
-                                        handleHideShowSprintDetails={null}
-                                        handleEditTask={null}
-                                        handleDeleteTask={null}
-                                        handleMoveLeftTask={null}
-                                        handleMoveRightTask={null}
-                                    />
-                                </ul>
+                                <SprintList
+                                    sprintList={tmpSprintList}
+                                    taskList={tmpTaskList}
+                                    handleEditSprint={null}
+                                    handleDeleteSprint={null}
+                                    handleHideShowSprintDetails={null}
+                                    handleEditTask={null}
+                                    handleDeleteTask={null}
+                                    handleMoveLeftTask={null}
+                                    handleMoveRightTask={null}
+                                />
                             </section>
                         </div>
                     </section>
