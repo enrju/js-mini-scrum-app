@@ -4,6 +4,7 @@ import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
 import TaskList from './TaskList';
 import SprintList from './SprintList';
+import BacklogPanel from './BacklogPanel';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -402,24 +403,15 @@ class App extends React.Component {
                     </header>
                     <section>
                         <div className="backlog">
-                            <header>
-                                <h2>BACKLOG</h2>
-                                <button>+task</button>
-                                <button>less...</button>
-                            </header>
-                            <section>
-                                <TaskList
-                                    // filter move later into Backlog component
-                                    taskList={tmpTaskList.filter((item) => {
-                                        if(item.where_is === "BACKLOG") return true;
-                                        else return false;
-                                    })}
-                                    handleEditTask={null}
-                                    handleDeleteTask={null}
-                                    handleMoveLeftTask={null}
-                                    handleMoveRightTask={null}
-                                />
-                            </section>
+                            <BacklogPanel
+                                handleAddTask={null}
+                                handleHideShowBacklogDetails={null}
+                                taskList={tmpTaskList}
+                                handleEditTask={null}
+                                handleDeleteTask={null}
+                                handleMoveLeftTask={null}
+                                handleMoveRightTask={null}
+                            />
                         </div>
                         <div className="sprints">
                             <header>
