@@ -2,9 +2,8 @@ import React from 'react';
 
 import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
-import TaskList from './TaskList';
-import SprintList from './SprintList';
 import BacklogPanel from './BacklogPanel';
+import SprintListPanel from './SprintListPanel';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -414,23 +413,18 @@ class App extends React.Component {
                             />
                         </div>
                         <div className="sprints">
-                            <header>
-                                <h2>SPRINTS</h2>
-                                <button>+sprint</button>
-                            </header>
-                            <section>
-                                <SprintList
-                                    sprintList={tmpSprintList}
-                                    taskList={tmpTaskList}
-                                    handleEditSprint={null}
-                                    handleDeleteSprint={null}
-                                    handleHideShowSprintDetails={null}
-                                    handleEditTask={null}
-                                    handleDeleteTask={null}
-                                    handleMoveLeftTask={null}
-                                    handleMoveRightTask={null}
-                                />
-                            </section>
+                            <SprintListPanel
+                                handleAddSprint={null}
+                                sprintList={tmpSprintList}
+                                taskList={tmpTaskList}
+                                handleEditSprint={null}
+                                handleDeleteSprint={null}
+                                handleHideShowSprintDetails={null}
+                                handleEditTask={null}
+                                handleDeleteTask={null}
+                                handleMoveLeftTask={null}
+                                handleMoveRightTask={null}
+                            />
                         </div>
                     </section>
                 </main>
