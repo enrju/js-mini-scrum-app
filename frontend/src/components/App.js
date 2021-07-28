@@ -339,7 +339,7 @@ class App extends React.Component {
                             <BacklogPanel
                                 handleAddTask={null}
                                 handleHideShowBacklogDetails={null}
-                                taskList={tmpTaskList}
+                                taskList={this.state.taskListOpenedProject}
                                 handleEditTask={null}
                                 handleDeleteTask={null}
                                 handleMoveLeftTask={null}
@@ -349,8 +349,8 @@ class App extends React.Component {
                         <div className="sprints">
                             <SprintListPanel
                                 handleAddSprint={null}
-                                sprintList={tmpSprintList}
-                                taskList={tmpTaskList}
+                                sprintList={this.state.sprintListOpenedProject}
+                                taskList={this.state.taskListOpenedProject}
                                 handleEditSprint={null}
                                 handleDeleteSprint={null}
                                 handleHideShowSprintDetails={null}
