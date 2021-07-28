@@ -5,15 +5,15 @@ function SprintListItem (props) {
     const todoTaskList = props.taskList.filter((item) => {
         if(item.where_is === "TODO") return true;
         else return false;
-    })
+    });
     const doingTaskList = props.taskList.filter((item) => {
         if(item.where_is === "DOING") return true;
         else return false;
-    })
+    });
     const doneTaskList = props.taskList.filter((item) => {
         if(item.where_is === "DONE") return true;
         else return false;
-    })
+    });
     
     return (
         <li data-id={props.item.id}>
