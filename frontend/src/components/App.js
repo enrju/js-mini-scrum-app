@@ -236,15 +236,27 @@ class App extends React.Component {
         e.preventDefault();
 
         const parent = e.target.parentNode;
-        const id = parent.dataset.id;
+        const id = Number(parent.dataset.id);
         const index = db_findIndexForId(projects, id);
         const title = projects[index].title;
         const description = projects[index].description;
 
-        //tmp using variable to fix warnings
-        tasks.map(() => {return true});
-        sprints.map(() => {return true});
-        //----------------------------------
+        let thisProjectSprints = sprints
+            .filter((item) => {
+                if(item.id_project === id) return true;
+                else return false;
+            })
+            .map((item) => {
+                let newItem = item;
+                newItem.isHide = false;  //default
+                return newItem;
+            });
+
+        let thisProjectTasks = tasks
+            .filter((item) => {
+                if(item.id_project === id) return true;
+                else return false;
+            })
         
         this.setState(() => {
             return ({
@@ -252,8 +264,8 @@ class App extends React.Component {
                 //---------------------------
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
-                taskListOpenedProject: [],
-                sprintListOpenedProject: [],
+                taskListOpenedProject: thisProjectTasks,
+                sprintListOpenedProject: thisProjectSprints,
                 isBacklogHide: false,
                 idChosenSprint: null,
                 //---------------------------
