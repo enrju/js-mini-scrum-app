@@ -11,13 +11,21 @@ let projects = [
     {id: 3, title: "project 3", description: "project 3"},
 ];
 
-let tasks = [
-    {id: 1, id_project: 1, id_sprint: null, title: "task 1", where_is: "BACKLOG", minutes: 0},
-    {id: 2, id_project: 1, id_sprint: 1, title: "task 2", where_is: "TODO", minutes: 0},
-];
-
 let sprints = [
     {id: 1, id_project: 1, title: "sprint - week 1"},
+    {id: 2, id_project: 1, title: "sprint - week 2"},
+    {id: 3, id_project: 2, title: "sprint - week 3"},
+];
+
+let tasks = [
+    {id: 1, id_project: 1, id_sprint: 1, title: "task 1", where_is: "BACKLOG", minutes: 0},
+    {id: 2, id_project: 1, id_sprint: 2, title: "task 2", where_is: "BACKLOG", minutes: 0},
+    {id: 3, id_project: 1, id_sprint: 1, title: "task 3", where_is: "TODO", minutes: 0},
+    {id: 4, id_project: 1, id_sprint: 2, title: "task 4", where_is: "DOING", minutes: 0},
+    {id: 5, id_project: 2, id_sprint: 3, title: "task 5", where_is: "DOING", minutes: 0},
+    {id: 6, id_project: 1, id_sprint: 1, title: "task 6", where_is: "DONE", minutes: 0},
+    {id: 7, id_project: 1, id_sprint: 2, title: "task 7", where_is: "DONE", minutes: 0},
+    {id: 8, id_project: 2, id_sprint: 3, title: "task 8", where_is: "DONE", minutes: 0},
 ];
 
 function db_calcNextId(table) {
@@ -263,10 +271,10 @@ class App extends React.Component {
     }
 
     render() {
-        // console.log('idOpenedProject = ', this.state.idOpenedProject);
+        // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
             return (
-                <>
+                <main>
                     <ProjectListPanel
                         projectList={this.state.projectList}
                         handleAddProject={this.handleShowFormAddProject.bind(this)}
@@ -297,95 +305,9 @@ class App extends React.Component {
                         />
                         : null
                     }
-                </>
+                </main>
             )
         } else {
-            const tmpSprintList = [
-                {
-                    id: 1, 
-                    id_project: 1, 
-                    title: "sprint - week 1",
-                    isHide: false
-                },
-                {
-                    id: 2, 
-                    id_project: 1, 
-                    title: "sprint - week 2",
-                    isHide: false
-                },
-                {
-                    id: 3, 
-                    id_project: 1, 
-                    title: "sprint - week 3",
-                    isHide: false
-                },
-            ];
-            const tmpTaskList = [
-                {
-                    id: 1, 
-                    id_project: 1, 
-                    id_sprint: 1, 
-                    title: "task 1", 
-                    where_is: "BACKLOG", 
-                    minutes: 0
-                },
-                {
-                    id: 2, 
-                    id_project: 1, 
-                    id_sprint: 2, 
-                    title: "task 2", 
-                    where_is: "BACKLOG", 
-                    minutes: 0
-                },
-                {
-                    id: 3, 
-                    id_project: 1, 
-                    id_sprint: 1, 
-                    title: "task 3", 
-                    where_is: "TODO", 
-                    minutes: 0
-                },
-                {
-                    id: 4, 
-                    id_project: 1, 
-                    id_sprint: 2, 
-                    title: "task 4", 
-                    where_is: "DOING", 
-                    minutes: 0
-                },
-                {
-                    id: 5, 
-                    id_project: 1, 
-                    id_sprint: 3, 
-                    title: "task 5", 
-                    where_is: "DOING", 
-                    minutes: 0
-                },
-                {
-                    id: 6, 
-                    id_project: 1, 
-                    id_sprint: 1, 
-                    title: "task 6", 
-                    where_is: "DONE", 
-                    minutes: 0
-                },
-                {
-                    id: 7, 
-                    id_project: 1, 
-                    id_sprint: 2, 
-                    title: "task 7", 
-                    where_is: "DONE", 
-                    minutes: 0
-                },
-                {
-                    id: 8, 
-                    id_project: 1, 
-                    id_sprint: 3, 
-                    title: "task 8", 
-                    where_is: "DONE", 
-                    minutes: 0
-                },
-            ];
             return (
                 // <!--    JSX - WYMAGA encji HTML  -->
                 // <!--    <	&#60; &#x003C;  -->
