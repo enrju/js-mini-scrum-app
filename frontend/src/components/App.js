@@ -2,8 +2,7 @@ import React from 'react';
 
 import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
-import BacklogPanel from './BacklogPanel';
-import SprintListPanel from './SprintListPanel';
+import ProjectPanel from './ProjectPanel';
 
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
@@ -326,41 +325,23 @@ class App extends React.Component {
                 // <!--    >	&#62; &#x003E;	-->
                 // <!--    /	&#47; &#x002F;  -->
                 <main>
-                    <header>
-                        <h1>PROJECT</h1>
-                        <h2>{this.state.titleOpenedProject}</h2>
-                        <p>{this.state.descriptionOpenedProject}</p>
-                        <button 
-                            onClick={this.handleCloseProject.bind(this)}
-                        >Close</button>
-                    </header>
-                    <section>
-                        <div className="backlog">
-                            <BacklogPanel
-                                handleAddTask={null}
-                                handleHideShowBacklogDetails={null}
-                                taskList={this.state.taskListOpenedProject}
-                                handleEditTask={null}
-                                handleDeleteTask={null}
-                                handleMoveLeftTask={null}
-                                handleMoveRightTask={null}
-                            />
-                        </div>
-                        <div className="sprints">
-                            <SprintListPanel
-                                handleAddSprint={null}
-                                sprintList={this.state.sprintListOpenedProject}
-                                taskList={this.state.taskListOpenedProject}
-                                handleEditSprint={null}
-                                handleDeleteSprint={null}
-                                handleHideShowSprintDetails={null}
-                                handleEditTask={null}
-                                handleDeleteTask={null}
-                                handleMoveLeftTask={null}
-                                handleMoveRightTask={null}
-                            />
-                        </div>
-                    </section>
+                    <ProjectPanel
+                        title={this.state.titleOpenedProject}
+                        description={this.state.descriptionOpenedProject}
+                        handleCloseProject={this.handleCloseProject.bind(this)}
+                        handleAddTask={null}
+                        handleHideShowBacklogDetails={null}
+                        handleAddSprint={null}
+                        sprintList={this.state.sprintListOpenedProject}
+                        taskList={this.state.taskListOpenedProject}
+                        handleEditSprint={null}
+                        handleDeleteSprint={null}
+                        handleHideShowSprintDetails={null}
+                        handleEditTask={null}
+                        handleDeleteTask={null}
+                        handleMoveLeftTask={null}
+                        handleMoveRightTask={null}
+                    />
                 </main>
             )
         }
