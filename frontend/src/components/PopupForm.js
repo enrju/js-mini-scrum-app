@@ -3,7 +3,7 @@ import Button from "./Button";
 function PopupForm (props) {
     return (
         <div>
-            <form action="">
+            <form action="" onSubmit={props.handleSubmitForm}>
                 <h2>{props.name}</h2>
                 <div>
                     <label>title:
@@ -35,7 +35,7 @@ function PopupForm (props) {
                 <Button
                     type="submit"
                     click={props.handleAddBtn}
-                    description={"add"}
+                    description={props.name.indexOf("edit") === 0 ? "modify" : "add"}
                 />
             </form>
         </div>
