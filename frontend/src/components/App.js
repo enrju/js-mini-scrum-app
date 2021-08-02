@@ -178,9 +178,12 @@ class App extends React.Component {
 
     handleHideFormEditProject() {
         this.setShowFormAddProject(false);
+        this.handleGetProjects();
     }
 
-    handleEditProject() {
+    handleEditProject(e) {
+        e.preventDefault();
+
         const index = this.state.editedProjectIndex;
         const id = this.state.projectList[index].id;
         this.setEditedProjectIndex(-1);
@@ -296,23 +299,25 @@ class App extends React.Component {
                     />
                     {this.state.isShowFormAddProject ?
                         <PopupForm
+                            handleSubmitForm={this.handleAddProject.bind(this)}
                             name = "new project"
                             isDescription={true}
                             title=""
                             description=""
                             handleCancelAddBtn={this.handleHideFormAddProject.bind(this)}
-                            handleAddBtn={this.handleAddProject.bind(this)}
+                            handleAddBtn={null}
                         />
                         : null
                     }
                     {this.state.isShowFormEditProject ?
                         <PopupForm
+                            handleSubmitForm={this.handleEditProject.bind(this)}
                             name = "edit project"
                             isDescription={true}
                             title={this.state.projectList[this.state.editedProjectIndex].title}
                             description={this.state.projectList[this.state.editedProjectIndex].description}
                             handleCancelAddBtn={this.handleHideFormEditProject.bind(this)}
-                            handleAddBtn={this.handleEditProject.bind(this)}
+                            handleAddBtn={null}
                         />
                         : null
                     }
