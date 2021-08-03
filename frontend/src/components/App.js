@@ -319,6 +319,10 @@ class App extends React.Component {
         this.render();
     }
 
+    handleShowFormAddTask() {
+        this.setShowFormAddTask(true);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
