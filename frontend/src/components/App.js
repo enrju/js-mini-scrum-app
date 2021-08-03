@@ -98,6 +98,25 @@ class App extends React.Component {
         });
     }
 
+    getOpenedProjectSprints(id) {
+        let result = sprints
+        .filter((item) => {
+            if(item.id_project === id) return true;
+            else return false;
+        })
+        .map((item) => {
+            let newItem = item;
+            newItem.isHide = false;  //default
+            return newItem;
+        });
+
+        this.setState(() => {
+            return ({
+                sprintListOpenedProject: result,
+            })
+        });
+    }
+
     setShowFormAddProject(bool) {
         this.setState(() => {
             return ({
