@@ -6,6 +6,7 @@ function BacklogPanel(props) {
         if(item.where_is === "BACKLOG") return true;
         else return false;
     });
+
     return(
         <>
             <header>
@@ -16,17 +17,21 @@ function BacklogPanel(props) {
                 />
                 <Button
                     click={props.handleHideShowBacklogDetails}
-                    description={"less..."}
+                    description={props.isBacklogHide 
+                        ? "more..." 
+                        : "less..."}
                 />
             </header>
             <section>
-                <TaskList
+                {props.isBacklogHide
+                ? null
+                : <TaskList
                     taskList={backlogTaskList}
                     handleEditTask={props.handleEditTask}
                     handleDeleteTask={props.handleDeleteTask}
                     handleMoveLeftTask={props.handleMoveLeftTask}
                     handleMoveRightTask={props.handleMoveRightTask}
-                />
+                />}
             </section>
         </>
     )
