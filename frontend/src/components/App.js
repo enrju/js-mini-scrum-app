@@ -329,7 +329,6 @@ class App extends React.Component {
         this.setShowFormAddTask(false);
     }
 
-
     handleAddTask(e){
         e.preventDefault();
 
@@ -347,6 +346,14 @@ class App extends React.Component {
 
         this.setShowFormAddTask(false);
         this.getOpenedProjectTaks(this.state.idOpenedProject);
+    }
+
+    handleHideShowBacklogDetails(){
+        this.setState((prevState) => {
+            return ({
+                isBacklogHide: !prevState.isBacklogHide
+            })
+        });
     }
 
     render() {
