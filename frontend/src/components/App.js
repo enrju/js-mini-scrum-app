@@ -323,6 +323,11 @@ class App extends React.Component {
         this.setShowFormAddTask(true);
     }
 
+    handleHideFormAddTask() {
+        this.setShowFormAddTask(false);
+    }
+
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
