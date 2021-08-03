@@ -276,22 +276,11 @@ class App extends React.Component {
         const title = projects[index].title;
         const description = projects[index].description;
 
-        let thisProjectSprints = sprints
-            .filter((item) => {
-                if(item.id_project === id) return true;
-                else return false;
-            })
-            .map((item) => {
-                let newItem = item;
-                newItem.isHide = false;  //default
-                return newItem;
-            });
-
-        let thisProjectTasks = tasks
-            .filter((item) => {
-                if(item.id_project === id) return true;
-                else return false;
-            })
+        //set state.sprintListOpenedProject - setState() inside
+        this.getOpenedProjectSprints(id);
+        
+        //set state.taskListOpenedProject - setState() inside
+        this.getOpenedProjectTaks(id);
         
         this.setState(() => {
             return ({
@@ -299,8 +288,6 @@ class App extends React.Component {
                 //---------------------------
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
-                taskListOpenedProject: thisProjectTasks,
-                sprintListOpenedProject: thisProjectSprints,
                 isBacklogHide: false,
                 idChosenSprint: null,
                 //---------------------------
