@@ -18,6 +18,7 @@ function ProjectPanel(props) {
                 <div className="backlog">
                     <BacklogPanel
                         handleAddTask={props.handleAddTask}
+                        isBacklogHide={props.isBacklogHide}
                         handleHideShowBacklogDetails={props.handleHideShowBacklogDetails}
                         taskList={props.taskList}
                         handleEditTask={props.handleEditTask}
