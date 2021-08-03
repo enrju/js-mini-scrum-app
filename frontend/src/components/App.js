@@ -155,17 +155,32 @@ class App extends React.Component {
         });
     }
 
+    setShowFormAddTask(bool) {
+        this.setState(() => {
+            return ({
+                isShowFormAddTask: bool
+            })
+        });
+    }
+
     getDataFromForm(){
         const inpTitle = document.querySelector("input[name='title']");
         const inpDescription = document.querySelector("textarea[name='description']");
         
         const title = inpTitle.value;
-        const description = inpDescription.value;
+        const description = inpDescription ? inpDescription.value : null;
 
-        return {
-            title,
-            description
+        if(inpDescription) {
+            return {
+                title,
+                description
+            }
+        } else {
+            return {
+                title
+            }
         }
+        
     }
 
     handleShowFormAddProject() {
