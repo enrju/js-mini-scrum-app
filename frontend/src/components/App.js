@@ -117,6 +117,20 @@ class App extends React.Component {
         });
     }
 
+    getOpenedProjectTaks(id) {
+        let result = tasks
+        .filter((item) => {
+            if(item.id_project === id) return true;
+            else return false;
+        });
+
+        this.setState(() => {
+            return ({
+                taskListOpenedProject: result,
+            })
+        });
+    }
+
     setShowFormAddProject(bool) {
         this.setState(() => {
             return ({
