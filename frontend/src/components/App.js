@@ -407,7 +407,8 @@ class App extends React.Component {
                         description={this.state.descriptionOpenedProject}
                         handleCloseProject={this.handleCloseProject.bind(this)}
                         handleAddTask={this.handleShowFormAddTask.bind(this)}
-                        handleHideShowBacklogDetails={null}
+                        isBacklogHide={this.state.isBacklogHide}
+                        handleHideShowBacklogDetails={this.handleHideShowBacklogDetails.bind(this)}
                         handleAddSprint={null}
                         sprintList={this.state.sprintListOpenedProject}
                         taskList={this.state.taskListOpenedProject}
