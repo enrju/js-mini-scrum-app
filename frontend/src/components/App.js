@@ -395,6 +395,22 @@ class App extends React.Component {
         this.setShowFormEditTask(false);
     }
 
+    handleEditTask(e) {
+        e.preventDefault();
+
+        const index = this.state.editedTaskIndex;
+        const id = this.state.taskListOpenedProject[index].id;
+        this.setEditedTaskIndex(-1);
+
+        const data = this.getDataFromForm();
+        const dbIndex = db_findIndexForId(tasks, id);
+
+        tasks[dbIndex].title = data.title;
+
+        this.setShowFormEditTask(false);
+        this.getOpenedProjectTaks(this.state.idOpenedProject);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
