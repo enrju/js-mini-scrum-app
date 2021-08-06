@@ -391,6 +391,10 @@ class App extends React.Component {
         this.setEditedTaskIndex(index);
     }
 
+    handleHideFormEditTask() {
+        this.setShowFormEditTask(false);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
