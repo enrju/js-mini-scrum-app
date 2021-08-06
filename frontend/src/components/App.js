@@ -371,6 +371,26 @@ class App extends React.Component {
         });
     }
 
+    handleShowFormEditTask(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        console.log(parent, id);
+    
+        let index = -1;
+        for(let i = 0; i < this.state.taskListOpenedProject.length; i++) {
+            if(this.state.taskListOpenedProject[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        this.setShowFormEditTask(true);
+        this.setEditedTaskIndex(index);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
