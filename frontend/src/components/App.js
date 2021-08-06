@@ -173,6 +173,14 @@ class App extends React.Component {
         });
     }
 
+    setEditedTaskIndex(index) {
+        this.setState(() => {
+            return ({
+                editedTaskIndex: index
+            })
+        });
+    }
+
     getDataFromForm(){
         const inpTitle = document.querySelector("input[name='title']");
         const inpDescription = document.querySelector("textarea[name='description']");
