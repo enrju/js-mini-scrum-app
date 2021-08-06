@@ -243,8 +243,7 @@ class App extends React.Component {
     }
 
     handleHideFormEditProject() {
-        this.setShowFormAddProject(false);
-        this.handleGetProjects();
+        this.setShowFormEditProject(false);
     }
 
     handleEditProject(e) {
