@@ -378,8 +378,6 @@ class App extends React.Component {
 
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
-
-        console.log(parent, id);
     
         let index = -1;
         for(let i = 0; i < this.state.taskListOpenedProject.length; i++) {
@@ -410,6 +408,19 @@ class App extends React.Component {
         tasks[dbIndex].title = data.title;
 
         this.setShowFormEditTask(false);
+        this.getOpenedProjectTaks(this.state.idOpenedProject);
+    }
+
+    handleDeleteTask(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const dbIndex = db_findIndexForId(tasks, id);
+
+        tasks.splice(dbIndex, 1);
+        
         this.getOpenedProjectTaks(this.state.idOpenedProject);
     }
 
