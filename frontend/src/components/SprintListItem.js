@@ -16,7 +16,10 @@ function SprintListItem (props) {
     });
     
     return (
-        <li data-id={props.item.id}>
+        <li 
+            data-id={props.item.id}
+            className={props.item.id === props.idChosenSprint ? "active" : ""}
+        >
             <header>
                 <h2>{props.item.title}</h2>
                 <div>
