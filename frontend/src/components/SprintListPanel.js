@@ -13,6 +13,7 @@ function SprintListPanel(props) {
             </header>
             <section>
                 <SprintList
+                    idChosenSprint={props.idChosenSprint}
                     sprintList={props.sprintList}
                     taskList={props.taskList}
                     handleEditSprint={props.handleEditSprint}
