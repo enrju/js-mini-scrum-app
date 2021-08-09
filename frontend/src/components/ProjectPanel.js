@@ -30,6 +30,7 @@ function ProjectPanel(props) {
                 <div className="sprints">
                     <SprintListPanel
                         handleAddSprint={props.handleAddSprint}
+                        idChosenSprint={props.idChosenSprint}
                         sprintList={props.sprintList}
                         taskList={props.taskList}
                         handleEditSprint={props.handleEditSprint}
