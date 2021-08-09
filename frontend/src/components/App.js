@@ -481,6 +481,7 @@ class App extends React.Component {
                         isBacklogHide={this.state.isBacklogHide}
                         handleHideShowBacklogDetails={this.handleHideShowBacklogDetails.bind(this)}
                         handleAddSprint={null}
+                        idChosenSprint={this.state.idChosenSprint}
                         sprintList={this.state.sprintListOpenedProject}
                         taskList={this.state.taskListOpenedProject}
                         handleEditSprint={null}
