@@ -327,7 +327,6 @@ class App extends React.Component {
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
                 isBacklogHide: false,
-                idChosenSprint: null,
                 //---------------------------
                 projectList: [],
                 editedProjectIndex: -1,
