@@ -114,9 +114,13 @@ class App extends React.Component {
             return newItem;
         });
 
+        //default first if exist
+        const idChosenSprint = result.length > 0 ? result[0].id : null;
+
         this.setState(() => {
             return ({
                 sprintListOpenedProject: result,
+                idChosenSprint: idChosenSprint,
             })
         });
     }
