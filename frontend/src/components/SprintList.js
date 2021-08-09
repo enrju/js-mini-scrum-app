@@ -12,6 +12,7 @@ function SprintList (props) {
                     <SprintListItem
                         key={item.id}
                         item={item}
+                        idChosenSprint={props.idChosenSprint}
                         taskList={thisSprintTaskList}
                         handleEditSprint={props.handleEditSprint}
                         handleDeleteSprint={props.handleDeleteSprint}
