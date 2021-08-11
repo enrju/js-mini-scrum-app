@@ -17,8 +17,8 @@ let sprints = [
 ];
 
 let tasks = [
-    {id: 1, id_project: 1, id_sprint: 1, title: "task 1", where_is: "BACKLOG", minutes: 0},
-    {id: 2, id_project: 1, id_sprint: 2, title: "task 2", where_is: "BACKLOG", minutes: 0},
+    {id: 1, id_project: 1, id_sprint: null, title: "task 1", where_is: "BACKLOG", minutes: 0},
+    {id: 2, id_project: 1, id_sprint: null, title: "task 2", where_is: "BACKLOG", minutes: 0},
     {id: 3, id_project: 1, id_sprint: 1, title: "task 3", where_is: "TODO", minutes: 0},
     {id: 4, id_project: 1, id_sprint: 2, title: "task 4", where_is: "DOING", minutes: 0},
     {id: 5, id_project: 2, id_sprint: 3, title: "task 5", where_is: "DOING", minutes: 0},
@@ -555,8 +555,8 @@ class App extends React.Component {
                         handleHideShowSprintDetails={null}
                         handleEditTask={this.handleShowFormEditTask.bind(this)}
                         handleDeleteTask={this.handleDeleteTask.bind(this)}
-                        handleMoveLeftTask={null}
-                        handleMoveRightTask={null}
+                        handleMoveLeftTask={this.handleMoveLeftTask.bind(this)}
+                        handleMoveRightTask={this.handleMoveRightTask.bind(this)}
                     />
                     {this.state.isShowFormAddTask ?
                         <PopupForm
