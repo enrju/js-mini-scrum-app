@@ -16,6 +16,7 @@ function SprintListPanel(props) {
                     idChosenSprint={props.idChosenSprint}
                     sprintList={props.sprintList}
                     taskList={props.taskList}
+                    handleChooseSprint={props.handleChooseSprint}
                     handleEditSprint={props.handleEditSprint}
                     handleDeleteSprint={props.handleDeleteSprint}
                     handleHideShowSprintDetails={props.handleHideShowSprintDetails}
