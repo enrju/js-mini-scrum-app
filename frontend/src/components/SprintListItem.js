@@ -21,7 +21,7 @@ function SprintListItem (props) {
             className={props.item.id === props.idChosenSprint ? "active" : ""}
         >
             <header>
-                <h2>{props.item.title}</h2>
+                <h2 onClick={props.handleChooseSprint}>{props.item.title}</h2>
                 <div>
                     <Button
                         click={props.handleEditSprint}
