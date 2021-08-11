@@ -440,6 +440,33 @@ class App extends React.Component {
         });
     }
 
+    handleMoveRightTask(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const dbIndex = db_findIndexForId(tasks, id);
+
+        switch(tasks[dbIndex].where_is) {
+            case 'BACKLOG':
+                if(this.state.idChosenSprint !== null) {
+                    tasks[dbIndex].where_is = 'TODO';
+                    tasks[dbIndex].id_sprint = this.state.idChosenSprint;
+                }
+                break;
+            case 'TODO':
+                tasks[dbIndex].where_is = 'DOING';
+                break;
+            case 'DOING':
+                tasks[dbIndex].where_is = 'DONE';
+                break;
+            default:
+        }
+
+        this.getOpenedProjectTaks(this.state.idOpenedProject);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
