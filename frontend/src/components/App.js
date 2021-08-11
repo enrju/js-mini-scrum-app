@@ -497,6 +497,7 @@ class App extends React.Component {
                         idChosenSprint={this.state.idChosenSprint}
                         sprintList={this.state.sprintListOpenedProject}
                         taskList={this.state.taskListOpenedProject}
+                        handleChooseSprint={this.handleChooseSprint.bind(this)}
                         handleEditSprint={null}
                         handleDeleteSprint={null}
                         handleHideShowSprintDetails={null}
