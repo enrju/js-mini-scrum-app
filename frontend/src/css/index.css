@@ -36,6 +36,11 @@ li {
     box-shadow: 0 0 0 5px red;
 }
 
+.sprints>section>ul>li>header>h2:hover,
+button {
+    cursor: pointer;
+}
+
 .todo,
 .doing,
 .done {
