@@ -427,6 +427,19 @@ class App extends React.Component {
         this.getOpenedProjectTaks(this.state.idOpenedProject);
     }
 
+    handleChooseSprint(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        this.setState(() => {
+            return ({
+                idChosenSprint: id,
+            })
+        });
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
