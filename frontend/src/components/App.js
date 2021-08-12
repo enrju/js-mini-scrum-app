@@ -541,6 +541,28 @@ class App extends React.Component {
         this.getOpenedProjectSprints(this.state.idOpenedProject);
     }
 
+    handleShowFormEditSprint(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        // console.log(parent, id);
+    
+        let index = -1;
+        for(let i = 0; i < this.state.sprintListOpenedProject.length; i++) {
+            if(this.state.sprintListOpenedProject[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        // console.log('index = ', index);
+
+        this.setShowFormEditSprint(true);
+        this.setEditedSprintIndex(index);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
