@@ -348,13 +348,20 @@ class App extends React.Component {
         e.preventDefault();
 
         const parent = e.target.parentNode;
-        const id = parent.dataset.id;
+        const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(projects, id);
+        const decision = window.confirm('All tasks and sprints inside project will be deleted!');
 
-        projects.splice(dbIndex, 1);
-        
-        this.handleGetProjects();
+        if(decision) {
+            db_deleteTasksForProjectId(id);
+            db_deleteSprintsForProjectId(id);
+
+            const dbIndex = db_findIndexForId(projects, id);
+
+            projects.splice(dbIndex, 1);
+            
+            this.handleGetProjects();
+        }
     }
 
     handleHideShowProjectDescription(e) {
