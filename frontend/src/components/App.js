@@ -679,7 +679,7 @@ class App extends React.Component {
                         taskList={this.state.taskListOpenedProject}
                         handleChooseSprint={this.handleChooseSprint.bind(this)}
                         handleEditSprint={this.handleShowFormEditSprint.bind(this)}
-                        handleDeleteSprint={null}
+                        handleDeleteSprint={this.handleDeleteSprint.bind(this)}
                         handleHideShowSprintDetails={null}
                         handleEditTask={this.handleShowFormEditTask.bind(this)}
                         handleDeleteTask={this.handleDeleteTask.bind(this)}
