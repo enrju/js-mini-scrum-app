@@ -500,6 +500,10 @@ class App extends React.Component {
         this.getOpenedProjectTaks(this.state.idOpenedProject);
     }
 
+    handleShowFormAddSprint() {
+        this.setShowFormAddSprint(true);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
