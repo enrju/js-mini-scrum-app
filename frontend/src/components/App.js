@@ -738,7 +738,7 @@ class App extends React.Component {
                         handleChooseSprint={this.handleChooseSprint.bind(this)}
                         handleEditSprint={this.handleShowFormEditSprint.bind(this)}
                         handleDeleteSprint={this.handleDeleteSprint.bind(this)}
-                        handleHideShowSprintDetails={null}
+                        handleHideShowSprintDetails={this.handleHideShowSprintDetails.bind(this)}
                         handleEditTask={this.handleShowFormEditTask.bind(this)}
                         handleDeleteTask={this.handleDeleteTask.bind(this)}
                         handleMoveLeftTask={this.handleMoveLeftTask.bind(this)}
