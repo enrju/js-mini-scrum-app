@@ -659,6 +659,25 @@ class App extends React.Component {
         }
     }
 
+    handleHideShowSprintDetails(e){
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const copyTab = [...this.state.sprintListOpenedProject];
+
+        const stateIndex = db_findIndexForId(copyTab, id);
+
+        copyTab[stateIndex].isHide = !copyTab[stateIndex].isHide;
+
+        this.setState(() => {
+            return ({
+                sprintListOpenedProject: copyTab
+            })
+        });
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
