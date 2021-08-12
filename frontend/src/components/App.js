@@ -196,6 +196,14 @@ class App extends React.Component {
         });
     }
 
+    setShowFormEditSprint(bool) {
+        this.setState(() => {
+            return ({
+                isShowFormEditSprint: bool
+            })
+        });
+    }
+
     getDataFromForm(){
         const inpTitle = document.querySelector("input[name='title']");
         const inpDescription = document.querySelector("textarea[name='description']");
