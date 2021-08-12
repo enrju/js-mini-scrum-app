@@ -50,6 +50,22 @@ function db_findIndexForId(table, id) {
     return index;
 }
 
+function db_deleteTasksForSprintId(id_sprint) {
+    let finish = false;
+
+    while(!finish) {
+        for(let i = 0; i < tasks.length; i++) {
+            if(tasks[i].id_sprint === id_sprint) {
+                tasks.splice(i, 1);
+                break;
+            }
+            if(i === tasks.length - 1) {
+                finish = true;
+            }
+        }
+    }
+}
+
 class App extends React.Component {
     state = {
         idOpenedProject: null,
