@@ -601,6 +601,25 @@ class App extends React.Component {
         this.getOpenedProjectSprints(this.state.idOpenedProject);
     }
 
+    handleDeleteSprint(e) {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const decision = window.confirm('All tasks inside sprint will be deleted!');
+
+        if(decision) {
+            db_deleteTasksForSprintId(id);
+
+            const dbIndex = db_findIndexForId(sprints, id);
+
+            sprints.splice(dbIndex, 1);
+            
+            this.getOpenedProjectSprints(this.state.idOpenedProject);
+        }
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
