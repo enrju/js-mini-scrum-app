@@ -204,6 +204,14 @@ class App extends React.Component {
         });
     }
 
+    setEditedSprintIndex(index) {
+        this.setState(() => {
+            return ({
+                editedSprintIndex: index
+            })
+        });
+    }
+
     getDataFromForm(){
         const inpTitle = document.querySelector("input[name='title']");
         const inpDescription = document.querySelector("textarea[name='description']");
