@@ -64,7 +64,9 @@ class App extends React.Component {
         editedTaskIndex: -1,
         isShowFormAddTask: false,
         isShowFormEditTask: false,
+        editedSprintIndex: -1,
         isShowFormAddSprint: false,
+        isShowFormEditSprint: false,
         //---------------------------
         projectList: [],
         editedProjectIndex: -1,
@@ -641,7 +643,7 @@ class App extends React.Component {
                         sprintList={this.state.sprintListOpenedProject}
                         taskList={this.state.taskListOpenedProject}
                         handleChooseSprint={this.handleChooseSprint.bind(this)}
-                        handleEditSprint={null}
+                        handleEditSprint={this.handleShowFormEditSprint.bind(this)}
                         handleDeleteSprint={null}
                         handleHideShowSprintDetails={null}
                         handleEditTask={this.handleShowFormEditTask.bind(this)}
@@ -681,6 +683,18 @@ class App extends React.Component {
                             title=""
                             description=""
                             handleCancelAddBtn={this.handleHideFormAddSprint.bind(this)}
+                            handleAddBtn={null}
+                        />
+                        : null
+                    }
+                    {this.state.isShowFormEditSprint ?
+                        <PopupForm
+                            handleSubmitForm={this.handleEditSprint.bind(this)}
+                            name = "edit sprint"
+                            isDescription={false}
+                            title={this.state.sprintListOpenedProject[this.state.editedSprintIndex].title}
+                            description=""
+                            handleCancelAddBtn={this.handleHideFormEditSprint.bind(this)}
                             handleAddBtn={null}
                         />
                         : null
