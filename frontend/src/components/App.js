@@ -504,6 +504,10 @@ class App extends React.Component {
         this.setShowFormAddSprint(true);
     }
 
+    handleHideFormAddSprint() {
+        this.setShowFormAddSprint(false);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
