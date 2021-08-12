@@ -563,6 +563,10 @@ class App extends React.Component {
         this.setEditedSprintIndex(index);
     }
 
+    handleHideFormEditSprint() {
+        this.setShowFormEditSprint(false);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
