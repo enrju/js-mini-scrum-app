@@ -349,7 +349,7 @@ class App extends React.Component {
         this.setShowFormAddTask(false);
     }
 
-    handleAddTask(e){
+    handleAddTask(e) {
         e.preventDefault();
 
         const data = this.getDataFromForm();
@@ -358,7 +358,7 @@ class App extends React.Component {
         tasks.push({
             id: nextId,
             id_project: this.state.idOpenedProject,
-            id_sprint: 1,   //or null for BACKLOG ???
+            id_sprint: null,   //for BACKLOG
             title: data.title,
             where_is: "BACKLOG", 
             minutes: 0
