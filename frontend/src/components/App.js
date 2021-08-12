@@ -66,6 +66,22 @@ function db_deleteTasksForSprintId(id_sprint) {
     }
 }
 
+function db_deleteTasksForProjectId(id_project) {
+    let finish = false;
+
+    while(!finish) {
+        for(let i = 0; i < tasks.length; i++) {
+            if(tasks[i].id_project === id_project) {
+                tasks.splice(i, 1);
+                break;
+            }
+            if(i === tasks.length - 1) {
+                finish = true;
+            }
+        }
+    }
+}
+
 class App extends React.Component {
     state = {
         idOpenedProject: null,
