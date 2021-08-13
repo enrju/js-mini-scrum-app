@@ -401,6 +401,8 @@ class App extends React.Component {
         
         //set state.taskListOpenedProject - setState() inside
         this.getOpenedProjectTaks(id);
+
+        this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
         
         this.setState(() => {
             return ({
