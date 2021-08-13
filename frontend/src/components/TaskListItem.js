@@ -4,6 +4,7 @@ function TaskListItem (props) {
     return (    
         <li data-id={props.item.id}>
             <h2>{props.item.title}</h2>
+            <p>{`time: ${props.item.minutes.toFixed(0)}min`}</p>
             <div>
                 <Button
                     click={props.handleEditTask}
