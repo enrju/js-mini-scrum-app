@@ -678,6 +678,21 @@ class App extends React.Component {
         });
     }
 
+    handleUpdateTaskTime(){
+        const tasksInDoing = 
+        this.state.taskListOpenedProject.filter((item) => {
+            if(item.where_is === "DOING") return true;
+            else return false;
+        });
+
+        tasksInDoing.forEach((item) => {
+            const index = db_findIndexForId(tasks, item.id);
+            tasks[index].minutes += this.deltaTime / this.oneMinuteInMs;
+        });
+
+        this.getOpenedProjectTaks(this.state.idOpenedProject);
+    }
+
     render() {
         // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
