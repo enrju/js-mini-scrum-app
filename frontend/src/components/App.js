@@ -421,6 +421,7 @@ class App extends React.Component {
     }
 
     handleCloseProject() {
+        clearInterval(this.interval);
         this.handleGetProjects();
         this.render();
     }
