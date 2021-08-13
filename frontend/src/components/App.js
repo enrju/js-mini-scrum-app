@@ -122,6 +122,12 @@ class App extends React.Component {
         isShowFormEditProject: false,
     }
 
+    interval = null;
+
+    oneMinuteInMs = 1000 * 60; //1 minute = 1000ms * 60
+
+    deltaTime = this.oneMinuteInMs * 1;
+
     componentDidMount() {
         this.handleGetProjects();
         //MUST BE rendered after update state
