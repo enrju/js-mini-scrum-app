@@ -70,6 +70,22 @@ function db_getSprintsForProject(id) {
     });
 }
 
+function db_deleteSprintsForProjectId(id_project) {
+    let finish = false;
+
+    while(!finish) {
+        for(let i = 0; i < sprints.length; i++) {
+            if(sprints[i].id_project === id_project) {
+                sprints.splice(i, 1);
+                break;
+            }
+            if(i === sprints.length - 1) {
+                finish = true;
+            }
+        }
+    }
+}
+
 function db_getTasksForProject(id) {
     return tasks.filter((item) => {
         if(item.id_project === id) return true;
@@ -103,22 +119,6 @@ function db_deleteTasksForProjectId(id_project) {
                 break;
             }
             if(i === tasks.length - 1) {
-                finish = true;
-            }
-        }
-    }
-}
-
-function db_deleteSprintsForProjectId(id_project) {
-    let finish = false;
-
-    while(!finish) {
-        for(let i = 0; i < sprints.length; i++) {
-            if(sprints[i].id_project === id_project) {
-                sprints.splice(i, 1);
-                break;
-            }
-            if(i === sprints.length - 1) {
                 finish = true;
             }
         }
