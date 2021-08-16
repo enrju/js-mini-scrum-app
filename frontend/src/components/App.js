@@ -133,19 +133,20 @@ class App extends React.Component {
     deltaTime = this.oneMinuteInMs * 1;
 
     componentDidMount() {
-        this.handleGetProjects();
+        this.setProjectList();
         //MUST BE rendered after update state
         //beacuse this method is call after render()
         this.render();  
     }
 
-    handleGetProjects() {
-        let newProjects = projects.map((item, index) => {
+    setProjectList() {
+        let newProjects = db_getProjects()
+        .map((item) => {
             let newItem = item;
             newItem.isHide = true;  //default
             return newItem;
         });
-    
+
         this.setState({
             idOpenedProject: null,
             //---------------------------
@@ -155,6 +156,12 @@ class App extends React.Component {
             sprintListOpenedProject: [],
             isBacklogHide: false,
             idChosenSprint: null,
+            editedTaskIndex: -1,
+            isShowFormAddTask: false,
+            isShowFormEditTask: false,
+            editedSprintIndex: -1,
+            isShowFormAddSprint: false,
+            isShowFormEditSprint: false,
             //---------------------------
             projectList: newProjects,
             editedProjectIndex: -1,
@@ -312,7 +319,7 @@ class App extends React.Component {
         });
 
         this.setShowFormAddProject(false);
-        this.handleGetProjects();
+        this.setProjectList();
     }
 
     handleShowFormEditProject(e) {
@@ -351,7 +358,7 @@ class App extends React.Component {
         projects[dbIndex].description = data.description;
 
         this.setShowFormEditProject(false);
-        this.handleGetProjects();
+        this.setProjectList();
     }
 
     handleDeleteProject(e) {
@@ -370,7 +377,7 @@ class App extends React.Component {
 
             projects.splice(dbIndex, 1);
             
-            this.handleGetProjects();
+            this.setProjectList();
         }
     }
 
@@ -432,7 +439,7 @@ class App extends React.Component {
 
     handleCloseProject() {
         clearInterval(this.interval);
-        this.handleGetProjects();
+        this.setProjectList();
         this.render();
     }
 
