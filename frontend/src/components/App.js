@@ -61,6 +61,13 @@ function db_getSprintsForProject(id) {
     });
 }
 
+function db_getTasksForProject(id) {
+    return tasks.filter((item) => {
+        if(item.id_project === id) return true;
+        else return false;
+    });
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
