@@ -394,10 +394,7 @@ class App extends React.Component {
         if(decision) {
             db_deleteTasksForProjectId(id);
             db_deleteSprintsForProjectId(id);
-
-            const dbIndex = db_findIndexForId(projects, id);
-
-            projects.splice(dbIndex, 1);
+            db_deleteProject(id);
             
             this.setProjectList();
         }
