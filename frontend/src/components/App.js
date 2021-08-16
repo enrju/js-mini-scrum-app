@@ -668,13 +668,8 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(sprints);
 
-        sprints.push({
-            id: nextId, 
-            id_project: this.state.idOpenedProject, 
-            title: data.title
-        });
+        db_addSprint(this.state.idOpenedProject, data);
 
         this.setShowFormAddSprint(false);
         this.setSprintListOpenedProject(this.state.idOpenedProject);
