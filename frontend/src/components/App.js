@@ -4,6 +4,13 @@ import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
 import ProjectPanel from './ProjectPanel';
 
+//-------------- start db ---------------------------------
+
+const ONE_MINUTE_IN_MS = 1000 * 60; //1 minute = 1000ms * 60;
+
+//leave copy it's used in interval
+const DELTA_TIME = ONE_MINUTE_IN_MS * 1;
+
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
     {id: 2, title: "project 2", description: "project 2"},
@@ -149,6 +156,13 @@ function db_updateTask(id, data) {
     tasks[dbIndex].title = data.title;
 }
 
+function db_updateTasksTime(tasks_in_doing) {
+    tasks_in_doing.forEach((item) => {
+        const index = db_findIndexForId(tasks, item.id);
+        tasks[index].minutes += DELTA_TIME / ONE_MINUTE_IN_MS;
+    });
+}
+
 function db_deleteTask(id) {
     const dbIndex = db_findIndexForId(tasks, id);
 
@@ -224,6 +238,8 @@ function db_deleteTasksForProjectId(id_project) {
         }
     }
 }
+
+//---------- end db ----------------------------------
 
 class App extends React.Component {
     state = {
