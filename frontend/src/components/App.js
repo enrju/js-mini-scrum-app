@@ -203,12 +203,8 @@ class App extends React.Component {
         });
     }
 
-    getOpenedProjectTaks(id) {
-        let result = tasks
-        .filter((item) => {
-            if(item.id_project === id) return true;
-            else return false;
-        });
+    setTaskListOpenedProject(id) {
+        let result = db_getTasksForProject(id);
 
         this.setState(() => {
             return ({
@@ -427,7 +423,7 @@ class App extends React.Component {
         this.setSprintListOpenedProject(id);
         
         //set state.taskListOpenedProject - setState() inside
-        this.getOpenedProjectTaks(id);
+        this.setTaskListOpenedProject(id);
 
         this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
         
@@ -477,7 +473,7 @@ class App extends React.Component {
         });
 
         this.setShowFormAddTask(false);
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleHideShowBacklogDetails(){
@@ -523,7 +519,7 @@ class App extends React.Component {
         tasks[dbIndex].title = data.title;
 
         this.setShowFormEditTask(false);
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteTask(e) {
@@ -536,7 +532,7 @@ class App extends React.Component {
 
         tasks.splice(dbIndex, 1);
         
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleChooseSprint(e) {
@@ -576,7 +572,7 @@ class App extends React.Component {
             default:
         }
 
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleMoveLeftTask(e) {
@@ -601,7 +597,7 @@ class App extends React.Component {
             default:
         }
 
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormAddSprint() {
@@ -720,7 +716,7 @@ class App extends React.Component {
             tasks[index].minutes += this.deltaTime / this.oneMinuteInMs;
         });
 
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     render() {
