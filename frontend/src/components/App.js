@@ -37,6 +37,8 @@ function db_calcNextId(table) {
     return maxId + 1;
 }
 
+//leave copy this function (or move to utils.js)
+// - it's used to find index in table from state
 function db_findIndexForId(table, id) {
     let index = -1;
 
@@ -439,14 +441,23 @@ class App extends React.Component {
         this.setTaskListOpenedProject(id);
 
         this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
-        
+
         this.setState(() => {
             return ({
                 idOpenedProject: id,
                 //---------------------------
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
+                // taskListOpenedProject: [],   //this table was set above
+                // sprintListOpenedProject: [], //this table was set above
                 isBacklogHide: false,
+                idChosenSprint: null,
+                editedTaskIndex: -1,
+                isShowFormAddTask: false,
+                isShowFormEditTask: false,
+                editedSprintIndex: -1,
+                isShowFormAddSprint: false,
+                isShowFormEditSprint: false,
                 //---------------------------
                 projectList: [],
                 editedProjectIndex: -1,
