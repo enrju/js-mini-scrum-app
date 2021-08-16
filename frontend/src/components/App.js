@@ -4,6 +4,13 @@ import ProjectListPanel from './ProjectListPanel';
 import PopupForm from './PopupForm';
 import ProjectPanel from './ProjectPanel';
 
+//-------------- start db ---------------------------------
+
+const ONE_MINUTE_IN_MS = 1000 * 60; //1 minute = 1000ms * 60;
+
+//leave copy it's used in interval
+const DELTA_TIME = ONE_MINUTE_IN_MS * 1;
+
 let projects = [
     {id: 1, title: "project 1", description: "project 1"},
     {id: 2, title: "project 2", description: "project 2"},
@@ -37,6 +44,8 @@ function db_calcNextId(table) {
     return maxId + 1;
 }
 
+//leave copy this function (or move to utils.js)
+// - it's used to find index in table from state
 function db_findIndexForId(table, id) {
     let index = -1;
 
@@ -48,6 +57,154 @@ function db_findIndexForId(table, id) {
     }
 
     return index;
+}
+
+function db_getProjects() {
+    return projects;
+}
+
+function db_addProject(data) {
+    const nextId = db_calcNextId(projects);
+
+    projects.push({
+        id: nextId, 
+        ...data
+    });
+}
+
+function db_updateProject(id, data) {
+    const dbIndex = db_findIndexForId(projects, id);
+
+    projects[dbIndex].title = data.title;
+    projects[dbIndex].description = data.description;
+}
+
+function db_deleteProject(id) {
+    const dbIndex = db_findIndexForId(projects, id);
+
+    projects.splice(dbIndex, 1);
+}
+
+function db_getSprintsForProject(id) {
+    return sprints.filter((item) => {
+        if(item.id_project === id) return true;
+        else return false;
+    });
+}
+
+function db_addSprint(id_project, data) {
+    const nextId = db_calcNextId(sprints);
+
+        sprints.push({
+            id: nextId, 
+            id_project: id_project, 
+            title: data.title
+        });
+}
+
+function db_updateSprint(id, data) {
+    const dbIndex = db_findIndexForId(sprints, id);
+
+    sprints[dbIndex].title = data.title;
+}
+
+function db_deleteSprint(id) {
+    const dbIndex = db_findIndexForId(sprints, id);
+
+    sprints.splice(dbIndex, 1);
+}
+
+function db_deleteSprintsForProjectId(id_project) {
+    let finish = false;
+
+    while(!finish) {
+        for(let i = 0; i < sprints.length; i++) {
+            if(sprints[i].id_project === id_project) {
+                sprints.splice(i, 1);
+                break;
+            }
+            if(i === sprints.length - 1) {
+                finish = true;
+            }
+        }
+    }
+}
+
+function db_getTasksForProject(id) {
+    return tasks.filter((item) => {
+        if(item.id_project === id) return true;
+        else return false;
+    });
+}
+
+function db_addTask(id_project, data) {
+    const nextId = db_calcNextId(tasks);
+
+    tasks.push({
+        id: nextId,
+        id_project: id_project,
+        id_sprint: null,   //for BACKLOG
+        title: data.title,
+        where_is: "BACKLOG", 
+        minutes: 0
+    });
+}
+
+function db_updateTask(id, data) {
+    const dbIndex = db_findIndexForId(tasks, id);
+
+    tasks[dbIndex].title = data.title;
+}
+
+function db_updateTasksTime(tasks_in_doing) {
+    tasks_in_doing.forEach((item) => {
+        const index = db_findIndexForId(tasks, item.id);
+        tasks[index].minutes += DELTA_TIME / ONE_MINUTE_IN_MS;
+    });
+}
+
+function db_deleteTask(id) {
+    const dbIndex = db_findIndexForId(tasks, id);
+
+    tasks.splice(dbIndex, 1);
+}
+
+function db_moveRightTask(id_task, id_sprint) {
+    const dbIndex = db_findIndexForId(tasks, id_task);
+
+    switch(tasks[dbIndex].where_is) {
+        case 'BACKLOG':
+            if(id_sprint !== null) {
+                tasks[dbIndex].where_is = 'TODO';
+                tasks[dbIndex].id_sprint = id_sprint;
+            }
+            break;
+        case 'TODO':
+            tasks[dbIndex].where_is = 'DOING';
+            break;
+        case 'DOING':
+            tasks[dbIndex].where_is = 'DONE';
+            break;
+        default:
+    }
+}
+
+function db_moveLeftTask(id) {
+    const dbIndex = db_findIndexForId(tasks, id);
+
+    switch(tasks[dbIndex].where_is) {
+        case 'TODO':
+            tasks[dbIndex].where_is = 'BACKLOG';
+            tasks[dbIndex].id_sprint = null;
+            break;
+        case 'DOING':
+            tasks[dbIndex].where_is = 'TODO';
+            break;
+        case 'DONE':
+            tasks[dbIndex].where_is = 'DOING';
+            break;
+        default:
+    }
 }
 
 function db_deleteTasksForSprintId(id_sprint) {
@@ -82,21 +239,7 @@ function db_deleteTasksForProjectId(id_project) {
     }
 }
 
-function db_deleteSprintsForProjectId(id_project) {
-    let finish = false;
-
-    while(!finish) {
-        for(let i = 0; i < sprints.length; i++) {
-            if(sprints[i].id_project === id_project) {
-                sprints.splice(i, 1);
-                break;
-            }
-            if(i === sprints.length - 1) {
-                finish = true;
-            }
-        }
-    }
-}
+//---------- end db ----------------------------------
 
 class App extends React.Component {
     state = {
@@ -124,24 +267,23 @@ class App extends React.Component {
 
     interval = null;
 
-    oneMinuteInMs = 1000 * 60; //1 minute = 1000ms * 60
-
-    deltaTime = this.oneMinuteInMs * 1;
+    deltaTime = DELTA_TIME;
 
     componentDidMount() {
-        this.handleGetProjects();
+        this.setProjectList();
         //MUST BE rendered after update state
         //beacuse this method is call after render()
         this.render();  
     }
 
-    handleGetProjects() {
-        let newProjects = projects.map((item, index) => {
+    setProjectList() {
+        let newProjects = db_getProjects()
+        .map((item) => {
             let newItem = item;
             newItem.isHide = true;  //default
             return newItem;
         });
-    
+
         this.setState({
             idOpenedProject: null,
             //---------------------------
@@ -151,6 +293,12 @@ class App extends React.Component {
             sprintListOpenedProject: [],
             isBacklogHide: false,
             idChosenSprint: null,
+            editedTaskIndex: -1,
+            isShowFormAddTask: false,
+            isShowFormEditTask: false,
+            editedSprintIndex: -1,
+            isShowFormAddSprint: false,
+            isShowFormEditSprint: false,
             //---------------------------
             projectList: newProjects,
             editedProjectIndex: -1,
@@ -159,19 +307,15 @@ class App extends React.Component {
         });
     }
 
-    getOpenedProjectSprints(id) {
-        let result = sprints
-        .filter((item) => {
-            if(item.id_project === id) return true;
-            else return false;
-        })
+    setSprintListOpenedProject(id) {
+        let result = db_getSprintsForProject(id)
         .map((item) => {
             let newItem = item;
             newItem.isHide = false;  //default
             return newItem;
         });
 
-        //default first if exist
+        //default chosen first sprint if exist
         const idChosenSprint = result.length > 0 ? result[0].id : null;
 
         this.setState(() => {
@@ -182,12 +326,8 @@ class App extends React.Component {
         });
     }
 
-    getOpenedProjectTaks(id) {
-        let result = tasks
-        .filter((item) => {
-            if(item.id_project === id) return true;
-            else return false;
-        });
+    setTaskListOpenedProject(id) {
+        let result = db_getTasksForProject(id);
 
         this.setState(() => {
             return ({
@@ -300,15 +440,11 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(projects);
 
-        projects.push({
-            id: nextId, 
-            ...data
-        });
+        db_addProject(data);
 
         this.setShowFormAddProject(false);
-        this.handleGetProjects();
+        this.setProjectList();
     }
 
     handleShowFormEditProject(e) {
@@ -341,13 +477,11 @@ class App extends React.Component {
         this.setEditedProjectIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(projects, id);
 
-        projects[dbIndex].title = data.title;
-        projects[dbIndex].description = data.description;
+        db_updateProject(id, data);
 
         this.setShowFormEditProject(false);
-        this.handleGetProjects();
+        this.setProjectList();
     }
 
     handleDeleteProject(e) {
@@ -361,12 +495,9 @@ class App extends React.Component {
         if(decision) {
             db_deleteTasksForProjectId(id);
             db_deleteSprintsForProjectId(id);
-
-            const dbIndex = db_findIndexForId(projects, id);
-
-            projects.splice(dbIndex, 1);
+            db_deleteProject(id);
             
-            this.handleGetProjects();
+            this.setProjectList();
         }
     }
 
@@ -403,20 +534,29 @@ class App extends React.Component {
         const description = projects[index].description;
 
         //set state.sprintListOpenedProject - setState() inside
-        this.getOpenedProjectSprints(id);
+        this.setSprintListOpenedProject(id);
         
         //set state.taskListOpenedProject - setState() inside
-        this.getOpenedProjectTaks(id);
+        this.setTaskListOpenedProject(id);
 
         this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
-        
+
         this.setState(() => {
             return ({
                 idOpenedProject: id,
                 //---------------------------
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
+                // taskListOpenedProject: [],   //this was set above
+                // sprintListOpenedProject: [], //this was set above
                 isBacklogHide: false,
+                // idChosenSprint: null,    //this was set above
+                editedTaskIndex: -1,
+                isShowFormAddTask: false,
+                isShowFormEditTask: false,
+                editedSprintIndex: -1,
+                isShowFormAddSprint: false,
+                isShowFormEditSprint: false,
                 //---------------------------
                 projectList: [],
                 editedProjectIndex: -1,
@@ -428,7 +568,7 @@ class App extends React.Component {
 
     handleCloseProject() {
         clearInterval(this.interval);
-        this.handleGetProjects();
+        this.setProjectList();
         this.render();
     }
 
@@ -444,19 +584,11 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(tasks);
 
-        tasks.push({
-            id: nextId,
-            id_project: this.state.idOpenedProject,
-            id_sprint: null,   //for BACKLOG
-            title: data.title,
-            where_is: "BACKLOG", 
-            minutes: 0
-        });
+        db_addTask(this.state.idOpenedProject, data);
 
         this.setShowFormAddTask(false);
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleHideShowBacklogDetails(){
@@ -497,12 +629,11 @@ class App extends React.Component {
         this.setEditedTaskIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(tasks, id);
-
-        tasks[dbIndex].title = data.title;
+        
+        db_updateTask(id, data);
 
         this.setShowFormEditTask(false);
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteTask(e) {
@@ -511,11 +642,9 @@ class App extends React.Component {
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(tasks, id);
-
-        tasks.splice(dbIndex, 1);
+        db_deleteTask(id);
         
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleChooseSprint(e) {
@@ -537,25 +666,9 @@ class App extends React.Component {
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(tasks, id);
+        db_moveRightTask(id, this.state.idChosenSprint);
 
-        switch(tasks[dbIndex].where_is) {
-            case 'BACKLOG':
-                if(this.state.idChosenSprint !== null) {
-                    tasks[dbIndex].where_is = 'TODO';
-                    tasks[dbIndex].id_sprint = this.state.idChosenSprint;
-                }
-                break;
-            case 'TODO':
-                tasks[dbIndex].where_is = 'DOING';
-                break;
-            case 'DOING':
-                tasks[dbIndex].where_is = 'DONE';
-                break;
-            default:
-        }
-
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleMoveLeftTask(e) {
@@ -564,23 +677,9 @@ class App extends React.Component {
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(tasks, id);
+        db_moveLeftTask(id);
 
-        switch(tasks[dbIndex].where_is) {
-            case 'TODO':
-                tasks[dbIndex].where_is = 'BACKLOG';
-                tasks[dbIndex].id_sprint = null;
-                break;
-            case 'DOING':
-                tasks[dbIndex].where_is = 'TODO';
-                break;
-            case 'DONE':
-                tasks[dbIndex].where_is = 'DOING';
-                break;
-            default:
-        }
-
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormAddSprint() {
@@ -595,16 +694,11 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(sprints);
 
-        sprints.push({
-            id: nextId, 
-            id_project: this.state.idOpenedProject, 
-            title: data.title
-        });
+        db_addSprint(this.state.idOpenedProject, data);
 
         this.setShowFormAddSprint(false);
-        this.getOpenedProjectSprints(this.state.idOpenedProject);
+        this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormEditSprint(e) {
@@ -612,8 +706,6 @@ class App extends React.Component {
 
         const parent = e.target.parentNode.parentNode.parentNode;
         const id = Number(parent.dataset.id);
-
-        // console.log(parent, id);
     
         let index = -1;
         for(let i = 0; i < this.state.sprintListOpenedProject.length; i++) {
@@ -622,8 +714,6 @@ class App extends React.Component {
                 break;
             }
         }
-
-        // console.log('index = ', index);
 
         this.setShowFormEditSprint(true);
         this.setEditedSprintIndex(index);
@@ -641,12 +731,11 @@ class App extends React.Component {
         this.setEditedSprintIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(sprints, id);
-
-        sprints[dbIndex].title = data.title;
+        
+        db_updateSprint(id, data);
 
         this.setShowFormEditSprint(false);
-        this.getOpenedProjectSprints(this.state.idOpenedProject);
+        this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteSprint(e) {
@@ -659,12 +748,9 @@ class App extends React.Component {
 
         if(decision) {
             db_deleteTasksForSprintId(id);
-
-            const dbIndex = db_findIndexForId(sprints, id);
-
-            sprints.splice(dbIndex, 1);
+            db_deleteSprint(id);
             
-            this.getOpenedProjectSprints(this.state.idOpenedProject);
+            this.setSprintListOpenedProject(this.state.idOpenedProject);
         }
     }
 
@@ -694,16 +780,12 @@ class App extends React.Component {
             else return false;
         });
 
-        tasksInDoing.forEach((item) => {
-            const index = db_findIndexForId(tasks, item.id);
-            tasks[index].minutes += this.deltaTime / this.oneMinuteInMs;
-        });
+        db_updateTasksTime(tasksInDoing);
 
-        this.getOpenedProjectTaks(this.state.idOpenedProject);
+        this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     render() {
-        // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
             return (
                 <main>
