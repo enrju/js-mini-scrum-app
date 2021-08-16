@@ -54,6 +54,15 @@ function db_getProjects() {
     return projects;
 }
 
+function db_addProject(data) {
+    const nextId = db_calcNextId(projects);
+
+    projects.push({
+        id: nextId, 
+        ...data
+    });
+}
+
 function db_getSprintsForProject(id) {
     return sprints.filter((item) => {
         if(item.id_project === id) return true;
