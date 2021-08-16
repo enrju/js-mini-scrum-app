@@ -85,6 +85,16 @@ function db_getSprintsForProject(id) {
     });
 }
 
+function db_addSprint(id_project, data) {
+    const nextId = db_calcNextId(sprints);
+
+        sprints.push({
+            id: nextId, 
+            id_project: id_project, 
+            title: data.title
+        });
+}
+
 function db_deleteSprintsForProjectId(id_project) {
     let finish = false;
 
