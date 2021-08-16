@@ -370,10 +370,8 @@ class App extends React.Component {
         this.setEditedProjectIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(projects, id);
 
-        projects[dbIndex].title = data.title;
-        projects[dbIndex].description = data.description;
+        db_updateProject(id, data);
 
         this.setShowFormEditProject(false);
         this.setProjectList();
