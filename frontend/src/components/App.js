@@ -95,6 +95,12 @@ function db_addSprint(id_project, data) {
         });
 }
 
+function db_updateSprint(id, data) {
+    const dbIndex = db_findIndexForId(sprints, id);
+
+    sprints[dbIndex].title = data.title;
+}
+
 function db_deleteSprintsForProjectId(id_project) {
     let finish = false;
 
