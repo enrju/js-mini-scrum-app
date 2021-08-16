@@ -70,6 +70,12 @@ function db_updateProject(id, data) {
     projects[dbIndex].description = data.description;
 }
 
+function db_deleteProject(id) {
+    const dbIndex = db_findIndexForId(projects, id);
+
+    projects.splice(dbIndex, 1);
+}
+
 function db_getSprintsForProject(id) {
     return sprints.filter((item) => {
         if(item.id_project === id) return true;
