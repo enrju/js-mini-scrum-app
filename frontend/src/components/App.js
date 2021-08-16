@@ -177,19 +177,15 @@ class App extends React.Component {
         });
     }
 
-    getOpenedProjectSprints(id) {
-        let result = sprints
-        .filter((item) => {
-            if(item.id_project === id) return true;
-            else return false;
-        })
+    setSprintListOpenedProject(id) {
+        let result = db_getSprintsForProject(id)
         .map((item) => {
             let newItem = item;
             newItem.isHide = false;  //default
             return newItem;
         });
 
-        //default first if exist
+        //default chosen first sprint if exist
         const idChosenSprint = result.length > 0 ? result[0].id : null;
 
         this.setState(() => {
@@ -421,7 +417,7 @@ class App extends React.Component {
         const description = projects[index].description;
 
         //set state.sprintListOpenedProject - setState() inside
-        this.getOpenedProjectSprints(id);
+        this.setSprintListOpenedProject(id);
         
         //set state.taskListOpenedProject - setState() inside
         this.getOpenedProjectTaks(id);
@@ -622,7 +618,7 @@ class App extends React.Component {
         });
 
         this.setShowFormAddSprint(false);
-        this.getOpenedProjectSprints(this.state.idOpenedProject);
+        this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormEditSprint(e) {
@@ -664,7 +660,7 @@ class App extends React.Component {
         sprints[dbIndex].title = data.title;
 
         this.setShowFormEditSprint(false);
-        this.getOpenedProjectSprints(this.state.idOpenedProject);
+        this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteSprint(e) {
@@ -682,7 +678,7 @@ class App extends React.Component {
 
             sprints.splice(dbIndex, 1);
             
-            this.getOpenedProjectSprints(this.state.idOpenedProject);
+            this.setSprintListOpenedProject(this.state.idOpenedProject);
         }
     }
 
