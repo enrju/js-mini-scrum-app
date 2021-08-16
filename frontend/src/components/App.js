@@ -121,6 +121,12 @@ function db_addTask(id_project, data) {
     });
 }
 
+function db_updateTask(id, data) {
+    const dbIndex = db_findIndexForId(tasks, id);
+
+    tasks[dbIndex].title = data.title;
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
