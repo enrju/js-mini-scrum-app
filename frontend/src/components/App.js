@@ -498,16 +498,8 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(tasks);
 
-        tasks.push({
-            id: nextId,
-            id_project: this.state.idOpenedProject,
-            id_sprint: null,   //for BACKLOG
-            title: data.title,
-            where_is: "BACKLOG", 
-            minutes: 0
-        });
+        db_addTask(this.state.idOpenedProject, data);
 
         this.setShowFormAddTask(false);
         this.setTaskListOpenedProject(this.state.idOpenedProject);
