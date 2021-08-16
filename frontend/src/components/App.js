@@ -267,9 +267,7 @@ class App extends React.Component {
 
     interval = null;
 
-    oneMinuteInMs = 1000 * 60; //1 minute = 1000ms * 60
-
-    deltaTime = this.oneMinuteInMs * 1;
+    deltaTime = DELTA_TIME;
 
     componentDidMount() {
         this.setProjectList();
@@ -782,16 +780,12 @@ class App extends React.Component {
             else return false;
         });
 
-        tasksInDoing.forEach((item) => {
-            const index = db_findIndexForId(tasks, item.id);
-            tasks[index].minutes += this.deltaTime / this.oneMinuteInMs;
-        });
+        db_updateTasksTime(tasksInDoing);
 
         this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     render() {
-        // console.log('state = ', this.state);
         if(this.state.idOpenedProject === null) {
             return (
                 <main>
