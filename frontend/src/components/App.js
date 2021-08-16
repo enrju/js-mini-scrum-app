@@ -641,21 +641,7 @@ class App extends React.Component {
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(tasks, id);
-
-        switch(tasks[dbIndex].where_is) {
-            case 'TODO':
-                tasks[dbIndex].where_is = 'BACKLOG';
-                tasks[dbIndex].id_sprint = null;
-                break;
-            case 'DOING':
-                tasks[dbIndex].where_is = 'TODO';
-                break;
-            case 'DONE':
-                tasks[dbIndex].where_is = 'DOING';
-                break;
-            default:
-        }
+        db_moveLeftTask(id);
 
         this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
