@@ -63,6 +63,13 @@ function db_addProject(data) {
     });
 }
 
+function db_updateProject(id, data) {
+    const dbIndex = db_findIndexForId(projects, id);
+
+    projects[dbIndex].title = data.title;
+    projects[dbIndex].description = data.description;
+}
+
 function db_getSprintsForProject(id) {
     return sprints.filter((item) => {
         if(item.id_project === id) return true;
