@@ -568,9 +568,7 @@ class App extends React.Component {
         const parent = e.target.parentNode.parentNode;
         const id = Number(parent.dataset.id);
 
-        const dbIndex = db_findIndexForId(tasks, id);
-
-        tasks.splice(dbIndex, 1);
+        db_deleteTask(id);
         
         this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
