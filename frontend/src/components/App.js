@@ -101,6 +101,12 @@ function db_updateSprint(id, data) {
     sprints[dbIndex].title = data.title;
 }
 
+function db_deleteSprint(id) {
+    const dbIndex = db_findIndexForId(sprints, id);
+
+    sprints.splice(dbIndex, 1);
+}
+
 function db_deleteSprintsForProjectId(id_project) {
     let finish = false;
 
