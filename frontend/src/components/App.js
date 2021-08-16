@@ -549,9 +549,8 @@ class App extends React.Component {
         this.setEditedTaskIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(tasks, id);
-
-        tasks[dbIndex].title = data.title;
+        
+        db_updateTask(id, data);
 
         this.setShowFormEditTask(false);
         this.setTaskListOpenedProject(this.state.idOpenedProject);
