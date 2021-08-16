@@ -493,10 +493,10 @@ class App extends React.Component {
                 //---------------------------
                 titleOpenedProject: title,
                 descriptionOpenedProject: description,
-                // taskListOpenedProject: [],   //this table was set above
-                // sprintListOpenedProject: [], //this table was set above
+                // taskListOpenedProject: [],   //this was set above
+                // sprintListOpenedProject: [], //this was set above
                 isBacklogHide: false,
-                idChosenSprint: null,
+                // idChosenSprint: null,    //this was set above
                 editedTaskIndex: -1,
                 isShowFormAddTask: false,
                 isShowFormEditTask: false,
