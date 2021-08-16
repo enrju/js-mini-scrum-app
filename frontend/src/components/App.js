@@ -127,6 +127,12 @@ function db_updateTask(id, data) {
     tasks[dbIndex].title = data.title;
 }
 
+function db_deleteTask(id) {
+    const dbIndex = db_findIndexForId(tasks, id);
+
+    tasks.splice(dbIndex, 1);
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
