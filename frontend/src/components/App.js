@@ -54,6 +54,13 @@ function db_getProjects() {
     return projects;
 }
 
+function db_getSprintsForProject(id) {
+    return sprints.filter((item) => {
+        if(item.id_project === id) return true;
+        else return false;
+    });
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
