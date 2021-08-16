@@ -686,8 +686,6 @@ class App extends React.Component {
 
         const parent = e.target.parentNode.parentNode.parentNode;
         const id = Number(parent.dataset.id);
-
-        // console.log(parent, id);
     
         let index = -1;
         for(let i = 0; i < this.state.sprintListOpenedProject.length; i++) {
@@ -696,8 +694,6 @@ class App extends React.Component {
                 break;
             }
         }
-
-        // console.log('index = ', index);
 
         this.setShowFormEditSprint(true);
         this.setEditedSprintIndex(index);
@@ -715,9 +711,8 @@ class App extends React.Component {
         this.setEditedSprintIndex(-1);
 
         const data = this.getDataFromForm();
-        const dbIndex = db_findIndexForId(sprints, id);
-
-        sprints[dbIndex].title = data.title;
+        
+        db_updateSprint(id, data);
 
         this.setShowFormEditSprint(false);
         this.setSprintListOpenedProject(this.state.idOpenedProject);
