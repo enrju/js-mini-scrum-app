@@ -326,12 +326,8 @@ class App extends React.Component {
         e.preventDefault();
 
         const data = this.getDataFromForm();
-        const nextId = db_calcNextId(projects);
 
-        projects.push({
-            id: nextId, 
-            ...data
-        });
+        db_addProject(data);
 
         this.setShowFormAddProject(false);
         this.setProjectList();
