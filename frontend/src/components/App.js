@@ -108,6 +108,19 @@ function db_getTasksForProject(id) {
     });
 }
 
+function db_addTask(id_project, data) {
+    const nextId = db_calcNextId(tasks);
+
+    tasks.push({
+        id: nextId,
+        id_project: id_project,
+        id_sprint: null,   //for BACKLOG
+        title: data.title,
+        where_is: "BACKLOG", 
+        minutes: 0
+    });
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
