@@ -50,6 +50,10 @@ function db_findIndexForId(table, id) {
     return index;
 }
 
+function db_getProjects() {
+    return projects;
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
