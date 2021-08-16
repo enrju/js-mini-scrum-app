@@ -133,6 +133,26 @@ function db_deleteTask(id) {
     tasks.splice(dbIndex, 1);
 }
 
+function db_moveRightTask(id_task, id_sprint) {
+    const dbIndex = db_findIndexForId(tasks, id_task);
+
+    switch(tasks[dbIndex].where_is) {
+        case 'BACKLOG':
+            if(id_sprint !== null) {
+                tasks[dbIndex].where_is = 'TODO';
+                tasks[dbIndex].id_sprint = id_sprint;
+            }
+            break;
+        case 'TODO':
+            tasks[dbIndex].where_is = 'DOING';
+            break;
+        case 'DOING':
+            tasks[dbIndex].where_is = 'DONE';
+            break;
+        default:
+    }
+}
+
 function db_deleteTasksForSprintId(id_sprint) {
     let finish = false;
 
