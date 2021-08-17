@@ -5,44 +5,45 @@ import PopupForm from './PopupForm';
 import ProjectPanel from './ProjectPanel';
 
 //-------------- start db ---------------------------------
+//move to backend
 
 const ONE_MINUTE_IN_MS = 1000 * 60; //1 minute = 1000ms * 60;
 
 //leave copy it's used in interval
 const DELTA_TIME = ONE_MINUTE_IN_MS * 1;
 
-let projects = [
-    {id: 1, title: "project 1", description: "project 1"},
-    {id: 2, title: "project 2", description: "project 2"},
-    {id: 3, title: "project 3", description: "project 3"},
-];
+// let projects = [
+//     {id: 1, title: "project 1", description: "project 1"},
+//     {id: 2, title: "project 2", description: "project 2"},
+//     {id: 3, title: "project 3", description: "project 3"},
+// ];
 
-let sprints = [
-    {id: 1, id_project: 1, title: "sprint - week 1"},
-    {id: 2, id_project: 1, title: "sprint - week 2"},
-    {id: 3, id_project: 2, title: "sprint - week 3"},
-];
+// let sprints = [
+//     {id: 1, id_project: 1, title: "sprint - week 1"},
+//     {id: 2, id_project: 1, title: "sprint - week 2"},
+//     {id: 3, id_project: 2, title: "sprint - week 3"},
+// ];
 
-let tasks = [
-    {id: 1, id_project: 1, id_sprint: null, title: "task 1", where_is: "BACKLOG", minutes: 0},
-    {id: 2, id_project: 1, id_sprint: null, title: "task 2", where_is: "BACKLOG", minutes: 0},
-    {id: 3, id_project: 1, id_sprint: 1, title: "task 3", where_is: "TODO", minutes: 0},
-    {id: 4, id_project: 1, id_sprint: 2, title: "task 4", where_is: "DOING", minutes: 0},
-    {id: 5, id_project: 2, id_sprint: 3, title: "task 5", where_is: "DOING", minutes: 0},
-    {id: 6, id_project: 1, id_sprint: 1, title: "task 6", where_is: "DONE", minutes: 0},
-    {id: 7, id_project: 1, id_sprint: 2, title: "task 7", where_is: "DONE", minutes: 0},
-    {id: 8, id_project: 2, id_sprint: 3, title: "task 8", where_is: "DONE", minutes: 0},
-];
+// let tasks = [
+//     {id: 1, id_project: 1, id_sprint: null, title: "task 1", where_is: "BACKLOG", minutes: 0},
+//     {id: 2, id_project: 1, id_sprint: null, title: "task 2", where_is: "BACKLOG", minutes: 0},
+//     {id: 3, id_project: 1, id_sprint: 1, title: "task 3", where_is: "TODO", minutes: 0},
+//     {id: 4, id_project: 1, id_sprint: 2, title: "task 4", where_is: "DOING", minutes: 0},
+//     {id: 5, id_project: 2, id_sprint: 3, title: "task 5", where_is: "DOING", minutes: 0},
+//     {id: 6, id_project: 1, id_sprint: 1, title: "task 6", where_is: "DONE", minutes: 0},
+//     {id: 7, id_project: 1, id_sprint: 2, title: "task 7", where_is: "DONE", minutes: 0},
+//     {id: 8, id_project: 2, id_sprint: 3, title: "task 8", where_is: "DONE", minutes: 0},
+// ];
 
-function db_calcNextId(table) {
-    let maxId = 0;
+// function db_calcNextId(table) {
+//     let maxId = 0;
     
-    table.forEach(item => {
-        if(item.id > maxId) maxId = item.id;
-    });
+//     table.forEach(item => {
+//         if(item.id > maxId) maxId = item.id;
+//     });
 
-    return maxId + 1;
-}
+//     return maxId + 1;
+// }
 
 //leave copy this function (or move to utils.js)
 // - it's used to find index in table from state
@@ -59,185 +60,185 @@ function db_findIndexForId(table, id) {
     return index;
 }
 
-function db_getProjects() {
-    return projects;
-}
+// function db_getProjects() {
+//     return projects;
+// }
 
-function db_addProject(data) {
-    const nextId = db_calcNextId(projects);
+// function db_addProject(data) {
+//     const nextId = db_calcNextId(projects);
 
-    projects.push({
-        id: nextId, 
-        ...data
-    });
-}
+//     projects.push({
+//         id: nextId, 
+//         ...data
+//     });
+// }
 
-function db_updateProject(id, data) {
-    const dbIndex = db_findIndexForId(projects, id);
+// function db_updateProject(id, data) {
+//     const dbIndex = db_findIndexForId(projects, id);
 
-    projects[dbIndex].title = data.title;
-    projects[dbIndex].description = data.description;
-}
+//     projects[dbIndex].title = data.title;
+//     projects[dbIndex].description = data.description;
+// }
 
-function db_deleteProject(id) {
-    const dbIndex = db_findIndexForId(projects, id);
+// function db_deleteProject(id) {
+//     const dbIndex = db_findIndexForId(projects, id);
 
-    projects.splice(dbIndex, 1);
-}
+//     projects.splice(dbIndex, 1);
+// }
 
-function db_getSprintsForProject(id) {
-    return sprints.filter((item) => {
-        if(item.id_project === id) return true;
-        else return false;
-    });
-}
+// function db_getSprintsForProject(id) {
+//     return sprints.filter((item) => {
+//         if(item.id_project === id) return true;
+//         else return false;
+//     });
+// }
 
-function db_addSprint(id_project, data) {
-    const nextId = db_calcNextId(sprints);
+// function db_addSprint(id_project, data) {
+//     const nextId = db_calcNextId(sprints);
 
-        sprints.push({
-            id: nextId, 
-            id_project: id_project, 
-            title: data.title
-        });
-}
+//         sprints.push({
+//             id: nextId, 
+//             id_project: id_project, 
+//             title: data.title
+//         });
+// }
 
-function db_updateSprint(id, data) {
-    const dbIndex = db_findIndexForId(sprints, id);
+// function db_updateSprint(id, data) {
+//     const dbIndex = db_findIndexForId(sprints, id);
 
-    sprints[dbIndex].title = data.title;
-}
+//     sprints[dbIndex].title = data.title;
+// }
 
-function db_deleteSprint(id) {
-    const dbIndex = db_findIndexForId(sprints, id);
+// function db_deleteSprint(id) {
+//     const dbIndex = db_findIndexForId(sprints, id);
 
-    sprints.splice(dbIndex, 1);
-}
+//     sprints.splice(dbIndex, 1);
+// }
 
-function db_deleteSprintsForProjectId(id_project) {
-    let finish = false;
+// function db_deleteSprintsForProjectId(id_project) {
+//     let finish = false;
 
-    while(!finish) {
-        for(let i = 0; i < sprints.length; i++) {
-            if(sprints[i].id_project === id_project) {
-                sprints.splice(i, 1);
-                break;
-            }
-            if(i === sprints.length - 1) {
-                finish = true;
-            }
-        }
-    }
-}
+//     while(!finish) {
+//         for(let i = 0; i < sprints.length; i++) {
+//             if(sprints[i].id_project === id_project) {
+//                 sprints.splice(i, 1);
+//                 break;
+//             }
+//             if(i === sprints.length - 1) {
+//                 finish = true;
+//             }
+//         }
+//     }
+// }
 
-function db_getTasksForProject(id) {
-    return tasks.filter((item) => {
-        if(item.id_project === id) return true;
-        else return false;
-    });
-}
+// function db_getTasksForProject(id) {
+//     return tasks.filter((item) => {
+//         if(item.id_project === id) return true;
+//         else return false;
+//     });
+// }
 
-function db_addTask(id_project, data) {
-    const nextId = db_calcNextId(tasks);
+// function db_addTask(id_project, data) {
+//     const nextId = db_calcNextId(tasks);
 
-    tasks.push({
-        id: nextId,
-        id_project: id_project,
-        id_sprint: null,   //for BACKLOG
-        title: data.title,
-        where_is: "BACKLOG", 
-        minutes: 0
-    });
-}
+//     tasks.push({
+//         id: nextId,
+//         id_project: id_project,
+//         id_sprint: null,   //for BACKLOG
+//         title: data.title,
+//         where_is: "BACKLOG", 
+//         minutes: 0
+//     });
+// }
 
-function db_updateTask(id, data) {
-    const dbIndex = db_findIndexForId(tasks, id);
+// function db_updateTask(id, data) {
+//     const dbIndex = db_findIndexForId(tasks, id);
 
-    tasks[dbIndex].title = data.title;
-}
+//     tasks[dbIndex].title = data.title;
+// }
 
-function db_updateTasksTime(tasks_in_doing) {
-    tasks_in_doing.forEach((item) => {
-        const index = db_findIndexForId(tasks, item.id);
-        tasks[index].minutes += DELTA_TIME / ONE_MINUTE_IN_MS;
-    });
-}
+// function db_updateTasksTime(tasks_in_doing) {
+//     tasks_in_doing.forEach((item) => {
+//         const index = db_findIndexForId(tasks, item.id);
+//         tasks[index].minutes += DELTA_TIME / ONE_MINUTE_IN_MS;
+//     });
+// }
 
-function db_deleteTask(id) {
-    const dbIndex = db_findIndexForId(tasks, id);
+// function db_deleteTask(id) {
+//     const dbIndex = db_findIndexForId(tasks, id);
 
-    tasks.splice(dbIndex, 1);
-}
+//     tasks.splice(dbIndex, 1);
+// }
 
-function db_moveRightTask(id_task, id_sprint) {
-    const dbIndex = db_findIndexForId(tasks, id_task);
+// function db_moveRightTask(id_task, id_sprint) {
+//     const dbIndex = db_findIndexForId(tasks, id_task);
 
-    switch(tasks[dbIndex].where_is) {
-        case 'BACKLOG':
-            if(id_sprint !== null) {
-                tasks[dbIndex].where_is = 'TODO';
-                tasks[dbIndex].id_sprint = id_sprint;
-            }
-            break;
-        case 'TODO':
-            tasks[dbIndex].where_is = 'DOING';
-            break;
-        case 'DOING':
-            tasks[dbIndex].where_is = 'DONE';
-            break;
-        default:
-    }
-}
+//     switch(tasks[dbIndex].where_is) {
+//         case 'BACKLOG':
+//             if(id_sprint !== null) {
+//                 tasks[dbIndex].where_is = 'TODO';
+//                 tasks[dbIndex].id_sprint = id_sprint;
+//             }
+//             break;
+//         case 'TODO':
+//             tasks[dbIndex].where_is = 'DOING';
+//             break;
+//         case 'DOING':
+//             tasks[dbIndex].where_is = 'DONE';
+//             break;
+//         default:
+//     }
+// }
 
-function db_moveLeftTask(id) {
-    const dbIndex = db_findIndexForId(tasks, id);
+// function db_moveLeftTask(id) {
+//     const dbIndex = db_findIndexForId(tasks, id);
 
-    switch(tasks[dbIndex].where_is) {
-        case 'TODO':
-            tasks[dbIndex].where_is = 'BACKLOG';
-            tasks[dbIndex].id_sprint = null;
-            break;
-        case 'DOING':
-            tasks[dbIndex].where_is = 'TODO';
-            break;
-        case 'DONE':
-            tasks[dbIndex].where_is = 'DOING';
-            break;
-        default:
-    }
-}
+//     switch(tasks[dbIndex].where_is) {
+//         case 'TODO':
+//             tasks[dbIndex].where_is = 'BACKLOG';
+//             tasks[dbIndex].id_sprint = null;
+//             break;
+//         case 'DOING':
+//             tasks[dbIndex].where_is = 'TODO';
+//             break;
+//         case 'DONE':
+//             tasks[dbIndex].where_is = 'DOING';
+//             break;
+//         default:
+//     }
+// }
 
-function db_deleteTasksForSprintId(id_sprint) {
-    let finish = false;
+// function db_deleteTasksForSprintId(id_sprint) {
+//     let finish = false;
 
-    while(!finish) {
-        for(let i = 0; i < tasks.length; i++) {
-            if(tasks[i].id_sprint === id_sprint) {
-                tasks.splice(i, 1);
-                break;
-            }
-            if(i === tasks.length - 1) {
-                finish = true;
-            }
-        }
-    }
-}
+//     while(!finish) {
+//         for(let i = 0; i < tasks.length; i++) {
+//             if(tasks[i].id_sprint === id_sprint) {
+//                 tasks.splice(i, 1);
+//                 break;
+//             }
+//             if(i === tasks.length - 1) {
+//                 finish = true;
+//             }
+//         }
+//     }
+// }
 
-function db_deleteTasksForProjectId(id_project) {
-    let finish = false;
+// function db_deleteTasksForProjectId(id_project) {
+//     let finish = false;
 
-    while(!finish) {
-        for(let i = 0; i < tasks.length; i++) {
-            if(tasks[i].id_project === id_project) {
-                tasks.splice(i, 1);
-                break;
-            }
-            if(i === tasks.length - 1) {
-                finish = true;
-            }
-        }
-    }
-}
+//     while(!finish) {
+//         for(let i = 0; i < tasks.length; i++) {
+//             if(tasks[i].id_project === id_project) {
+//                 tasks.splice(i, 1);
+//                 break;
+//             }
+//             if(i === tasks.length - 1) {
+//                 finish = true;
+//             }
+//         }
+//     }
+// }
 
 //---------- end db ----------------------------------
 
@@ -277,63 +278,63 @@ class App extends React.Component {
     }
 
     setProjectList() {
-        let newProjects = db_getProjects()
-        .map((item) => {
-            let newItem = item;
-            newItem.isHide = true;  //default
-            return newItem;
-        });
+        // let newProjects = db_getProjects()
+        // .map((item) => {
+        //     let newItem = item;
+        //     newItem.isHide = true;  //default
+        //     return newItem;
+        // });
 
-        this.setState({
-            idOpenedProject: null,
-            //---------------------------
-            titleOpenedProject: '',
-            descriptionOpenedProject: '',
-            taskListOpenedProject: [],
-            sprintListOpenedProject: [],
-            isBacklogHide: false,
-            idChosenSprint: null,
-            editedTaskIndex: -1,
-            isShowFormAddTask: false,
-            isShowFormEditTask: false,
-            editedSprintIndex: -1,
-            isShowFormAddSprint: false,
-            isShowFormEditSprint: false,
-            //---------------------------
-            projectList: newProjects,
-            editedProjectIndex: -1,
-            isShowFormAddProject: false,
-            isShowFormEditProject: false,
-        });
+        // this.setState({
+        //     idOpenedProject: null,
+        //     //---------------------------
+        //     titleOpenedProject: '',
+        //     descriptionOpenedProject: '',
+        //     taskListOpenedProject: [],
+        //     sprintListOpenedProject: [],
+        //     isBacklogHide: false,
+        //     idChosenSprint: null,
+        //     editedTaskIndex: -1,
+        //     isShowFormAddTask: false,
+        //     isShowFormEditTask: false,
+        //     editedSprintIndex: -1,
+        //     isShowFormAddSprint: false,
+        //     isShowFormEditSprint: false,
+        //     //---------------------------
+        //     projectList: newProjects,
+        //     editedProjectIndex: -1,
+        //     isShowFormAddProject: false,
+        //     isShowFormEditProject: false,
+        // });
     }
 
     setSprintListOpenedProject(id) {
-        let result = db_getSprintsForProject(id)
-        .map((item) => {
-            let newItem = item;
-            newItem.isHide = false;  //default
-            return newItem;
-        });
+        // let result = db_getSprintsForProject(id)
+        // .map((item) => {
+        //     let newItem = item;
+        //     newItem.isHide = false;  //default
+        //     return newItem;
+        // });
 
-        //default chosen first sprint if exist
-        const idChosenSprint = result.length > 0 ? result[0].id : null;
+        // //default chosen first sprint if exist
+        // const idChosenSprint = result.length > 0 ? result[0].id : null;
 
-        this.setState(() => {
-            return ({
-                sprintListOpenedProject: result,
-                idChosenSprint: idChosenSprint,
-            })
-        });
+        // this.setState(() => {
+        //     return ({
+        //         sprintListOpenedProject: result,
+        //         idChosenSprint: idChosenSprint,
+        //     })
+        // });
     }
 
     setTaskListOpenedProject(id) {
-        let result = db_getTasksForProject(id);
+        // let result = db_getTasksForProject(id);
 
-        this.setState(() => {
-            return ({
-                taskListOpenedProject: result,
-            })
-        });
+        // this.setState(() => {
+        //     return ({
+        //         taskListOpenedProject: result,
+        //     })
+        // });
     }
 
     setShowFormAddProject(bool) {
@@ -437,14 +438,14 @@ class App extends React.Component {
     }
 
     handleAddProject(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
 
-        db_addProject(data);
+        // db_addProject(data);
 
-        this.setShowFormAddProject(false);
-        this.setProjectList();
+        // this.setShowFormAddProject(false);
+        // this.setProjectList();
     }
 
     handleShowFormEditProject(e) {
@@ -470,35 +471,35 @@ class App extends React.Component {
     }
 
     handleEditProject(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const index = this.state.editedProjectIndex;
-        const id = this.state.projectList[index].id;
-        this.setEditedProjectIndex(-1);
+        // const index = this.state.editedProjectIndex;
+        // const id = this.state.projectList[index].id;
+        // this.setEditedProjectIndex(-1);
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
 
-        db_updateProject(id, data);
+        // db_updateProject(id, data);
 
-        this.setShowFormEditProject(false);
-        this.setProjectList();
+        // this.setShowFormEditProject(false);
+        // this.setProjectList();
     }
 
     handleDeleteProject(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode;
-        const id = Number(parent.dataset.id);
+        // const parent = e.target.parentNode;
+        // const id = Number(parent.dataset.id);
 
-        const decision = window.confirm('All tasks and sprints inside project will be deleted!');
+        // const decision = window.confirm('All tasks and sprints inside project will be deleted!');
 
-        if(decision) {
-            db_deleteTasksForProjectId(id);
-            db_deleteSprintsForProjectId(id);
-            db_deleteProject(id);
+        // if(decision) {
+        //     db_deleteTasksForProjectId(id);
+        //     db_deleteSprintsForProjectId(id);
+        //     db_deleteProject(id);
             
-            this.setProjectList();
-        }
+        //     this.setProjectList();
+        // }
     }
 
     handleHideShowProjectDescription(e) {
@@ -525,45 +526,45 @@ class App extends React.Component {
     }
 
     handleOpenProject(e){
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode;
-        const id = Number(parent.dataset.id);
-        const index = db_findIndexForId(projects, id);
-        const title = projects[index].title;
-        const description = projects[index].description;
+        // const parent = e.target.parentNode;
+        // const id = Number(parent.dataset.id);
+        // const index = db_findIndexForId(projects, id);//<<<
+        // const title = projects[index].title;    //<<<<
+        // const description = projects[index].description;//<<<
 
-        //set state.sprintListOpenedProject - setState() inside
-        this.setSprintListOpenedProject(id);
+        // //set state.sprintListOpenedProject - setState() inside
+        // this.setSprintListOpenedProject(id);
         
-        //set state.taskListOpenedProject - setState() inside
-        this.setTaskListOpenedProject(id);
+        // //set state.taskListOpenedProject - setState() inside
+        // this.setTaskListOpenedProject(id);
 
-        this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
+        // this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
 
-        this.setState(() => {
-            return ({
-                idOpenedProject: id,
-                //---------------------------
-                titleOpenedProject: title,
-                descriptionOpenedProject: description,
-                // taskListOpenedProject: [],   //this was set above
-                // sprintListOpenedProject: [], //this was set above
-                isBacklogHide: false,
-                // idChosenSprint: null,    //this was set above
-                editedTaskIndex: -1,
-                isShowFormAddTask: false,
-                isShowFormEditTask: false,
-                editedSprintIndex: -1,
-                isShowFormAddSprint: false,
-                isShowFormEditSprint: false,
-                //---------------------------
-                projectList: [],
-                editedProjectIndex: -1,
-                isShowFormAddProject: false,
-                isShowFormEditProject: false,
-            })
-        });
+        // this.setState(() => {
+        //     return ({
+        //         idOpenedProject: id,
+        //         //---------------------------
+        //         titleOpenedProject: title,
+        //         descriptionOpenedProject: description,
+        //         // taskListOpenedProject: [],   //this was set above
+        //         // sprintListOpenedProject: [], //this was set above
+        //         isBacklogHide: false,
+        //         // idChosenSprint: null,    //this was set above
+        //         editedTaskIndex: -1,
+        //         isShowFormAddTask: false,
+        //         isShowFormEditTask: false,
+        //         editedSprintIndex: -1,
+        //         isShowFormAddSprint: false,
+        //         isShowFormEditSprint: false,
+        //         //---------------------------
+        //         projectList: [],
+        //         editedProjectIndex: -1,
+        //         isShowFormAddProject: false,
+        //         isShowFormEditProject: false,
+        //     })
+        // });
     }
 
     handleCloseProject() {
@@ -581,14 +582,14 @@ class App extends React.Component {
     }
 
     handleAddTask(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
 
-        db_addTask(this.state.idOpenedProject, data);
+        // db_addTask(this.state.idOpenedProject, data);
 
-        this.setShowFormAddTask(false);
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setShowFormAddTask(false);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleHideShowBacklogDetails(){
@@ -622,29 +623,29 @@ class App extends React.Component {
     }
 
     handleEditTask(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const index = this.state.editedTaskIndex;
-        const id = this.state.taskListOpenedProject[index].id;
-        this.setEditedTaskIndex(-1);
+        // const index = this.state.editedTaskIndex;
+        // const id = this.state.taskListOpenedProject[index].id;
+        // this.setEditedTaskIndex(-1);
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
         
-        db_updateTask(id, data);
+        // db_updateTask(id, data);
 
-        this.setShowFormEditTask(false);
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setShowFormEditTask(false);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteTask(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode.parentNode;
-        const id = Number(parent.dataset.id);
+        // const parent = e.target.parentNode.parentNode;
+        // const id = Number(parent.dataset.id);
 
-        db_deleteTask(id);
+        // db_deleteTask(id);
         
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleChooseSprint(e) {
@@ -661,25 +662,25 @@ class App extends React.Component {
     }
 
     handleMoveRightTask(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode.parentNode;
-        const id = Number(parent.dataset.id);
+        // const parent = e.target.parentNode.parentNode;
+        // const id = Number(parent.dataset.id);
 
-        db_moveRightTask(id, this.state.idChosenSprint);
+        // db_moveRightTask(id, this.state.idChosenSprint);
 
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleMoveLeftTask(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode.parentNode;
-        const id = Number(parent.dataset.id);
+        // const parent = e.target.parentNode.parentNode;
+        // const id = Number(parent.dataset.id);
 
-        db_moveLeftTask(id);
+        // db_moveLeftTask(id);
 
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormAddSprint() {
@@ -691,14 +692,14 @@ class App extends React.Component {
     }
 
     handleAddSprint(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
 
-        db_addSprint(this.state.idOpenedProject, data);
+        // db_addSprint(this.state.idOpenedProject, data);
 
-        this.setShowFormAddSprint(false);
-        this.setSprintListOpenedProject(this.state.idOpenedProject);
+        // this.setShowFormAddSprint(false);
+        // this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleShowFormEditSprint(e) {
@@ -724,34 +725,34 @@ class App extends React.Component {
     }
 
     handleEditSprint(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const index = this.state.editedSprintIndex;
-        const id = this.state.sprintListOpenedProject[index].id;
-        this.setEditedSprintIndex(-1);
+        // const index = this.state.editedSprintIndex;
+        // const id = this.state.sprintListOpenedProject[index].id;
+        // this.setEditedSprintIndex(-1);
 
-        const data = this.getDataFromForm();
+        // const data = this.getDataFromForm();
         
-        db_updateSprint(id, data);
+        // db_updateSprint(id, data);
 
-        this.setShowFormEditSprint(false);
-        this.setSprintListOpenedProject(this.state.idOpenedProject);
+        // this.setShowFormEditSprint(false);
+        // this.setSprintListOpenedProject(this.state.idOpenedProject);
     }
 
     handleDeleteSprint(e) {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const parent = e.target.parentNode.parentNode.parentNode;
-        const id = Number(parent.dataset.id);
+        // const parent = e.target.parentNode.parentNode.parentNode;
+        // const id = Number(parent.dataset.id);
 
-        const decision = window.confirm('All tasks inside sprint will be deleted!');
+        // const decision = window.confirm('All tasks inside sprint will be deleted!');
 
-        if(decision) {
-            db_deleteTasksForSprintId(id);
-            db_deleteSprint(id);
+        // if(decision) {
+        //     db_deleteTasksForSprintId(id);
+        //     db_deleteSprint(id);
             
-            this.setSprintListOpenedProject(this.state.idOpenedProject);
-        }
+        //     this.setSprintListOpenedProject(this.state.idOpenedProject);
+        // }
     }
 
     handleHideShowSprintDetails(e){
@@ -774,15 +775,15 @@ class App extends React.Component {
     }
 
     handleUpdateTaskTime(){
-        const tasksInDoing = 
-        this.state.taskListOpenedProject.filter((item) => {
-            if(item.where_is === "DOING") return true;
-            else return false;
-        });
+        // const tasksInDoing = 
+        // this.state.taskListOpenedProject.filter((item) => {
+        //     if(item.where_is === "DOING") return true;
+        //     else return false;
+        // });
 
-        db_updateTasksTime(tasksInDoing);
+        // db_updateTasksTime(tasksInDoing);
 
-        this.setTaskListOpenedProject(this.state.idOpenedProject);
+        // this.setTaskListOpenedProject(this.state.idOpenedProject);
     }
 
     render() {
