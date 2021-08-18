@@ -9,5 +9,18 @@ module.exports = {
 
             res.json(projects);
         });
+
+        server.post('/api/projects', (req, res) => {
+            let body = '';
+
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+                let obj = JSON.parse(body);
+                db_tmp.db_addProject(obj);
+
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.send();
+            });
+        });
     }
 }
