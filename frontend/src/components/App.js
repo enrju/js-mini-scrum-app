@@ -523,20 +523,28 @@ class App extends React.Component {
     }
 
     handleDeleteProject(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const parent = e.target.parentNode;
-        // const id = Number(parent.dataset.id);
+        const parent = e.target.parentNode;
+        const id = Number(parent.dataset.id);
 
-        // const decision = window.confirm('All tasks and sprints inside project will be deleted!');
+        const decision = window.confirm('All tasks and sprints inside project will be deleted!');
 
-        // if(decision) {
-        //     db_deleteTasksForProjectId(id);
-        //     db_deleteSprintsForProjectId(id);
-        //     db_deleteProject(id);
-            
-        //     this.setProjectList();
-        // }
+        if(decision) {
+            const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}`;
+            const method = 'DELETE';
+
+            //for DELETE
+            //can't   - 'no-cors'
+            //have to - 'text/plain'
+            fetch(API, {
+                method: method
+            })
+            .then(() => {
+                this.setProjectList();
+            })
+            .catch(err => console.log(err));
+        }
     }
 
     handleHideShowProjectDescription(e) {
