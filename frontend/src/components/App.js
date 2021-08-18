@@ -447,14 +447,26 @@ class App extends React.Component {
     }
 
     handleAddProject(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const data = this.getDataFromForm();
+        const data = this.getDataFromForm();
 
-        // db_addProject(data);
+        const API = this.scheme + this.host + ':' + this.port + '/api/projects';
+        const method = 'POST';
 
-        // this.setShowFormAddProject(false);
-        // this.setProjectList();
+        fetch(API, {
+            method: method,
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => console.log('wysłano POST'))
+        .catch(err => console.log(err));
+
+        this.setShowFormAddProject(false);
+        this.setProjectList();
     }
 
     handleShowFormEditProject(e) {
