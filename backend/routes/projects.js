@@ -40,5 +40,13 @@ module.exports = {
             });
         });
 
+        server.options('/api/projects/:id', (req, res) => {
+            res.set({
+                'Allow': '*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*'
+            });
+            res.send();
+        });
     }
 }
