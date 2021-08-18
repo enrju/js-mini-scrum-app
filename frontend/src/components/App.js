@@ -462,11 +462,12 @@ class App extends React.Component {
             },
             body: JSON.stringify(data)
         })
-        .then(response => console.log('wysłano POST'))
+        .then(() => {
+            this.setProjectList();
+        })
         .catch(err => console.log(err));
 
         this.setShowFormAddProject(false);
-        this.setProjectList();
     }
 
     handleShowFormEditProject(e) {
