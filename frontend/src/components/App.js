@@ -493,18 +493,33 @@ class App extends React.Component {
     }
 
     handleEditProject(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const index = this.state.editedProjectIndex;
-        // const id = this.state.projectList[index].id;
-        // this.setEditedProjectIndex(-1);
+        const index = this.state.editedProjectIndex;
+        const id = this.state.projectList[index].id;
+        this.setEditedProjectIndex(-1);
 
-        // const data = this.getDataFromForm();
+        const data = this.getDataFromForm();
 
-        // db_updateProject(id, data);
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}`;
+        const method = 'PUT';
 
-        // this.setShowFormEditProject(false);
-        // this.setProjectList();
+        //for PUT
+        //can't   - 'no-cors'
+        //have to - 'text/plain' 
+        fetch(API, {
+            method: method,
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setProjectList();
+        })
+        .catch(err => console.log(err));  
+        
+        this.setShowFormEditProject(false);
     }
 
     handleDeleteProject(e) {
