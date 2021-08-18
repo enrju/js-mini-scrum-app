@@ -270,6 +270,10 @@ class App extends React.Component {
 
     deltaTime = DELTA_TIME;
 
+    scheme = 'http://';
+    host = '127.0.0.1';
+    port = 3000;
+
     componentDidMount() {
         this.setProjectList();
         //MUST BE rendered after update state
@@ -278,34 +282,39 @@ class App extends React.Component {
     }
 
     setProjectList() {
-        // let newProjects = db_getProjects()
-        // .map((item) => {
-        //     let newItem = item;
-        //     newItem.isHide = true;  //default
-        //     return newItem;
-        // });
+        const API = this.scheme + this.host + ':' + this.port + '/api/projects';
+        const method = 'GET';
 
-        // this.setState({
-        //     idOpenedProject: null,
-        //     //---------------------------
-        //     titleOpenedProject: '',
-        //     descriptionOpenedProject: '',
-        //     taskListOpenedProject: [],
-        //     sprintListOpenedProject: [],
-        //     isBacklogHide: false,
-        //     idChosenSprint: null,
-        //     editedTaskIndex: -1,
-        //     isShowFormAddTask: false,
-        //     isShowFormEditTask: false,
-        //     editedSprintIndex: -1,
-        //     isShowFormAddSprint: false,
-        //     isShowFormEditSprint: false,
-        //     //---------------------------
-        //     projectList: newProjects,
-        //     editedProjectIndex: -1,
-        //     isShowFormAddProject: false,
-        //     isShowFormEditProject: false,
-        // });
+        fetch(API, {
+            method: method
+        })
+        .then(response => response.json())
+        .then(result => {
+            const newProjects = result;
+
+            this.setState({
+                idOpenedProject: null,
+                //---------------------------
+                titleOpenedProject: '',
+                descriptionOpenedProject: '',
+                taskListOpenedProject: [],
+                sprintListOpenedProject: [],
+                isBacklogHide: false,
+                idChosenSprint: null,
+                editedTaskIndex: -1,
+                isShowFormAddTask: false,
+                isShowFormEditTask: false,
+                editedSprintIndex: -1,
+                isShowFormAddSprint: false,
+                isShowFormEditSprint: false,
+                //---------------------------
+                projectList: newProjects,
+                editedProjectIndex: -1,
+                isShowFormAddProject: false,
+                isShowFormEditProject: false,
+            });
+        })
+        .catch(err => console.log(err));
     }
 
     setSprintListOpenedProject(id) {
