@@ -5,6 +5,8 @@ module.exports = {
         server.get('/api/projects', (req, res) => {
             const projects = db_tmp.db_getProjects();
 
+            res.set({'Access-Control-Allow-Origin': '*'});
+
             res.json(projects);
         });
     }
