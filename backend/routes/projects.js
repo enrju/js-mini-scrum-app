@@ -40,6 +40,17 @@ module.exports = {
             });
         });
 
+        server.delete('/api/projects/:id', (req, res) => {
+            const id = Number(req.params.id);
+
+            db_tmp.db_deleteTasksForProjectId(id);
+            db_tmp.db_deleteSprintsForProjectId(id);
+            db_tmp.db_deleteProject(id);
+
+            res.set({'Access-Control-Allow-Origin': '*'});
+            res.send();
+        });
+
         server.options('/api/projects/:id', (req, res) => {
             res.set({
                 'Allow': '*',
