@@ -19,6 +19,15 @@ module.exports = {
             res.json(project);
         });
 
+        server.get('/api/projects/:id/sprints', (req, res) => {
+            const id = Number(req.params.id);
+            const sprintsForProject = db_tmp.db_getSprintsForProject(id);
+
+            res.set({'Access-Control-Allow-Origin': '*'});
+
+            res.json(sprintsForProject);
+        });
+
         server.post('/api/projects', (req, res) => {
             let body = '';
 
