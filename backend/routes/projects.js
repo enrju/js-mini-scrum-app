@@ -28,6 +28,15 @@ module.exports = {
             res.json(sprintsForProject);
         });
 
+        server.get('/api/projects/:id/tasks', (req, res) => {
+            const id = Number(req.params.id);
+            const tasksForProject = db_tmp.db_getTasksForProject(id);
+
+            res.set({'Access-Control-Allow-Origin': '*'});
+
+            res.json(tasksForProject);
+        });
+
         server.post('/api/projects', (req, res) => {
             let body = '';
 
