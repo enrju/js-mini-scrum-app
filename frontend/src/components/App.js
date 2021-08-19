@@ -736,14 +736,24 @@ class App extends React.Component {
     }
 
     handleDeleteTask(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const parent = e.target.parentNode.parentNode;
-        // const id = Number(parent.dataset.id);
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
 
-        // db_deleteTask(id);
-        
-        // this.setTaskListOpenedProject(this.state.idOpenedProject);
+        const API = this.scheme + this.host + ':' + this.port + `/api/tasks/${id}`;
+        const method = 'DELETE';
+
+        //for DELETE
+        //can't   - 'no-cors'
+        //have to - 'text/plain'
+        fetch(API, {
+            method: method
+        })
+        .then(() => {
+            this.setTaskListOpenedProject(this.state.idOpenedProject);
+        })
+        .catch(err => console.log(err));
     }
 
     handleChooseSprint(e) {
