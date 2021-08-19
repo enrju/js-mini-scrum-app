@@ -706,18 +706,33 @@ class App extends React.Component {
     }
 
     handleEditTask(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const index = this.state.editedTaskIndex;
-        // const id = this.state.taskListOpenedProject[index].id;
-        // this.setEditedTaskIndex(-1);
+        const index = this.state.editedTaskIndex;
+        const id = this.state.taskListOpenedProject[index].id;
+        this.setEditedTaskIndex(-1);
 
-        // const data = this.getDataFromForm();
+        const data = this.getDataFromForm();
+
+        const API = this.scheme + this.host + ':' + this.port + `/api/tasks/${id}`;
+        const method = 'PUT';
+
+        //for PUT
+        //can't   - 'no-cors'
+        //have to - 'text/plain' 
+        fetch(API, {
+            method: method,
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setTaskListOpenedProject(this.state.idOpenedProject);
+        })
+        .catch(err => console.log(err));  
         
-        // db_updateTask(id, data);
-
-        // this.setShowFormEditTask(false);
-        // this.setTaskListOpenedProject(this.state.idOpenedProject);
+        this.setShowFormEditTask(false);
     }
 
     handleDeleteTask(e) {
