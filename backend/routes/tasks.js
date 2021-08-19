@@ -78,5 +78,14 @@ module.exports = {
             });
             res.send();
         });
+
+        server.options('/api/sprints/:idChosenSprint/tasks/:idTask/:direction', (req, res) => {
+            res.set({
+                'Allow': '*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*'
+            });
+            res.send();
+        });
     }
 }
