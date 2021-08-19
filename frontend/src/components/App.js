@@ -340,7 +340,21 @@ class App extends React.Component {
     }
 
     setTaskListOpenedProject(id) {
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}/tasks`;
+        const method = 'GET';
 
+        fetch(API, {
+            method: method
+        })
+        .then(response => response.json())
+        .then(result => {
+            this.setState(() => {
+                return ({
+                    taskListOpenedProject: result,
+                })
+            });
+        })
+        .catch(err => console.log(err));
     }
 
     setShowFormAddProject(bool) {
