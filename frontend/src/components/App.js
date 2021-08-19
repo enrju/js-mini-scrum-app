@@ -318,32 +318,29 @@ class App extends React.Component {
     }
 
     setSprintListOpenedProject(id) {
-        // let result = db_getSprintsForProject(id)
-        // .map((item) => {
-        //     let newItem = item;
-        //     newItem.isHide = false;  //default
-        //     return newItem;
-        // });
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}/sprints`;
+        const method = 'GET';
 
-        // //default chosen first sprint if exist
-        // const idChosenSprint = result.length > 0 ? result[0].id : null;
+        fetch(API, {
+            method: method
+        })
+        .then(response => response.json())
+        .then(result => {
+            //default chosen first sprint if exist
+            const idChosenSprint = result.length > 0 ? result[0].id : null;
 
-        // this.setState(() => {
-        //     return ({
-        //         sprintListOpenedProject: result,
-        //         idChosenSprint: idChosenSprint,
-        //     })
-        // });
+            this.setState(() => {
+                return ({
+                    sprintListOpenedProject: result,
+                    idChosenSprint: idChosenSprint,
+                })
+            });
+        })
+        .catch(err => console.log(err));
     }
 
     setTaskListOpenedProject(id) {
-        // let result = db_getTasksForProject(id);
 
-        // this.setState(() => {
-        //     return ({
-        //         taskListOpenedProject: result,
-        //     })
-        // });
     }
 
     setShowFormAddProject(bool) {
