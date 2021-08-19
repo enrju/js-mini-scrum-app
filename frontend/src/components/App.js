@@ -651,14 +651,28 @@ class App extends React.Component {
     }
 
     handleAddTask(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const data = this.getDataFromForm();
+        const id = this.state.idOpenedProject;
+        const data = this.getDataFromForm();
 
-        // db_addTask(this.state.idOpenedProject, data);
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}/tasks`;
+        const method = 'POST';
 
-        // this.setShowFormAddTask(false);
-        // this.setTaskListOpenedProject(this.state.idOpenedProject);
+        fetch(API, {
+            method: method,
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setTaskListOpenedProject(id);
+        })
+        .catch(err => console.log(err));
+
+        this.setShowFormAddTask(false);
     }
 
     handleHideShowBacklogDetails(){
