@@ -571,45 +571,58 @@ class App extends React.Component {
     }
 
     handleOpenProject(e){
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const parent = e.target.parentNode;
-        // const id = Number(parent.dataset.id);
-        // const index = db_findIndexForId(projects, id);//<<<
-        // const title = projects[index].title;    //<<<<
-        // const description = projects[index].description;//<<<
+        const parent = e.target.parentNode;
+        const id = Number(parent.dataset.id);
 
-        // //set state.sprintListOpenedProject - setState() inside
-        // this.setSprintListOpenedProject(id);
-        
-        // //set state.taskListOpenedProject - setState() inside
-        // this.setTaskListOpenedProject(id);
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${id}`;
+        const method = 'GET';
 
-        // this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
+        let title = '';
+        let description = '';
 
-        // this.setState(() => {
-        //     return ({
-        //         idOpenedProject: id,
-        //         //---------------------------
-        //         titleOpenedProject: title,
-        //         descriptionOpenedProject: description,
-        //         // taskListOpenedProject: [],   //this was set above
-        //         // sprintListOpenedProject: [], //this was set above
-        //         isBacklogHide: false,
-        //         // idChosenSprint: null,    //this was set above
-        //         editedTaskIndex: -1,
-        //         isShowFormAddTask: false,
-        //         isShowFormEditTask: false,
-        //         editedSprintIndex: -1,
-        //         isShowFormAddSprint: false,
-        //         isShowFormEditSprint: false,
-        //         //---------------------------
-        //         projectList: [],
-        //         editedProjectIndex: -1,
-        //         isShowFormAddProject: false,
-        //         isShowFormEditProject: false,
-        //     })
-        // });
+        fetch(API, {
+            method: method
+        })
+        .then(response => response.json())
+        .then(result => {
+            title = result.title;
+            description = result.description;
+
+            //set state.sprintListOpenedProject - setState() inside
+            this.setSprintListOpenedProject(id);
+
+            //set state.taskListOpenedProject - setState() inside
+            this.setTaskListOpenedProject(id);
+
+            this.interval = setInterval(this.handleUpdateTaskTime.bind(this), this.deltaTime);
+
+            this.setState(() => {
+                return ({
+                    idOpenedProject: id,
+                    //---------------------------
+                    titleOpenedProject: title,
+                    descriptionOpenedProject: description,
+                    // taskListOpenedProject: [],   //this was set above
+                    // sprintListOpenedProject: [], //this was set above
+                    isBacklogHide: false,
+                    // idChosenSprint: null,    //this was set above
+                    editedTaskIndex: -1,
+                    isShowFormAddTask: false,
+                    isShowFormEditTask: false,
+                    editedSprintIndex: -1,
+                    isShowFormAddSprint: false,
+                    isShowFormEditSprint: false,
+                    //---------------------------
+                    projectList: [],
+                    editedProjectIndex: -1,
+                    isShowFormAddProject: false,
+                    isShowFormEditProject: false,
+                })
+            });            
+        })
+        .catch(err => console.log(err));
     }
 
     handleCloseProject() {
