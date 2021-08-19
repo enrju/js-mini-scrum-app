@@ -19,15 +19,6 @@ module.exports = {
             res.json(project);
         });
 
-        server.get('/api/projects/:id/tasks', (req, res) => {
-            const id = Number(req.params.id);
-            const tasksForProject = db_tmp.db_getTasksForProject(id);
-
-            res.set({'Access-Control-Allow-Origin': '*'});
-
-            res.json(tasksForProject);
-        });
-
         server.post('/api/projects', (req, res) => {
             let body = '';
 
@@ -36,22 +27,6 @@ module.exports = {
                 let obj = JSON.parse(body);
 
                 db_tmp.db_addProject(obj);
-
-                res.set({'Access-Control-Allow-Origin': '*'});
-                res.send();
-            });
-        });
-
-        server.post('/api/projects/:id/tasks', (req, res) => {
-            const idProject = Number(req.params.id);
-            
-            let body = '';
-
-            req.on('data', chunk => body += chunk);
-            req.on('end', () => {
-                let obj = JSON.parse(body);
-
-                db_tmp.db_addTask(idProject, obj);
 
                 res.set({'Access-Control-Allow-Origin': '*'});
                 res.send();
