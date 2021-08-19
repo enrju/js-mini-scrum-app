@@ -51,6 +51,22 @@ module.exports = {
             });
         });
 
+        server.post('/api/projects/:id/tasks', (req, res) => {
+            const idProject = Number(req.params.id);
+            
+            let body = '';
+
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+                let obj = JSON.parse(body);
+
+                db_tmp.db_addTask(idProject, obj);
+
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.send();
+            });
+        });
+
         //need options method - see below
         server.put('/api/projects/:id', (req, res) => {
             let body = '';
