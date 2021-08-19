@@ -43,6 +43,24 @@ module.exports = {
             });
         });
 
+        server.put('/api/sprints/:idChosenSprint/tasks/:idTask/:direction', (req, res) => {
+            const idChosenSprint = 
+            Number(req.params.idChosenSprint) !== -1
+            ? Number(req.params.idChosenSprint)
+            : null;
+            const idTask = Number(req.params.idTask);
+            const direction = req.params.direction;
+
+            if(direction === 'right') {
+                db_tmp.db_moveRightTask(idTask, idChosenSprint);
+            } else if(direction === 'left') {
+                db_tmp.db_moveLeftTask(idTask);
+            }
+
+            res.set({'Access-Control-Allow-Origin': '*'});
+            res.send();
+        });
+
         server.delete('/api/tasks/:id', (req, res) => {
             const id = Number(req.params.id);
 
