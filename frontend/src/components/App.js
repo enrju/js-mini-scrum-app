@@ -796,14 +796,29 @@ class App extends React.Component {
     }
 
     handleMoveLeftTask(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const parent = e.target.parentNode.parentNode;
-        // const id = Number(parent.dataset.id);
+        const parent = e.target.parentNode.parentNode;
+        const idTask = Number(parent.dataset.id);
+        const idChosenSprint = 
+        this.state.idChosenSprint !== null 
+        ? this.state.idChosenSprint 
+        : -1;
+        const direction = 'left';
 
-        // db_moveLeftTask(id);
+        const API = this.scheme + this.host + ':' + this.port + `/api/sprints/${idChosenSprint}/tasks/${idTask}/${direction}`;
+        const method = 'PUT';
 
-        // this.setTaskListOpenedProject(this.state.idOpenedProject);
+        //for PUT
+        //can't   - 'no-cors'
+        //have to - 'text/plain' 
+        fetch(API, {
+            method: method,
+        })
+        .then(() => {
+            this.setTaskListOpenedProject(this.state.idOpenedProject);
+        })
+        .catch(err => console.log(err));
     }
 
     handleShowFormAddSprint() {
