@@ -54,6 +54,12 @@ function db_getProjects() {
     return projects;
 }
 
+function db_getProject(id) {
+    const dbIndex = db_findIndexForId(projects, id);
+
+    return projects[dbIndex];
+}
+
 function db_addProject(data) {
     const nextId = db_calcNextId(projects);
 
@@ -234,6 +240,7 @@ module.exports = {
     db_calcNextId,
     db_findIndexForId,
     db_getProjects,
+    db_getProject,
     db_addProject,
     db_updateProject,
     db_deleteProject,
