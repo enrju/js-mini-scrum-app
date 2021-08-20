@@ -830,14 +830,28 @@ class App extends React.Component {
     }
 
     handleAddSprint(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const data = this.getDataFromForm();
+        const idOpenedProject = this.state.idOpenedProject;
+        const data = this.getDataFromForm();
 
-        // db_addSprint(this.state.idOpenedProject, data);
+        const API = this.scheme + this.host + ':' + this.port + `/api/projects/${idOpenedProject}/sprints`;
+        const method = 'POST';
 
-        // this.setShowFormAddSprint(false);
-        // this.setSprintListOpenedProject(this.state.idOpenedProject);
+        fetch(API, {
+            method: method,
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setSprintListOpenedProject(idOpenedProject);
+        })
+        .catch(err => console.log(err));
+
+        this.setShowFormAddSprint(false);
     }
 
     handleShowFormEditSprint(e) {
