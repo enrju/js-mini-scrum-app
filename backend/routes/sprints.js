@@ -43,5 +43,13 @@ module.exports = {
             });
         });
 
+        server.options('/api/sprints/:id', (req, res) => {
+            res.set({
+                'Allow': '*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': '*'
+            });
+            res.send();
+        });
     }
 }
