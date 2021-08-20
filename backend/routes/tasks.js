@@ -28,6 +28,22 @@ module.exports = {
         });
 
         //need options method - see below
+        server.put('/api/tasks/time', (req, res) => {
+            let body = '';
+
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+                let tasksInDoing = JSON.parse(body);
+                
+                db_tmp.db_updateTasksTime(tasksInDoing);
+
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.send();
+            });
+        });
+
+        //routing with params must be below 
+        //(above route fit here)
         server.put('/api/tasks/:id', (req, res) => {
             let body = '';
             const id = Number(req.params.id);
@@ -70,6 +86,9 @@ module.exports = {
             res.send();
         });
 
+        //this works for:
+        //'/api/tasks/time'
+        //'/api/tasks/:id'
         server.options('/api/tasks/:id', (req, res) => {
             res.set({
                 'Allow': '*',
