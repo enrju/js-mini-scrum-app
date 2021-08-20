@@ -951,15 +951,29 @@ class App extends React.Component {
     }
 
     handleUpdateTaskTime(){
-        // const tasksInDoing = 
-        // this.state.taskListOpenedProject.filter((item) => {
-        //     if(item.where_is === "DOING") return true;
-        //     else return false;
-        // });
+        const tasksInDoing = 
+        this.state.taskListOpenedProject.filter((item) => {
+            if(item.where_is === "DOING") return true;
+            else return false;
+        });
 
-        // db_updateTasksTime(tasksInDoing);
+        const API = this.scheme + this.host + ':' + this.port + `/api/tasks/time`;
+        const method = 'PUT';
 
-        // this.setTaskListOpenedProject(this.state.idOpenedProject);
+        //for PUT
+        //can't   - 'no-cors'
+        //have to - 'text/plain' 
+        fetch(API, {
+            method: method,
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(tasksInDoing)
+        })
+        .then(() => {
+            this.setTaskListOpenedProject(this.state.idOpenedProject);
+        })
+        .catch(err => console.log(err));
     }
 
     render() {
