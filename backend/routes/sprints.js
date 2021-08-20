@@ -43,6 +43,16 @@ module.exports = {
             });
         });
 
+        server.delete('/api/sprints/:id', (req, res) => {
+            const id = Number(req.params.id);
+
+            db_tmp.db_deleteTasksForSprintId(id);
+            db_tmp.db_deleteSprint(id);
+
+            res.set({'Access-Control-Allow-Origin': '*'});
+            res.send();
+        });
+
         server.options('/api/sprints/:id', (req, res) => {
             res.set({
                 'Allow': '*',
