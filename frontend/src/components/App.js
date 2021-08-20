@@ -907,19 +907,28 @@ class App extends React.Component {
     }
 
     handleDeleteSprint(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const parent = e.target.parentNode.parentNode.parentNode;
-        // const id = Number(parent.dataset.id);
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
 
-        // const decision = window.confirm('All tasks inside sprint will be deleted!');
+        const decision = window.confirm('All tasks inside sprint will be deleted!');
 
-        // if(decision) {
-        //     db_deleteTasksForSprintId(id);
-        //     db_deleteSprint(id);
-            
-        //     this.setSprintListOpenedProject(this.state.idOpenedProject);
-        // }
+        if(decision) {
+            const API = this.scheme + this.host + ':' + this.port + `/api/sprints/${id}`;
+            const method = 'DELETE';
+
+            //for DELETE
+            //can't   - 'no-cors'
+            //have to - 'text/plain'
+            fetch(API, {
+                method: method
+            })
+            .then(() => {
+                this.setSprintListOpenedProject(this.state.idOpenedProject);
+            })
+            .catch(err => console.log(err));    
+        }
     }
 
     handleHideShowSprintDetails(e){
