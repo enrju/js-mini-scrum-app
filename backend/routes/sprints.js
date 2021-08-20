@@ -10,5 +10,21 @@ module.exports = {
 
             res.json(sprintsForProject);
         });
+
+        server.post('/api/projects/:id/sprints', (req, res) => {
+            const idProject = Number(req.params.id);
+            
+            let body = '';
+
+            req.on('data', chunk => body += chunk);
+            req.on('end', () => {
+                let obj = JSON.parse(body);
+
+                db_tmp.db_addSprint(idProject, obj);
+
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.send();
+            });
+        });
     }
 }
