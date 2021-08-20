@@ -877,18 +877,33 @@ class App extends React.Component {
     }
 
     handleEditSprint(e) {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const index = this.state.editedSprintIndex;
-        // const id = this.state.sprintListOpenedProject[index].id;
-        // this.setEditedSprintIndex(-1);
+        const index = this.state.editedSprintIndex;
+        const id = this.state.sprintListOpenedProject[index].id;
+        this.setEditedSprintIndex(-1);
 
-        // const data = this.getDataFromForm();
+        const data = this.getDataFromForm();
+
+        const API = this.scheme + this.host + ':' + this.port + `/api/sprints/${id}`;
+        const method = 'PUT';
+
+        //for PUT
+        //can't   - 'no-cors'
+        //have to - 'text/plain' 
+        fetch(API, {
+            method: method,
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setSprintListOpenedProject(this.state.idOpenedProject);
+        })
+        .catch(err => console.log(err));  
         
-        // db_updateSprint(id, data);
-
-        // this.setShowFormEditSprint(false);
-        // this.setSprintListOpenedProject(this.state.idOpenedProject);
+        this.setShowFormEditSprint(false);
     }
 
     handleDeleteSprint(e) {
