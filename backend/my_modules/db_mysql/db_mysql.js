@@ -9,7 +9,8 @@ const dbConnectionData = {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mini_scrum_app'
+    database: 'mini_scrum_app',
+    charset: 'utf8_polish_ci'
 };
 
 function db_getProjects(callbackSend) {
@@ -23,7 +24,7 @@ function db_getProjects(callbackSend) {
 
             const query = 'SELECT * FROM projects';
 
-            con.query(query, (err, projects) => {
+            con.query(query, (err, array) => {
                 if(err) {
                     console.log('Query error', err);
                 } else {
@@ -31,6 +32,8 @@ function db_getProjects(callbackSend) {
                         if(err) console.log('Disconnection DB error: ', err);
                         else console.log('Disconnection DB OK!');
                     });
+
+                    const projects = array;
 
                     //send response to client
                     callbackSend(projects);
