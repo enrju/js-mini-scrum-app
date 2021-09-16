@@ -43,9 +43,39 @@ function db_getProjects(callbackSend) {
     });
 }
 
+function db_getProject(id, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `SELECT * FROM projects WHERE id=${id}`;
+
+            con.query(query, (err, array) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    const project = array[0];
+
+                    //send response to client
+                    callbackSend(project);
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
-    // db_getProject,
+    db_getProject,
     // db_addProject,
     // db_updateProject,
     // db_deleteProject,
