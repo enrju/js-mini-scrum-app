@@ -42,10 +42,10 @@ module.exports = {
             req.on('end', () => {
                 let obj = JSON.parse(body);
                 
-                db_tmp.db_updateProject(id, obj);
-
-                res.set({'Access-Control-Allow-Origin': '*'});
-                res.send();
+                db_mysql.db_updateProject(id, obj, () => {
+                    res.set({'Access-Control-Allow-Origin': '*'});
+                    res.send();
+                });
             });
         });
 
