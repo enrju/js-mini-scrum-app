@@ -12,11 +12,11 @@ module.exports = {
 
         server.get('/api/projects/:id', (req, res) => {
             const id = Number(req.params.id);
-            const project = db_tmp.db_getProject(id);
-
-            res.set({'Access-Control-Allow-Origin': '*'});
-
-            res.json(project);
+            
+            db_mysql.db_getProject(id, (project) => {
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.json(project);
+            });
         });
 
         server.post('/api/projects', (req, res) => {
