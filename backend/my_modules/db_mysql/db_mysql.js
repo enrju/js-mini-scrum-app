@@ -165,6 +165,36 @@ function db_getSprintsForProject(id, callbackSend) {
     });
 }
 
+function db_addSprint(id_project, data, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `INSERT INTO sprints (id_project, title) VALUES ('${id_project}', '${data.title}')`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Inserted project on id =', result.insertId);
+
+                    //send response to client
+                    callbackSend();
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -172,7 +202,7 @@ module.exports = {
     db_updateProject,
     // db_deleteProject,
     db_getSprintsForProject,
-    // db_addSprint,
+    db_addSprint,
     // db_updateSprint,
     // db_deleteSprint,
     // db_deleteSprintsForProjectId,
