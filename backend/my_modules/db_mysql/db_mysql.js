@@ -114,8 +114,6 @@ function db_updateProject(id, data, callbackSend) {
 
             const query = `UPDATE projects SET title = '${data.title}', description = '${data.description}' WHERE id = '${id}'`;
 
-            console.log('query = ', query);
-
             con.query(query, (err, result) => {
                 if(err) {
                     console.log('Query error', err);
@@ -195,6 +193,36 @@ function db_addSprint(id_project, data, callbackSend) {
     });
 }
 
+function db_updateSprint(id, data, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `UPDATE sprints SET title = '${data.title}' WHERE id = '${id}'`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Updated rows in projects =', result.changedRows);
+
+                    //send response to client
+                    callbackSend();
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -203,7 +231,7 @@ module.exports = {
     // db_deleteProject,
     db_getSprintsForProject,
     db_addSprint,
-    // db_updateSprint,
+    db_updateSprint,
     // db_deleteSprint,
     // db_deleteSprintsForProjectId,
     // db_getTasksForProject,
