@@ -1,14 +1,15 @@
 const db_tmp = require('../my_modules/db_tmp');
+const db_mysql = require('../my_modules/db_mysql');
 
 module.exports = {
     sprintsRoutes(server) {
         server.get('/api/projects/:id/sprints', (req, res) => {
             const id = Number(req.params.id);
-            const sprintsForProject = db_tmp.db_getSprintsForProject(id);
 
-            res.set({'Access-Control-Allow-Origin': '*'});
-
-            res.json(sprintsForProject);
+            db_mysql.db_getSprintsForProject(id, sprintsForProject => {
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.json(sprintsForProject);
+            });
         });
 
         server.post('/api/projects/:id/sprints', (req, res) => {
