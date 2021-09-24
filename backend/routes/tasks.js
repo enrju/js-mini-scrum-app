@@ -1,14 +1,15 @@
 const db_tmp = require('../my_modules/db_tmp');
+const db_mysql = require('../my_modules/db_mysql');
 
 module.exports = {
     tasksRoutes(server) {
         server.get('/api/projects/:id/tasks', (req, res) => {
             const id = Number(req.params.id);
-            const tasksForProject = db_tmp.db_getTasksForProject(id);
 
-            res.set({'Access-Control-Allow-Origin': '*'});
-
-            res.json(tasksForProject);
+            db_mysql.db_getTasksForProject(id, tasksForProject => {
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.json(tasksForProject);
+            });
         });
 
         server.post('/api/projects/:id/tasks', (req, res) => {
