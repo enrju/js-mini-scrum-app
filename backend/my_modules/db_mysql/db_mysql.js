@@ -285,6 +285,36 @@ function db_addTask(id_project, data, callbackSend) {
     });
 }
 
+function db_updateTask(id, data, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `UPDATE tasks SET title = '${data.title}' WHERE id = '${id}'`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Updated rows in projects =', result.changedRows);
+
+                    //send response to client
+                    callbackSend();
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -298,7 +328,7 @@ module.exports = {
     // db_deleteSprintsForProjectId,
     db_getTasksForProject,
     db_addTask,
-    // db_updateTask,
+    db_updateTask,
     // db_updateTasksTime,
     // db_deleteTask,
     // db_moveRightTask,
