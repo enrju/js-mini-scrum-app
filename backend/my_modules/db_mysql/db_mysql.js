@@ -253,6 +253,38 @@ function db_getTasksForProject(id, callbackSend) {
     });
 }
 
+function db_addTask(id_project, data, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            //id_sprint = 0 for BACKLOG
+            //minutes = 0 for new task
+            const query = `INSERT INTO tasks (id_project, id_sprint, title, where_is, minutes) VALUES ('${id_project}', 0, '${data.title}', 'BACKLOG', 0)`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Inserted project on id =', result.insertId);
+
+                    //send response to client
+                    callbackSend();
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -265,7 +297,7 @@ module.exports = {
     // db_deleteSprint,
     // db_deleteSprintsForProjectId,
     db_getTasksForProject,
-    // db_addTask,
+    db_addTask,
     // db_updateTask,
     // db_updateTasksTime,
     // db_deleteTask,
