@@ -35,11 +35,11 @@ module.exports = {
             req.on('data', chunk => body += chunk);
             req.on('end', () => {
                 let tasksInDoing = JSON.parse(body);
-                
-                db_tmp.db_updateTasksTime(tasksInDoing);
 
-                res.set({'Access-Control-Allow-Origin': '*'});
-                res.send();
+                db_mysql.db_updateTasksTime(tasksInDoing, () => {
+                    res.set({'Access-Control-Allow-Origin': '*'});
+                    res.send();
+                });
             });
         });
 
