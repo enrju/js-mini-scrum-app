@@ -81,10 +81,10 @@ module.exports = {
         server.delete('/api/tasks/:id', (req, res) => {
             const id = Number(req.params.id);
 
-            db_tmp.db_deleteTask(id);
-
-            res.set({'Access-Control-Allow-Origin': '*'});
-            res.send();
+            db_mysql.db_deleteTask(id, () => {
+                res.set({'Access-Control-Allow-Origin': '*'});
+                res.send();
+            });
         });
 
         //this works for:
