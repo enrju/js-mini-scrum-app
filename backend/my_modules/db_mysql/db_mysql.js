@@ -348,6 +348,36 @@ function db_updateTasksTime(tasks_in_doing, callbackSend) {
     });
 }
 
+function db_deleteTask(id, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `DELETE FROM tasks WHERE id = ${id} LIMIT 1`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Updated rows in projects =', result.changedRows);
+
+                    //send response to client
+                    callbackSend();
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -363,7 +393,7 @@ module.exports = {
     db_addTask,
     db_updateTask,
     db_updateTasksTime,
-    // db_deleteTask,
+    db_deleteTask,
     // db_moveRightTask,
     // db_moveLeftTask,
     // db_deleteTasksForSprintId,
