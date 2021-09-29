@@ -69,13 +69,16 @@ module.exports = {
             const direction = req.params.direction;
 
             if(direction === 'right') {
-                db_tmp.db_moveRightTask(idTask, idChosenSprint);
+                db_mysql.db_moveRightTask(idTask, idChosenSprint, () => {
+                    res.set({'Access-Control-Allow-Origin': '*'});
+                    res.send();
+                });
             } else if(direction === 'left') {
-                db_tmp.db_moveLeftTask(idTask);
+                db_mysql.db_moveLeftTask(idTask, () => {
+                    res.set({'Access-Control-Allow-Origin': '*'});
+                    res.send();
+                });
             }
-
-            res.set({'Access-Control-Allow-Origin': '*'});
-            res.send();
         });
 
         server.delete('/api/tasks/:id', (req, res) => {
