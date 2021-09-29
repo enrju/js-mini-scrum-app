@@ -474,6 +474,92 @@ function db_moveRightTask(id_task, id_sprint, callbackSend) {
     });
 }
 
+function db_moveLeftTask(id_task, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `SELECT * FROM tasks WHERE id = ${id_task}`;
+
+            con.query(query, (err, array) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    const task = array[0];
+
+                    switch(task.where_is) {
+                        case 'TODO':
+                            const query2 = `UPDATE tasks SET where_is = 'BACKLOG', id_sprint = 0 WHERE id = ${id_task}`;
+
+                            con.query(query2, (err, result) => {
+                                if(err) {
+                                    console.log('Query error', err);
+                                } else {
+                                    con.end((err) => {
+                                        if(err) console.log('Disconnection DB error: ', err);
+                                        else console.log('Disconnection DB OK!');
+                                    });
+
+                                    console.log('Updated rows in projects =', result.changedRows);
+
+                                    //send response to client
+                                    callbackSend();
+                                }
+                            });
+
+                            break;
+                        case 'DOING':
+                            const query3 = `UPDATE tasks SET where_is = 'TODO' WHERE id = ${id_task}`;
+
+                            con.query(query3, (err, result) => {
+                                if(err) {
+                                    console.log('Query error', err);
+                                } else {
+                                    con.end((err) => {
+                                        if(err) console.log('Disconnection DB error: ', err);
+                                        else console.log('Disconnection DB OK!');
+                                    });
+
+                                    console.log('Updated rows in projects =', result.changedRows);
+
+                                    //send response to client
+                                    callbackSend();
+                                }
+                            });
+
+                            break;
+                        case 'DONE':
+                            const query4 = `UPDATE tasks SET where_is = 'DOING' WHERE id = ${id_task}`;
+
+                            con.query(query4, (err, result) => {
+                                if(err) {
+                                    console.log('Query error', err);
+                                } else {
+                                    con.end((err) => {
+                                        if(err) console.log('Disconnection DB error: ', err);
+                                        else console.log('Disconnection DB OK!');
+                                    });
+
+                                    console.log('Updated rows in projects =', result.changedRows);
+
+                                    //send response to client
+                                    callbackSend();
+                                }
+                            });
+
+                            break;
+                        default:
+                    }
+                }
+            });
+        }
+    });
+}
+
 module.exports = {
     db_getProjects,
     db_getProject,
@@ -491,7 +577,7 @@ module.exports = {
     db_updateTasksTime,
     db_deleteTask,
     db_moveRightTask,
-    // db_moveLeftTask,
+    db_moveLeftTask,
     // db_deleteTasksForSprintId,
     // db_deleteTasksForProjectId
 }
