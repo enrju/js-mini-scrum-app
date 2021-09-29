@@ -223,6 +223,35 @@ function db_updateSprint(id, data, callbackSend) {
     });
 }
 
+function db_deleteSprint(id, callbackSend) {
+    const con = mysql.createConnection(dbConnectionData);
+
+    con.connect((err) => {
+        if(err) {
+            console.log('Connection DB error: ', err);
+        } else {
+            console.log('Connection DB OK!');
+
+            const query = `DELETE FROM sprints WHERE id = ${id} LIMIT 1`;
+
+            con.query(query, (err, result) => {
+                if(err) {
+                    console.log('Query error', err);
+                } else {
+                    con.end((err) => {
+                        if(err) console.log('Disconnection DB error: ', err);
+                        else console.log('Disconnection DB OK!');
+                    });
+
+                    console.log('Updated rows in projects =', result.changedRows);
+
+                    db_deleteTasksForSprintId(id, callbackSend);
+                }
+            });
+        }
+    });
+}
+
 function db_getTasksForProject(id, callbackSend) {
     const con = mysql.createConnection(dbConnectionData);
 
@@ -569,7 +598,7 @@ function db_deleteTasksForSprintId(id_sprint, callbackSend) {
         } else {
             console.log('Connection DB OK!');
 
-            const query = `DELETE FROM tasks WHERE id_sprint = ${id_sprint} LIMIT 1`;
+            const query = `DELETE FROM tasks WHERE id_sprint = ${id_sprint}`;
 
             con.query(query, (err, result) => {
                 if(err) {
@@ -599,7 +628,7 @@ module.exports = {
     db_getSprintsForProject,
     db_addSprint,
     db_updateSprint,
-    // db_deleteSprint,
+    db_deleteSprint,
     // db_deleteSprintsForProjectId,
     db_getTasksForProject,
     db_addTask,
