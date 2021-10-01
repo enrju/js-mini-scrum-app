@@ -403,9 +403,7 @@ function db_updateTask(id, data, callbackSend) {
     });
 }
 
-function db_updateTasksTime(tasks_in_doing, callbackSend) {
-    const id_project = tasks_in_doing[0].id_project;
-
+function db_updateTasksTime(id_project, callbackSend) {
     const con = mysql.createConnection(dbConnectionData);
 
     con.connect((err) => {
@@ -709,7 +707,6 @@ function db_deleteTasksForProjectId(id_project, callbackSend) {
         }
     });
 }
-
 
 module.exports = {
     db_getProjects,
