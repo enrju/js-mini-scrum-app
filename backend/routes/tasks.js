@@ -34,9 +34,9 @@ module.exports = {
 
             req.on('data', chunk => body += chunk);
             req.on('end', () => {
-                let tasksInDoing = JSON.parse(body);
+                let idActiveProject = JSON.parse(body);
 
-                db_mysql.db_updateTasksTime(tasksInDoing, () => {
+                db_mysql.db_updateTasksTime(idActiveProject, () => {
                     res.set({'Access-Control-Allow-Origin': '*'});
                     res.send();
                 });
