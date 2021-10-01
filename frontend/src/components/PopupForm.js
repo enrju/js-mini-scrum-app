@@ -2,7 +2,7 @@ import Button from "./Button";
 
 function PopupForm (props) {
     return (
-        <div>
+        <div className="popup-form">
             <form action="" onSubmit={props.handleSubmitForm}>
                 <h2>{props.name}</h2>
                 <div>
