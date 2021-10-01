@@ -738,11 +738,7 @@ class App extends React.Component {
     }
 
     handleUpdateTaskTime(){
-        const tasksInDoing = 
-        this.state.taskListOpenedProject.filter((item) => {
-            if(item.where_is === "DOING") return true;
-            else return false;
-        });
+        const idActiveProject = this.state.idOpenedProject;
 
         const API = this.scheme + this.host + ':' + this.port + `/api/tasks/time`;
         const method = 'PUT';
@@ -755,7 +751,7 @@ class App extends React.Component {
             headers: {
                 'Content-Type': 'text/plain'
             },
-            body: JSON.stringify(tasksInDoing)
+            body: JSON.stringify(idActiveProject)
         })
         .then(() => {
             this.setTaskListOpenedProject(this.state.idOpenedProject);
