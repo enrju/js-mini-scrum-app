@@ -1,0 +1,150 @@
+// #9DA2A6
+// #616366
+// #DAE0E6
+// #E6ECF2
+// #C2C7CC
+
+$color: #000000;
+$main-bgc: #DAE0E6;
+$backlog-bgc: #C2C7CC;
+$sprints-bgc: $backlog-bgc;
+$sprint-bgc: $main-bgc;
+$todo-doing-done-bgc: $backlog-bgc;
+$task-bgc: $main-bgc;
+$form-bgc: $backlog-bgc;
+$popup-bgc: rgba(0, 0, 0, 0.7);
+$button-bgc: $main-bgc;
+$shadow-color: #000000;
+$active-sprint-shadow-color: #ff0000;
+
+* {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+html {
+
+    color: $color;
+    background-color: $main-bgc;
+
+    main {
+        max-width: 1200px;
+        min-height: 100vh;
+        margin: 0 auto;
+
+        header {
+            padding: 7px;
+        }
+
+        button {
+            padding: 5px 5px;
+            margin: 2px 1px;
+            cursor: pointer;
+            color: $color;
+            background-color: $button-bgc;
+            border: 1px solid $color;
+        }
+
+        ul {
+            list-style: none;
+
+            li {
+                margin: 10px;
+                background-color: $task-bgc;
+                box-shadow: 0px 0px 3px 0px $shadow-color;
+            }
+        }
+
+        section {
+            .backlog {
+                display: inline-block;
+                width: 29%;
+                margin-right: 1px;
+                vertical-align: top;
+                background-color: $backlog-bgc;
+                box-shadow: 0px 0px 3px 0px $shadow-color;
+            }
+
+            .sprints {
+                display: inline-block;
+                width: 69%;
+                vertical-align: top;
+                background-color: $sprints-bgc;
+                box-shadow: 0px 0px 3px 0px $shadow-color;
+
+                section {
+                    ul {
+                        li.active {
+                            box-shadow: 0px 0px 5px 2px $active-sprint-shadow-color;
+                        }
+
+                        li {
+                            background-color: $sprint-bgc;
+                            box-shadow: 0px 0px 3px 0px $shadow-color;
+
+                            header {
+
+                                h2:hover {
+                                    cursor: pointer;
+                                }
+                            }
+
+                            section {
+
+                                .todo,
+                                .doing,
+                                .done {
+                                    display: inline-block;
+                                    width: 31%;
+                                    margin: 1%;
+                                    vertical-align: top;
+                                    background-color: $todo-doing-done-bgc;
+                                    box-shadow: 0px 0px 3px 0px $shadow-color;
+
+                                    section {
+                                        ul {
+
+                                            li {
+                                                background-color: $task-bgc;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .popup-form {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: $popup-bgc;
+
+            form {
+                display: inline-block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px 30px;
+                background-color: $form-bgc;
+
+                div {
+                    label {
+                        textarea {
+                            vertical-align: top;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
