@@ -9,8 +9,8 @@ const dbConnectionData = {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mini_scrum_app',
-    charset: 'utf8_polish_ci'
+    database: 'my_mini_scrum_app',
+    // charset: 'utf8_polish_ci'
 };
 
 function db_getProjects(callbackSend) {
