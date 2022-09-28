@@ -1,6 +1,8 @@
 # --- BACK ---
-/backend/dist
 /backend/node_modules
+/backend/dist
+/backend/coverage
+
 /backend/config
 
 # --- FRONT ---
