@@ -1,11 +1,16 @@
-import { Controller, Get } from "@nestjs/common";
-import { pool } from "../utils/db";
+import { Controller, Get, Inject } from "@nestjs/common";
+import { GetAllProjectsResponse } from "../types";
+import { ProjectsService } from "./projects.service";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
+  constructor(
+    @Inject(ProjectsService) private projectService: ProjectsService,
+  ) {
+  }
+
   @Get('/')
-  async getAll() {
-    const [results] = await pool.execute('SELECT * FROM `projects`');
-    return results;
+  async getAll(): Promise<GetAllProjectsResponse> {
+    return this.projectService.getAll();
   }
 }
