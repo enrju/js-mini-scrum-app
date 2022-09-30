@@ -7,3 +7,11 @@ export type GetAllProjectsResponse = {
   isSuccess: false;
   msgError: string;
 }
+
+export type GetOneProjectResponse = {
+  isSuccess: true;
+  data: Project;
+} | {
+  isSuccess: false;
+  msgError: string;
+}
