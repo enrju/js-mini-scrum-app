@@ -5,7 +5,7 @@ import {
   GetOneProjectResponse,
   CreateProjectResponse,
   Project,
-  UpdateProjectResponse
+  UpdateProjectResponse, DeleteProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
@@ -62,6 +62,26 @@ export class ProjectsService {
         isSuccess: true,
         data: {
           changedRows: result,
+        }
+      }
+    } else {
+      return {
+        isSuccess: false,
+        msgError: `There is not Project with id = ${id}`,
+      }
+    }
+  }
+
+  async delete(id: number): Promise<DeleteProjectResponse> {
+    const project = await ProjectRecord.getOne(id);
+
+    if(project) {
+      const result = await project.delete();
+
+      return {
+        isSuccess: true,
+        data: {
+          deletedRows: result,
         }
       }
     } else {

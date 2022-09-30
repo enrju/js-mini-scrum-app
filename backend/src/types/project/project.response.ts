@@ -39,7 +39,7 @@ export type UpdateProjectResponse = {
 export type DeleteProjectResponse = {
   isSuccess: true;
   data: {
-    changedRows: number,
+    deletedRows: number,
   };
 } | {
   isSuccess: false;
