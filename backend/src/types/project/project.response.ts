@@ -35,3 +35,13 @@ export type UpdateProjectResponse = {
   isSuccess: false;
   msgError: string;
 }
+
+export type DeleteProjectResponse = {
+  isSuccess: true;
+  data: {
+    changedRows: number,
+  };
+} | {
+  isSuccess: false;
+  msgError: string;
+}
