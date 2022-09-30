@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Inject, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, Post, Put } from "@nestjs/common";
 import { GetAllProjectsResponse, GetOneProjectResponse, CreateProjectResponse } from "../types";
 import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
+import { ProjectRecord } from "./records/project.record";
+import { UpdateProjectDto } from "./dto/update-project.dto";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
@@ -27,5 +29,13 @@ export class ProjectsController {
     @Body() createProjectDto: CreateProjectDto,
   ): Promise<CreateProjectResponse> {
     return this.projectService.insert(createProjectDto);
+  }
+
+  @Put('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
+    return this.projectService.update(Number(id), updateProjectDto);
   }
 }

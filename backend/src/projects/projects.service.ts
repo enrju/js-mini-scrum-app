@@ -1,8 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectRecord } from "./records/project.record";
-import { GetAllProjectsResponse, GetOneProjectResponse, CreateProjectResponse, Project } from "../types";
+import {
+  GetAllProjectsResponse,
+  GetOneProjectResponse,
+  CreateProjectResponse,
+  Project,
+  UpdateProjectResponse
+} from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
+import { UpdateProjectDto } from "./dto/update-project.dto";
 
 @Injectable()
 export class ProjectsService {
@@ -40,6 +47,27 @@ export class ProjectsService {
       isSuccess: true,
       data: {
         insertedId: result,
+      }
+    }
+  }
+
+  async update(id: number, changeObj: UpdateProjectDto): Promise<UpdateProjectResponse> {
+
+    const project = await ProjectRecord.getOne(id);
+
+    if(project) {
+      const result = await project.update(changeObj.title, changeObj.description);
+
+      return {
+        isSuccess: true,
+        data: {
+          changedRows: result,
+        }
+      }
+    } else {
+      return {
+        isSuccess: false,
+        msgError: `There is not Project with id = ${id}`,
       }
     }
   }
