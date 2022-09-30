@@ -16,7 +16,7 @@ export type GetOneProjectResponse = {
   msgError: string;
 }
 
-export type InsertNewProjectResponse = {
+export type CreateProjectResponse = {
   isSuccess: true;
   data: {
     insertedId: number,
