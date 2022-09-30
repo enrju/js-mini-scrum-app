@@ -5,6 +5,7 @@ import { FieldPacket, ResultSetHeader } from "mysql2";
 type ProjectRecordResults = [ProjectRecord[], FieldPacket[]];
 type ProjectRecordInsertResult = ResultSetHeader[];
 type ProjectRecordUpdateResult = ResultSetHeader[];
+type ProjectRecordDeleteResult = ResultSetHeader[];
 
 export class ProjectRecord implements ProjectEntity {
   id: number;
@@ -52,5 +53,13 @@ export class ProjectRecord implements ProjectEntity {
       })) as ProjectRecordUpdateResult;
 
     return result[0].changedRows;
+  }
+
+  async delete(): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `projects` WHERE `id` = :id", {
+      id: this.id,
+    })) as ProjectRecordDeleteResult;
+
+    return result[0].affectedRows;
   }
 }
