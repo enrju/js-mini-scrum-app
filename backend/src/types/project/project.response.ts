@@ -25,3 +25,13 @@ export type CreateProjectResponse = {
   isSuccess: false;
   msgError: string;
 }
+
+export type UpdateProjectResponse = {
+  isSuccess: true;
+  data: {
+    updatedId: number,
+  };
+} | {
+  isSuccess: false;
+  msgError: string;
+}
