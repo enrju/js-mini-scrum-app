@@ -29,7 +29,7 @@ export type CreateProjectResponse = {
 export type UpdateProjectResponse = {
   isSuccess: true;
   data: {
-    updatedId: number,
+    changedRows: number,
   };
 } | {
   isSuccess: false;

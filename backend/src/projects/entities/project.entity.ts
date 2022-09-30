@@ -1,7 +1,7 @@
 import { Project } from "../../types";
 
 export class ProjectEntity implements Project {
-  id: number;
+  id?: number;
   title: string;
   description: string | null;
 }
