@@ -1,8 +1,9 @@
 import { ProjectEntity } from "../entities/project.entity";
 import { pool } from "../../utils/db";
-import { FieldPacket } from "mysql2";
+import { FieldPacket, ResultSetHeader } from "mysql2";
 
 type ProjectRecordResults = [ProjectRecord[], FieldPacket[]];
+type ProjectRecordInsertResult = ResultSetHeader[];
 
 export class ProjectRecord implements ProjectEntity {
   id: number;
@@ -27,5 +28,15 @@ export class ProjectRecord implements ProjectEntity {
     })) as ProjectRecordResults;
 
     return results.length === 0 ? null : new ProjectRecord(results[0]);
+  }
+
+  async insert(): Promise<number> {
+    const result = (await pool.execute('INSERT INTO `projects` VALUES(:id, :title, :description)', {
+      id: 'NULL',
+      title: this.title,
+      description: this.description,
+    })) as ProjectRecordInsertResult;
+
+    return result[0].insertId;
   }
 }
