@@ -15,3 +15,13 @@ export type GetOneProjectResponse = {
   isSuccess: false;
   msgError: string;
 }
+
+export type InsertNewProjectResponse = {
+  isSuccess: true;
+  data: {
+    insertedId: number,
+  };
+} | {
+  isSuccess: false;
+  msgError: string;
+}
