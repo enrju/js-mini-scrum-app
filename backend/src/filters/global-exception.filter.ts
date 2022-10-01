@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import {Request, Response} from 'express';
 import { ErrorResponse } from "../types";
+import { RecordNotFoundError } from "../utils/errors";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -11,16 +12,24 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
-    const status = exception instanceof HttpException
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    //logging errors in Node
-    console.error(exception);
+    // //logging errors in Node
+    // console.error(exception);
 
-    res.json({
-      isSuccess: false,
-      msgError: ''
-    } as ErrorResponse);
+    if(exception instanceof RecordNotFoundError) {
+      res
+        .status(exception.getStatus())
+        .json({
+          isSuccess: false,
+          msgError: exception.message,
+      } as ErrorResponse);
+    } else {
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({
+          isSuccess: false,
+          msgError: 'Internal Server Error',
+      } as ErrorResponse);
+    }
   }
 }
