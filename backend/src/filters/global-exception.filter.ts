@@ -1,5 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import {Request, Response} from 'express';
+import { ErrorResponse } from "../types";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -18,7 +19,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     console.error(exception);
 
     res.json({
-
-    });
+      isSuccess: false,
+      msgError: ''
+    } as ErrorResponse);
   }
 }
