@@ -10,6 +10,7 @@ import {
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
 import { UpdateProjectDto } from "./dto/update-project.dto";
+import { RecordNotFoundError } from "../utils/errors";
 
 @Injectable()
 export class ProjectsService {
@@ -31,10 +32,7 @@ export class ProjectsService {
         data: result as Project,
       }
     } else {
-      return {
-        isSuccess: false,
-        msgError: `There is not Project with id = ${id}`,
-      }
+      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -65,10 +63,7 @@ export class ProjectsService {
         }
       }
     } else {
-      return {
-        isSuccess: false,
-        msgError: `There is not Project with id = ${id}`,
-      }
+      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -85,10 +80,7 @@ export class ProjectsService {
         }
       }
     } else {
-      return {
-        isSuccess: false,
-        msgError: `There is not Project with id = ${id}`,
-      }
+      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 }
