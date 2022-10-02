@@ -58,4 +58,16 @@ describe('ProjectsController', () => {
       expect(response.data.length).toBeGreaterThan(0);
     }
   });
+
+  test('getOne(id) should return last inserted project', async () => {
+    const response = await controller.getOne(String(testProjectRecordInsertedId));
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      expect(response.data.id).toBeDefined();
+      expect(response.data.title).toBe(testProjectRecord.title);
+      expect(response.data.description).toBe(testProjectRecord.description);
+    }
+  });
 });
