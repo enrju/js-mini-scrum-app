@@ -98,4 +98,12 @@ describe('ProjectsController', () => {
       }
     }
   });
+
+  test('delete(id) should delete last inserted project', async () => {
+    const response = await controller.delete(String(testProjectRecordInsertedId));
+
+    if(response.isSuccess) {
+      expect(response.data.deletedRows).toBeGreaterThan(0);
+    }
+  });
 });
