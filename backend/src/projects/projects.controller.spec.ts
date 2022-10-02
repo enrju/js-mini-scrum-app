@@ -70,4 +70,32 @@ describe('ProjectsController', () => {
       expect(response.data.description).toBe(testProjectRecord.description);
     }
   });
+
+  test('update(...) should update last inserted project', async () => {
+    const responseGetOne = await controller.getOne(String(testProjectRecordInsertedId));
+
+    if(responseGetOne.isSuccess) {
+      const updatedTitle = responseGetOne.data.title + ' - updated';
+      const updatedDescription = responseGetOne.data.description + ' - updated';
+
+      const responseUpdate = await controller
+        .update(
+          String(testProjectRecordInsertedId),
+          {
+            title: updatedTitle,
+            description: updatedDescription,
+          });
+
+      if(responseUpdate.isSuccess) {
+        expect(responseUpdate.data.changedRows).toBeGreaterThan(0);
+
+        const responseGetOneUpdated = await controller.getOne(String(testProjectRecordInsertedId));
+
+        if(responseGetOneUpdated.isSuccess) {
+          expect(responseGetOneUpdated.data.title).toBe(updatedTitle);
+          expect(responseGetOneUpdated.data.description).toBe(updatedDescription);
+        }
+      }
+    }
+  });
 });
