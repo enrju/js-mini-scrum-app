@@ -47,4 +47,15 @@ describe('ProjectsController', () => {
       expect(response.data.insertedId).toBeGreaterThan(0);
     }
   });
+
+  test('getAll() should return defined data', async () => {
+    const response = await controller.getAll();
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      expect(response.data).toBeDefined();
+      expect(response.data.length).toBeGreaterThan(0);
+    }
+  });
 });
