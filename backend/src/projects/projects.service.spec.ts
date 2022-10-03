@@ -34,4 +34,25 @@ describe('ProjectsService', () => {
       }
     }
   });
+
+  test('update(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAll();
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.update(maxId + 1, {
+          title: 'updated',
+          description: 'updated',
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
+    }
+  });
 });
