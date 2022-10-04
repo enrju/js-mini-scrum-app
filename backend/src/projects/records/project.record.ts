@@ -1,6 +1,8 @@
 import { ProjectEntity } from "../entities/project.entity";
 import { pool } from "../../utils/db";
 import { FieldPacket, ResultSetHeader } from "mysql2";
+import { projectConfig } from "../../types";
+import { RecordValidationError } from "../../utils/errors";
 
 type ProjectRecordResults = [ProjectRecord[], FieldPacket[]];
 type ProjectRecordInsertResult = ResultSetHeader[];
@@ -13,9 +15,25 @@ export class ProjectRecord implements ProjectEntity {
   description: string | null;
 
   constructor(obj: ProjectEntity) {
+    this.validate(obj);
+
     this.id = obj.id;
     this.title = obj.title;
     this.description = obj.description;
+  }
+
+  validate(obj: ProjectEntity): void {
+    if(!obj.title
+      || obj.title.length < projectConfig.title.min
+      || obj.title.length > projectConfig.title.max) {
+      throw new RecordValidationError(`Title must have from ${projectConfig.title.min} to ${projectConfig.title.max} signs`);
+    }
+
+    if(obj.description
+      && (obj.description.length < projectConfig.description.min
+      || obj.description.length > projectConfig.description.max)) {
+      throw new RecordValidationError(`Description must have from ${projectConfig.description.min} to ${projectConfig.description.max} signs`);
+    }
   }
 
   static async getAll(): Promise<ProjectRecord[]> {

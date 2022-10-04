@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
-import { RecordNotFoundError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
@@ -28,7 +28,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.getOne(maxId + 1);
+        await service.getOne(String(maxId + 1));
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
@@ -46,7 +46,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.update(maxId + 1, {
+        await service.update(String(maxId + 1), {
           title: 'updated',
           description: 'updated',
         });
@@ -67,10 +67,76 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.delete(maxId + 1);
+        await service.delete(String(maxId + 1));
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
+    }
+  });
+
+  test('getOne(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.getOne(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('update(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.update(id, {
+        title: 'updated',
+        description: 'updated',
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('delete(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.delete(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insert(DTO) for DTO.title < 3 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "ab",
+        description: "descr",
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insert(DTO) for DTO.title > 256 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "a".repeat(260),
+        description: "descr",
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insert(DTO) for DTO.description > 256 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "abcd",
+        description: "a".repeat(260),
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
 });
