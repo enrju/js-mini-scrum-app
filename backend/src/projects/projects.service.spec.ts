@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
-import { RecordNotFoundError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
@@ -71,6 +71,16 @@ describe('ProjectsService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
+    }
+  });
+
+  test('getOne(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.getOne(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
 });
