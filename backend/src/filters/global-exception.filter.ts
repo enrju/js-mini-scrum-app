@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from "@nestjs/common";
 import {Request, Response} from 'express';
 import { ErrorResponse } from "../types";
-import { RecordNotFoundError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -16,7 +16,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     // //logging errors in Node
     // console.error(exception);
 
-    if(exception instanceof RecordNotFoundError) {
+    if(exception instanceof RecordNotFoundError
+    || exception instanceof RecordValidationError) {
       res
         .status(exception.getStatus())
         .json({
