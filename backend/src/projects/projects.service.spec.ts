@@ -106,4 +106,37 @@ describe('ProjectsService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('insert(DTO) for DTO.title < 3 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "ab",
+        description: "descr",
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insert(DTO) for DTO.title > 256 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "a".repeat(260),
+        description: "descr",
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insert(DTO) for DTO.description > 256 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insert({
+        title: "abcd",
+        description: "a".repeat(260),
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });
