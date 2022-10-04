@@ -9,6 +9,7 @@ import {
 import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
+import { RecordValidationError } from "../utils/errors";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
@@ -26,7 +27,7 @@ export class ProjectsController {
   async getOne(
     @Param('id') id: string,
   ): Promise<GetOneProjectResponse> {
-    return this.projectService.getOne(Number(id));
+    return this.projectService.getOne(id);
   }
 
   @Post('/')
@@ -41,13 +42,13 @@ export class ProjectsController {
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<UpdateProjectResponse> {
-    return this.projectService.update(Number(id), updateProjectDto);
+    return this.projectService.update(id, updateProjectDto);
   }
 
   @Delete('/:id')
   async delete(
     @Param('id') id: string,
   ): Promise<DeleteProjectResponse> {
-    return this.projectService.delete(Number(id));
+    return this.projectService.delete(id);
   }
 }

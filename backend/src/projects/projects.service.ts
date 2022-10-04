@@ -10,10 +10,17 @@ import {
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
 import { UpdateProjectDto } from "./dto/update-project.dto";
-import { RecordNotFoundError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 
 @Injectable()
 export class ProjectsService {
+  validateId(id: string) {
+    if(!Number(id)
+      || !Number.isInteger(Number(id))) {
+      throw new RecordValidationError('Id in not an integer number');
+    }
+  }
+
   async getAll(): Promise<GetAllProjectsResponse> {
     const result = await ProjectRecord.getAll();
 
@@ -23,8 +30,10 @@ export class ProjectsService {
     }
   }
 
-  async getOne(id: number): Promise<GetOneProjectResponse> {
-    const result = await ProjectRecord.getOne(id);
+  async getOne(id: string): Promise<GetOneProjectResponse> {
+    this.validateId(id);
+
+    const result = await ProjectRecord.getOne(Number(id));
 
     if(result) {
       return {
@@ -49,9 +58,10 @@ export class ProjectsService {
     }
   }
 
-  async update(id: number, changeObj: UpdateProjectDto): Promise<UpdateProjectResponse> {
+  async update(id: string, changeObj: UpdateProjectDto): Promise<UpdateProjectResponse> {
+    this.validateId(id);
 
-    const project = await ProjectRecord.getOne(id);
+    const project = await ProjectRecord.getOne(Number(id));
 
     if(project) {
       const result = await project.update(changeObj.title, changeObj.description);
@@ -67,8 +77,10 @@ export class ProjectsService {
     }
   }
 
-  async delete(id: number): Promise<DeleteProjectResponse> {
-    const project = await ProjectRecord.getOne(id);
+  async delete(id: string): Promise<DeleteProjectResponse> {
+    this.validateId(id);
+
+    const project = await ProjectRecord.getOne(Number(id));
 
     if(project) {
       const result = await project.delete();

@@ -28,7 +28,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.getOne(maxId + 1);
+        await service.getOne(String(maxId + 1));
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
@@ -46,7 +46,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.update(maxId + 1, {
+        await service.update(String(maxId + 1), {
           title: 'updated',
           description: 'updated',
         });
@@ -67,7 +67,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.delete(maxId + 1);
+        await service.delete(String(maxId + 1));
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
