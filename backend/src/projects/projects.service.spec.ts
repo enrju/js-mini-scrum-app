@@ -96,4 +96,14 @@ describe('ProjectsService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('delete(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.delete(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });
