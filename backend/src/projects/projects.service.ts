@@ -20,10 +20,15 @@ export class ProjectsService {
   ) {
   }
 
-  validateId(id: string) {
+  async validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
       throw new RecordValidationError('Id is not an integer number');
+    }
+
+    const result = await ProjectRecord.getOne(Number(id));
+    if(!result) {
+      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -37,7 +42,7 @@ export class ProjectsService {
   }
 
   async getOne(id: string): Promise<GetOneProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const result = await ProjectRecord.getOne(Number(id));
 
@@ -46,8 +51,6 @@ export class ProjectsService {
         isSuccess: true,
         data: result as Project,
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -65,7 +68,7 @@ export class ProjectsService {
   }
 
   async update(id: string, changeObj: UpdateProjectDto): Promise<UpdateProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const project = await ProjectRecord.getOne(Number(id));
 
@@ -78,13 +81,11 @@ export class ProjectsService {
           changedRows: result,
         }
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
   async delete(id: string): Promise<DeleteProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const project = await ProjectRecord.getOne(Number(id));
 
@@ -97,13 +98,11 @@ export class ProjectsService {
           deletedRows: result,
         }
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
   async getAllSprintsForProject(id): Promise<GetAllSprintsForProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     return this.sprintsService.getAllForProject(id);
   }
