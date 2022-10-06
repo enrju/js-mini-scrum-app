@@ -1,23 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { ProjectRecord } from "./records/project.record";
 import {
   GetAllProjectsResponse,
   GetOneProjectResponse,
   CreateProjectResponse,
   Project,
-  UpdateProjectResponse, DeleteProjectResponse
+  UpdateProjectResponse, DeleteProjectResponse, GetAllSprintsForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
+import { SprintsService } from "../sprints/sprints.service";
 
 @Injectable()
 export class ProjectsService {
-  validateId(id: string) {
+  constructor(
+    @Inject(forwardRef(() => SprintsService)) private sprintsService: SprintsService,
+  ) {
+  }
+
+  async validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
-      throw new RecordValidationError('Id in not an integer number');
+      throw new RecordValidationError('Id is not an integer number');
+    }
+
+    const result = await ProjectRecord.getOne(Number(id));
+    if(!result) {
+      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -31,7 +42,7 @@ export class ProjectsService {
   }
 
   async getOne(id: string): Promise<GetOneProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const result = await ProjectRecord.getOne(Number(id));
 
@@ -40,8 +51,6 @@ export class ProjectsService {
         isSuccess: true,
         data: result as Project,
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
@@ -59,7 +68,7 @@ export class ProjectsService {
   }
 
   async update(id: string, changeObj: UpdateProjectDto): Promise<UpdateProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const project = await ProjectRecord.getOne(Number(id));
 
@@ -72,13 +81,11 @@ export class ProjectsService {
           changedRows: result,
         }
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
   }
 
   async delete(id: string): Promise<DeleteProjectResponse> {
-    this.validateId(id);
+    await this.validateId(id);
 
     const project = await ProjectRecord.getOne(Number(id));
 
@@ -91,8 +98,12 @@ export class ProjectsService {
           deletedRows: result,
         }
       }
-    } else {
-      throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
+  }
+
+  async getAllSprintsForProject(id): Promise<GetAllSprintsForProjectResponse> {
+    await this.validateId(id);
+
+    return this.sprintsService.getAllForProject(id);
   }
 }

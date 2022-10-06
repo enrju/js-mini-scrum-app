@@ -9,32 +9,32 @@ import {
 import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
-import { RecordValidationError } from "../utils/errors";
+import { GetAllSprintsForProjectResponse } from "../types/sprint/sprint.response";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
   constructor(
-    @Inject(ProjectsService) private projectService: ProjectsService,
+    @Inject(ProjectsService) private projectsService: ProjectsService,
   ) {
   }
 
   @Get('/')
   async getAll(): Promise<GetAllProjectsResponse> {
-    return this.projectService.getAll();
+    return this.projectsService.getAll();
   }
 
   @Get('/:id')
   async getOne(
     @Param('id') id: string,
   ): Promise<GetOneProjectResponse> {
-    return this.projectService.getOne(id);
+    return this.projectsService.getOne(id);
   }
 
   @Post('/')
   async insert(
     @Body() createProjectDto: CreateProjectDto,
   ): Promise<CreateProjectResponse> {
-    return this.projectService.insert(createProjectDto);
+    return this.projectsService.insert(createProjectDto);
   }
 
   @Put('/:id')
@@ -42,13 +42,20 @@ export class ProjectsController {
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<UpdateProjectResponse> {
-    return this.projectService.update(id, updateProjectDto);
+    return this.projectsService.update(id, updateProjectDto);
   }
 
   @Delete('/:id')
   async delete(
     @Param('id') id: string,
   ): Promise<DeleteProjectResponse> {
-    return this.projectService.delete(id);
+    return this.projectsService.delete(id);
+  }
+
+  @Get('/:id/sprints')
+  async getAllSprintsForProject(
+    @Param('id') id: string,
+  ): Promise<GetAllSprintsForProjectResponse> {
+    return this.projectsService.getAllSprintsForProject(id);
   }
 }

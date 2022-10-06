@@ -1,13 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
+import { SprintsService } from "../sprints/sprints.service";
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProjectsService],
+      providers: [ProjectsService, SprintsService],
     }).compile();
 
     service = module.get<ProjectsService>(ProjectsService);
@@ -137,6 +138,34 @@ describe('ProjectsService', () => {
       });
     } catch (e) {
       expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('getAllSprintsForProject(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.getAllSprintsForProject(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('getAllSprintsForProject(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAll();
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.getAllSprintsForProject(maxId + 1);
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
     }
   });
 });
