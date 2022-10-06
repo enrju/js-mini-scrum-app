@@ -1,5 +1,5 @@
 export interface Sprint {
   id?: number;
   title: string;
-  projectId: number;
+  project_id: number;
 }
