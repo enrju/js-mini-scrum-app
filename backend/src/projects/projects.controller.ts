@@ -53,4 +53,11 @@ export class ProjectsController {
   ): Promise<DeleteProjectResponse> {
     return this.projectsService.delete(id);
   }
+
+  @Get('/:id/sprints')
+  async getAllSprintsForProject(
+    @Param('id') id: string,
+  ): Promise<GetAllSprintsForProjectResponse> {
+    return this.sprintsService.getAllForProject(id);
+  }
 }
