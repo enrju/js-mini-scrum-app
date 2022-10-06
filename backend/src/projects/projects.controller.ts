@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, forwardRef, Get, Inject, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from "@nestjs/common";
 import {
   GetAllProjectsResponse,
   GetOneProjectResponse,
@@ -10,13 +10,11 @@ import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { GetAllSprintsForProjectResponse } from "../types/sprint/sprint.response";
-import { SprintsService } from "../sprints/sprints.service";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
   constructor(
     @Inject(ProjectsService) private projectsService: ProjectsService,
-    @Inject(forwardRef(() => SprintsService)) private sprintsService: SprintsService,
   ) {
   }
 
@@ -58,6 +56,6 @@ export class ProjectsController {
   async getAllSprintsForProject(
     @Param('id') id: string,
   ): Promise<GetAllSprintsForProjectResponse> {
-    return this.sprintsService.getAllForProject(id);
+    return this.projectsService.getAllSprintsForProject(id);
   }
 }

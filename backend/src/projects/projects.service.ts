@@ -1,19 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { ProjectRecord } from "./records/project.record";
 import {
   GetAllProjectsResponse,
   GetOneProjectResponse,
   CreateProjectResponse,
   Project,
-  UpdateProjectResponse, DeleteProjectResponse
+  UpdateProjectResponse, DeleteProjectResponse, GetAllSprintsForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
+import { SprintsService } from "../sprints/sprints.service";
 
 @Injectable()
 export class ProjectsService {
+  constructor(
+    @Inject(forwardRef(() => SprintsService)) private sprintsService: SprintsService,
+  ) {
+  }
+
   validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
@@ -94,5 +100,11 @@ export class ProjectsService {
     } else {
       throw new RecordNotFoundError(`There is not Project with id = ${id}`);
     }
+  }
+
+  async getAllSprintsForProject(id): Promise<GetAllSprintsForProjectResponse> {
+    this.validateId(id);
+
+    return this.sprintsService.getAllForProject(id);
   }
 }
