@@ -4,6 +4,7 @@ import { ProjectsService } from "./projects.service";
 import { ProjectRecord } from "./records/project.record";
 import { pool } from "../utils/db";
 import { CreateProjectDto } from "./dto/create-project.dto";
+import { SprintsService } from "../sprints/sprints.service";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
@@ -11,7 +12,7 @@ describe('ProjectsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProjectsController],
-      providers: [ProjectsService],
+      providers: [ProjectsService, SprintsService],
     }).compile();
 
     controller = module.get<ProjectsController>(ProjectsController);
@@ -104,6 +105,16 @@ describe('ProjectsController', () => {
 
     if(response.isSuccess) {
       expect(response.data.deletedRows).toBeGreaterThan(0);
+    }
+  });
+
+  test('getAllSprintsForProject(id) should return defined data', async () => {
+    const response = await controller.getAllSprintsForProject(String(1));
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      expect(response.data).toBeDefined();
     }
   });
 });
