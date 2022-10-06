@@ -8,7 +8,7 @@ export class SprintsService {
   validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
-      throw new RecordValidationError('Id in not an integer number');
+      throw new RecordValidationError('Id is not an integer number');
     }
   }
 
