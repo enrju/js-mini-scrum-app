@@ -1,10 +1,11 @@
 import { SprintEntity } from "../entities/sprint.entity";
 import { pool } from "../../utils/db";
-import { FieldPacket } from "mysql2";
+import { FieldPacket, ResultSetHeader } from "mysql2";
 import { sprintConfig } from "../../types";
 import { RecordValidationError } from "../../utils/errors";
 
 type SprintRecordResults = [SprintRecord[], FieldPacket[]];
+type SprintRecordInsertResult = ResultSetHeader[];
 
 export class SprintRecord implements SprintEntity {
   id: number;
@@ -33,5 +34,15 @@ export class SprintRecord implements SprintEntity {
     })) as SprintRecordResults;
 
     return results.map(item => new SprintRecord(item));
+  }
+
+  async insertForProject(id: number): Promise<number> {
+    const result = (await pool.execute("INSERT INTO `sprints` VALUES(:id, :title, :project_id)", {
+      id: 'NULL',
+      title: this.title,
+      project_id: id,
+    })) as SprintRecordInsertResult;
+
+    return result[0].insertId;
   }
 }
