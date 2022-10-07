@@ -162,7 +162,7 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.getAllSprintsForProject(maxId + 1);
+        await service.getAllSprintsForProject(String(maxId + 1));
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
