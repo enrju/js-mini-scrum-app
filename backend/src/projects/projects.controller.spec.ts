@@ -5,6 +5,7 @@ import { ProjectRecord } from "./records/project.record";
 import { pool } from "../utils/db";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { SprintsService } from "../sprints/sprints.service";
+import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
@@ -115,6 +116,22 @@ describe('ProjectsController', () => {
 
     if(response.isSuccess) {
       expect(response.data).toBeDefined();
+    }
+  });
+
+  test('insertSprintForProject(...) should insert sprint into DB and return id', async () => {
+    const response = await controller.insertSprintForProject(
+      "1", {
+        title: "test - sprint"
+      });
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      const insertedId = response.data.insertedId;
+
+      expect(insertedId).toBeDefined();
+      expect(insertedId).toBeGreaterThan(0);
     }
   });
 });

@@ -5,3 +5,10 @@ export type GetAllSprintsForProjectResponse = {
   isSuccess: true;
   data: Sprint[];
 } | ErrorResponse;
+
+export type CreateSprintForProjectResponse = {
+  isSuccess: true;
+  data: {
+    insertedId: number,
+  };
+} | ErrorResponse;

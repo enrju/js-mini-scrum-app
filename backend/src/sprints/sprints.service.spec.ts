@@ -26,4 +26,24 @@ describe('SprintsService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('insertForProject(DTO) for DTO.title < 3 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insertForProject(String(1), {
+        title: "ab",
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insertForProject(DTO) for DTO.title > 256 sign should throw RecordValidationError', async () => {
+    try {
+      await service.insertForProject(String(1), {
+        title: "a".repeat(260),
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });

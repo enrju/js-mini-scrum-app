@@ -4,12 +4,13 @@ import {
   GetOneProjectResponse,
   CreateProjectResponse,
   DeleteProjectResponse,
-  UpdateProjectResponse
+  UpdateProjectResponse, CreateSprintForProjectResponse
 } from "../types";
 import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { GetAllSprintsForProjectResponse } from "../types/sprint/sprint.response";
+import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
@@ -57,5 +58,13 @@ export class ProjectsController {
     @Param('id') id: string,
   ): Promise<GetAllSprintsForProjectResponse> {
     return this.projectsService.getAllSprintsForProject(id);
+  }
+
+  @Post('/:id/sprints')
+  async insertSprintForProject(
+    @Param('id') id: string,
+    @Body() createSprintDto: CreateSprintDto,
+  ): Promise<CreateSprintForProjectResponse> {
+    return this.projectsService.insertSprintForProject(id, createSprintDto);
   }
 }

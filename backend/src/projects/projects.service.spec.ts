@@ -162,7 +162,40 @@ describe('ProjectsService', () => {
       });
 
       try {
-        await service.getAllSprintsForProject(maxId + 1);
+        await service.getAllSprintsForProject(String(maxId + 1));
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
+    }
+  });
+
+  test('insertSprintForProject(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.insertSprintForProject(id, {
+        title: 'test - sprint',
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('insertSprintForProject(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAll();
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.insertSprintForProject(
+          String(maxId + 1), {
+            title: 'test - sprint'
+          });
       } catch (e) {
         expect(e).toBeInstanceOf(RecordNotFoundError);
       }
