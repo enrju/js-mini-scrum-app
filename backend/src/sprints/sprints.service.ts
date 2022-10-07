@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { GetAllSprintsForProjectResponse, Sprint } from "../types";
+import { CreateSprintForProjectResponse, GetAllSprintsForProjectResponse, Sprint } from "../types";
 import { SprintRecord } from "./records/sprint.record";
 import { RecordValidationError } from "../utils/errors";
+import { SprintEntity } from "./entities/sprint.entity";
+import { CreateSprintDto } from "./dto/create-sprint.dto";
 
 @Injectable()
 export class SprintsService {
@@ -20,6 +22,21 @@ export class SprintsService {
     return {
       isSuccess: true,
       data: result as Sprint[],
+    }
+  }
+
+  async insertForProject(id: string, obj: CreateSprintDto): Promise<CreateSprintForProjectResponse> {
+    this.validateId(id);
+
+    const sprint = new SprintRecord(obj as SprintEntity);
+
+    const result = await sprint.insertForProject(Number(id));
+
+    return {
+      isSuccess: true,
+      data: {
+        insertedId: result,
+      }
     }
   }
 }
