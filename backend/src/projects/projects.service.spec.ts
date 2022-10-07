@@ -180,4 +180,25 @@ describe('ProjectsService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('insertSprintForProject(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAll();
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.insertSprintForProject(
+          String(maxId + 1), {
+            title: 'test - sprint'
+          });
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
+    }
+  });
 });
