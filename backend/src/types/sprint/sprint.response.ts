@@ -12,3 +12,10 @@ export type CreateSprintForProjectResponse = {
     insertedId: number,
   };
 } | ErrorResponse;
+
+export type UpdateSprintResponse = {
+  isSuccess: true;
+  data: {
+    changedRows: number,
+  };
+} | ErrorResponse;
