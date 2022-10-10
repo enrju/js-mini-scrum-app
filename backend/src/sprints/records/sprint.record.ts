@@ -37,6 +37,14 @@ export class SprintRecord implements SprintEntity {
     return results.map(item => new SprintRecord(item));
   }
 
+  static async getOne(id: number): Promise<SprintRecord | null> {
+    const [results] = (await pool.execute("SELECT * FROM `sprints` WHERE `id` = :id", {
+      id,
+    })) as SprintRecordResults;
+
+    return results.length === 0 ? null : new SprintRecord(results[0]);
+  }
+
   async insertForProject(id: number): Promise<number> {
     const result = (await pool.execute("INSERT INTO `sprints` VALUES(:id, :title, :project_id)", {
       id: 'NULL',
