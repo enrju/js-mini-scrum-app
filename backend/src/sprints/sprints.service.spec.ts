@@ -66,4 +66,16 @@ describe('SprintsService', () => {
       }
     }
   });
+
+  test('update(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.update(id, {
+        title: 'updated',
+      });
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });
