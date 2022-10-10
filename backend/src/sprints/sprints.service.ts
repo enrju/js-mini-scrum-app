@@ -50,4 +50,21 @@ export class SprintsService {
       }
     }
   }
+
+  async update(id: string, changeObj: UpdateSprintDto): Promise<UpdateSprintResponse> {
+    await this.validateId(id);
+
+    const sprint = await SprintRecord.getOne(Number(id));
+
+    if(sprint) {
+      const result = await sprint.update(changeObj.title);
+
+      return {
+        isSuccess: true,
+        data: {
+          changedRows: result,
+        }
+      }
+    }
+  }
 }
