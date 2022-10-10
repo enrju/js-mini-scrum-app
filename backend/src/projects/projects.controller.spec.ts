@@ -5,7 +5,6 @@ import { ProjectRecord } from "./records/project.record";
 import { pool } from "../utils/db";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { SprintsService } from "../sprints/sprints.service";
-import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
