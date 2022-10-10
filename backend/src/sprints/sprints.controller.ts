@@ -9,3 +9,12 @@ export class SprintsController {
     @Inject(SprintsService) private sprintsService: SprintsService,
   ) {
   }
+
+  @Put('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateSprintDto: UpdateSprintDto,
+  ): Promise<UpdateSprintResponse> {
+    return this.sprintsService.update(id, updateSprintDto);
+  }
+}
