@@ -1,21 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSprintForProjectResponse, GetAllSprintsForProjectResponse, Sprint } from "../types";
+import {
+  CreateSprintForProjectResponse,
+  GetAllSprintsForProjectResponse,
+  Sprint,
+  UpdateSprintResponse
+} from "../types";
 import { SprintRecord } from "./records/sprint.record";
-import { RecordValidationError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintEntity } from "./entities/sprint.entity";
 import { CreateSprintDto } from "./dto/create-sprint.dto";
+import { UpdateSprintDto } from "./dto/update-sprint.dto";
 
 @Injectable()
 export class SprintsService {
-  validateId(id: string) {
+  async validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
       throw new RecordValidationError('Id is not an integer number');
     }
+
+    const result = await SprintRecord.getOne(Number(id));
+    if(!result) {
+      throw new RecordNotFoundError(`There is not Sprint with id = ${id}`);
+    }
   }
 
   async getAllForProject(id: string): Promise<GetAllSprintsForProjectResponse> {
-    this.validateId(id);
+    //projectId was validated in ProjectService
 
     const result = await SprintRecord.getAllForProject(Number(id));
 
@@ -26,7 +37,7 @@ export class SprintsService {
   }
 
   async insertForProject(id: string, obj: CreateSprintDto): Promise<CreateSprintForProjectResponse> {
-    this.validateId(id);
+    //projectId was validated in ProjectService
 
     const sprint = new SprintRecord(obj as SprintEntity);
 
