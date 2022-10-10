@@ -6,6 +6,7 @@ import { RecordValidationError } from "../../utils/errors";
 
 type SprintRecordResults = [SprintRecord[], FieldPacket[]];
 type SprintRecordInsertResult = ResultSetHeader[];
+type SprintRecordUpdateResult = ResultSetHeader[];
 
 export class SprintRecord implements SprintEntity {
   id: number;
@@ -44,5 +45,17 @@ export class SprintRecord implements SprintEntity {
     })) as SprintRecordInsertResult;
 
     return result[0].insertId;
+  }
+
+  async update(title: string): Promise<number> {
+    const result = (await pool.execute(
+      "UPDATE `sprints` " +
+      "SET `title` = :title " +
+      "WHERE `id` = :id", {
+        id: this.id,
+        title: title,
+      })) as SprintRecordUpdateResult;
+
+    return result[0].changedRows;
   }
 }
