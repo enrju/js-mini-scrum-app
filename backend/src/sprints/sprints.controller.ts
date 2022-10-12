@@ -1,5 +1,5 @@
-import { Body, Controller, Inject, Param, Put } from "@nestjs/common";
-import { UpdateSprintResponse } from "../types";
+import { Body, Controller, Delete, Inject, Param, Put } from "@nestjs/common";
+import { DeleteSprintResponse, UpdateSprintResponse } from "../types";
 import { UpdateSprintDto } from "./dto/update-sprint.dto";
 import { SprintsService } from "./sprints.service";
 
@@ -16,5 +16,12 @@ export class SprintsController {
     @Body() updateSprintDto: UpdateSprintDto,
   ): Promise<UpdateSprintResponse> {
     return this.sprintsService.update(id, updateSprintDto);
+  }
+
+  @Delete('/:id')
+  async delete(
+    @Param('id') id: string,
+  ): Promise<DeleteSprintResponse> {
+    return this.sprintsService.delete(id);
   }
 }

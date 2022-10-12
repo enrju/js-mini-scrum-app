@@ -5,6 +5,7 @@ import { ProjectRecord } from "./records/project.record";
 import { pool } from "../utils/db";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { SprintsService } from "../sprints/sprints.service";
+import { SprintsController } from "../sprints/sprints.controller";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
@@ -131,6 +132,19 @@ describe('ProjectsController', () => {
 
       expect(insertedId).toBeDefined();
       expect(insertedId).toBeGreaterThan(0);
+
+      // --- clean data in DB after test ---
+      let controllerTmp: SprintsController;
+
+      const moduleTmp: TestingModule = await Test.createTestingModule({
+        controllers: [SprintsController],
+        providers: [SprintsService],
+      }).compile();
+
+      controllerTmp = moduleTmp.get<SprintsController>(SprintsController);
+
+      await controllerTmp.delete(String(insertedId));
+      // --------------------------------------
     }
   });
 });

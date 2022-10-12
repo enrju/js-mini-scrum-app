@@ -7,6 +7,7 @@ import { RecordValidationError } from "../../utils/errors";
 type SprintRecordResults = [SprintRecord[], FieldPacket[]];
 type SprintRecordInsertResult = ResultSetHeader[];
 type SprintRecordUpdateResult = ResultSetHeader[];
+type SprintRecordDeleteResult = ResultSetHeader[];
 
 export class SprintRecord implements SprintEntity {
   id: number;
@@ -65,5 +66,13 @@ export class SprintRecord implements SprintEntity {
       })) as SprintRecordUpdateResult;
 
     return result[0].changedRows;
+  }
+
+  async delete(): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `sprints` WHERE `id` = :id", {
+      id: this.id,
+    })) as SprintRecordDeleteResult;
+
+    return result[0].affectedRows;
   }
 }
