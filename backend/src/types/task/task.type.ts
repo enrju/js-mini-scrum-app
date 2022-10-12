@@ -1,3 +1,10 @@
+export enum TaskState {
+  BACKLOG,
+  TODO,
+  DOING,
+  DONE,
+}
+
 export interface Task {
   id?: number;
   title: string;
