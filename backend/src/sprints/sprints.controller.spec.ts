@@ -43,4 +43,12 @@ describe('SprintsController', () => {
       //I can't check updated data in DB because haven't endpoint to get one sprint
     }
   });
+
+  test('delete(id) should delete last inserted project', async () => {
+    const response = await controller.delete(String(testSprintRecordInsertedId));
+
+    if(response.isSuccess) {
+      expect(response.data.deletedRows).toBeGreaterThan(0);
+    }
+  });
 });
