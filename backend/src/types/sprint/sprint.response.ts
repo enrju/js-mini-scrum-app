@@ -19,3 +19,10 @@ export type UpdateSprintResponse = {
     changedRows: number,
   };
 } | ErrorResponse;
+
+export type DeleteSprintResponse = {
+  isSuccess: true;
+  data: {
+    deletedRows: number,
+  };
+} | ErrorResponse;
