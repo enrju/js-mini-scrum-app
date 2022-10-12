@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   CreateSprintForProjectResponse,
+  DeleteSprintResponse,
   GetAllSprintsForProjectResponse,
   Sprint,
   UpdateSprintResponse
@@ -63,6 +64,23 @@ export class SprintsService {
         isSuccess: true,
         data: {
           changedRows: result,
+        }
+      }
+    }
+  }
+
+  async delete(id: string): Promise<DeleteSprintResponse> {
+    await this.validateId(id);
+
+    const sprint = await SprintRecord.getOne(Number(id));
+
+    if(sprint) {
+      const result = await sprint.delete();
+
+      return {
+        isSuccess: true,
+        data: {
+          deletedRows: result,
         }
       }
     }
