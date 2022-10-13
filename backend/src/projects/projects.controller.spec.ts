@@ -148,4 +148,14 @@ describe('ProjectsController', () => {
       // --------------------------------------
     }
   });
+
+  test('getAllTasksForProject(id) should return defined data', async () => {
+    const response = await controller.getAllTasksForProject(String(1));
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      expect(response.data).toBeDefined();
+    }
+  });
 });
