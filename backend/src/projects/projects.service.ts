@@ -5,7 +5,11 @@ import {
   GetOneProjectResponse,
   CreateProjectResponse,
   Project,
-  UpdateProjectResponse, DeleteProjectResponse, GetAllSprintsForProjectResponse, CreateSprintForProjectResponse
+  UpdateProjectResponse,
+  DeleteProjectResponse,
+  GetAllSprintsForProjectResponse,
+  CreateSprintForProjectResponse,
+  GetAllTasksForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
@@ -114,5 +118,11 @@ export class ProjectsService {
     await this.validateId(id);
 
     return this.sprintsService.insertForProject(id, obj);
+  }
+
+  async getAllTasksForProject(id: string): Promise<GetAllTasksForProjectResponse> {
+    await this.validateId(id);
+
+    return this.tasksService.getAllForProject(id);
   }
 }
