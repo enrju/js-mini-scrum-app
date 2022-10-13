@@ -13,11 +13,13 @@ import { UpdateProjectDto } from "./dto/update-project.dto";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintsService } from "../sprints/sprints.service";
 import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
+import { TasksService } from "../tasks/tasks.service";
 
 @Injectable()
 export class ProjectsService {
   constructor(
     @Inject(forwardRef(() => SprintsService)) private sprintsService: SprintsService,
+    @Inject(forwardRef(() => TasksService)) private tasksService: TasksService,
   ) {
   }
 
