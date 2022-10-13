@@ -1,5 +1,9 @@
 import { TaskEntity } from "../entities/task.entity";
 import { TaskState } from "../../types";
+import { pool } from "../../utils/db";
+import { FieldPacket } from "mysql2";
+
+type TaskRecordResults = [TaskRecord[], FieldPacket[]];
 
 export class TaskRecord implements TaskEntity {
   id: number;
@@ -20,4 +24,11 @@ export class TaskRecord implements TaskEntity {
     this.sprint_id = obj.sprint_id;
   }
 
+  static async getAllForProject(id: number): Promise<TaskRecord[]> {
+    const [results] = (await pool.execute("SELECT * FROM `tasks` WHERE `project_id` = :id", {
+      id,
+    })) as TaskRecordResults;
+
+    return results.map(item => new TaskRecord(item));
+  }
 }
