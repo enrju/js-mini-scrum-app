@@ -2,13 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectsService } from './projects.service';
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintsService } from "../sprints/sprints.service";
+import { TasksService } from "../tasks/tasks.service";
 
 describe('ProjectsService', () => {
   let service: ProjectsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProjectsService, SprintsService],
+      providers: [ProjectsService, SprintsService, TasksService],
     }).compile();
 
     service = module.get<ProjectsService>(ProjectsService);
