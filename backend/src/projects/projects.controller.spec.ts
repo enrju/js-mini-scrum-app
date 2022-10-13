@@ -6,6 +6,7 @@ import { pool } from "../utils/db";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { SprintsService } from "../sprints/sprints.service";
 import { SprintsController } from "../sprints/sprints.controller";
+import { TasksService } from "../tasks/tasks.service";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
@@ -13,7 +14,7 @@ describe('ProjectsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProjectsController],
-      providers: [ProjectsService, SprintsService],
+      providers: [ProjectsService, SprintsService, TasksService],
     }).compile();
 
     controller = module.get<ProjectsController>(ProjectsController);
