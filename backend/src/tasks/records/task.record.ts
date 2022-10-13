@@ -10,7 +10,7 @@ export class TaskRecord implements TaskEntity {
   project_id: number;
   sprint_id: number;
 
-  constructor(obj: TaskEntity): void {
+  constructor(obj: TaskEntity) {
     this.id = obj.id;
     this.title = obj.title;
     this.description = obj.description;
