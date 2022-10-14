@@ -4,13 +4,14 @@ import {
   GetOneProjectResponse,
   CreateProjectResponse,
   DeleteProjectResponse,
-  UpdateProjectResponse, CreateSprintForProjectResponse, GetAllTasksForProjectResponse
+  UpdateProjectResponse, CreateSprintForProjectResponse, GetAllTasksForProjectResponse, CreateTaskForProjectResponse
 } from "../types";
 import { ProjectsService } from "./projects.service";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { GetAllSprintsForProjectResponse } from "../types/sprint/sprint.response";
 import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
+import { CreateTaskDto } from "../tasks/dto/create-task.dto";
 
 @Controller('/api/v2/projects')
 export class ProjectsController {
@@ -73,5 +74,13 @@ export class ProjectsController {
     @Param('id') id: string,
   ): Promise<GetAllTasksForProjectResponse> {
     return this.projectsService.getAllTasksForProject(id);
+  }
+
+  @Post('/:id/tasks')
+  async insertTaskForProject(
+    @Param('id') id: string,
+    @Body() createTaskDto: CreateTaskDto,
+  ): Promise<CreateTaskForProjectResponse> {
+    return this.projectsService.insertTaskForProject(id, createTaskDto);
   }
 }
