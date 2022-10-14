@@ -7,6 +7,7 @@ import { CreateProjectDto } from "./dto/create-project.dto";
 import { SprintsService } from "../sprints/sprints.service";
 import { SprintsController } from "../sprints/sprints.controller";
 import { TasksService } from "../tasks/tasks.service";
+import { TasksController } from "../tasks/tasks.controller";
 
 describe('ProjectsController', () => {
   let controller: ProjectsController;
@@ -156,6 +157,36 @@ describe('ProjectsController', () => {
 
     if(response.isSuccess) {
       expect(response.data).toBeDefined();
+    }
+  });
+
+  test('insertTaskForProject(...) should insert task into DB and return id', async () => {
+    const response = await controller.insertTaskForProject(
+      "1", {
+        title: "test - task",
+        description: "test-desc - task",
+      });
+
+    expect(response.isSuccess).toBeTruthy();
+
+    if(response.isSuccess) {
+      const insertedId = response.data.insertedId;
+
+      expect(insertedId).toBeDefined();
+      expect(insertedId).toBeGreaterThan(0);
+
+      // // --- clean data in DB after test ---
+      // let controllerTmp: TasksController;
+      //
+      // const moduleTmp: TestingModule = await Test.createTestingModule({
+      //   controllers: [TasksController],
+      //   providers: [TasksService],
+      // }).compile();
+      //
+      // controllerTmp = moduleTmp.get<TasksController>(TasksController);
+      //
+      // await controllerTmp.delete(String(insertedId));
+      // // --------------------------------------
     }
   });
 });

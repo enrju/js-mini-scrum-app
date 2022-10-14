@@ -60,15 +60,14 @@ export class TaskRecord implements TaskEntity {
 
   async insertForProject(id: number): Promise<number> {
     const result = (await pool.execute(
-      "INSERT INTO `tasks` " +
-      "VALUES(:id, :title, :description, :state, :minutes, :project_id, :sprint_id)", {
+      "INSERT INTO `tasks` VALUES(:id, :title, :description, :state, :minutes, :project_id, :sprint_id)", {
         id: 'NULL',
         title: this.title,
         description: this.description,
-        state: TaskState.BACKLOG,
+        state: TaskState[TaskState.BACKLOG],
         minutes: 0,
         project_id: id,
-        sprint_id: 'NULL',
+        sprint_id: null,
     })) as TaskRecordInsertResult;
 
     return result[0].insertId;
