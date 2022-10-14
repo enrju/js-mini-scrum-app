@@ -202,4 +202,14 @@ describe('ProjectsService', () => {
       }
     }
   });
+
+  test('getAllTasksForProject(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.getAllTasksForProject(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });
