@@ -5,7 +5,11 @@ import {
   GetOneProjectResponse,
   CreateProjectResponse,
   Project,
-  UpdateProjectResponse, DeleteProjectResponse, GetAllSprintsForProjectResponse, CreateSprintForProjectResponse
+  UpdateProjectResponse,
+  DeleteProjectResponse,
+  GetAllSprintsForProjectResponse,
+  CreateSprintForProjectResponse,
+  GetAllTasksForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
@@ -13,11 +17,13 @@ import { UpdateProjectDto } from "./dto/update-project.dto";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintsService } from "../sprints/sprints.service";
 import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
+import { TasksService } from "../tasks/tasks.service";
 
 @Injectable()
 export class ProjectsService {
   constructor(
     @Inject(forwardRef(() => SprintsService)) private sprintsService: SprintsService,
+    @Inject(forwardRef(() => TasksService)) private tasksService: TasksService,
   ) {
   }
 
@@ -112,5 +118,11 @@ export class ProjectsService {
     await this.validateId(id);
 
     return this.sprintsService.insertForProject(id, obj);
+  }
+
+  async getAllTasksForProject(id: string): Promise<GetAllTasksForProjectResponse> {
+    await this.validateId(id);
+
+    return this.tasksService.getAllForProject(id);
   }
 }
