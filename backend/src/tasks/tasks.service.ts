@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { GetAllTasksForProjectResponse, Task } from "../types";
+import { CreateTaskForProjectResponse, GetAllTasksForProjectResponse, Task } from "../types";
 import { TaskRecord } from "./records/task.record";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
+import { CreateTaskDto } from "./dto/create-task.dto";
+import { TaskEntity } from "./entities/task.entity";
 
 @Injectable()
 export class TasksService {
@@ -25,6 +27,21 @@ export class TasksService {
     return {
       isSuccess: true,
       data: result as Task[],
+    }
+  }
+
+  async insertForProject(id: string, obj: CreateTaskDto): Promise<CreateTaskForProjectResponse> {
+    //projectId was validated in ProjectService
+
+    const task = new TaskRecord(obj as TaskEntity);
+
+    const result = await task.insertForProject(Number(id));
+
+    return {
+      isSuccess: true,
+      data: {
+        insertedId: result,
+      }
     }
   }
 }
