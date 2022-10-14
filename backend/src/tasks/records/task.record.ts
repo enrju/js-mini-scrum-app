@@ -1,10 +1,11 @@
 import { TaskEntity } from "../entities/task.entity";
 import { taskConfig, TaskState } from "../../types";
 import { pool } from "../../utils/db";
-import { FieldPacket } from "mysql2";
+import { FieldPacket, ResultSetHeader } from "mysql2";
 import { RecordValidationError } from "../../utils/errors";
 
 type TaskRecordResults = [TaskRecord[], FieldPacket[]];
+type TaskRecordInsertResult = ResultSetHeader[];
 
 export class TaskRecord implements TaskEntity {
   id: number;
@@ -55,5 +56,20 @@ export class TaskRecord implements TaskEntity {
     })) as TaskRecordResults;
 
     return results.length === 0 ? null : new TaskRecord(results[0]);
+  }
+
+  async insertForProject(id: number): Promise<number> {
+    const result = (await pool.execute(
+      "INSERT INTO `tasks` VALUES(:id, :title, :description, :state, :minutes, :project_id, :sprint_id)", {
+        id: 'NULL',
+        title: this.title,
+        description: this.description,
+        state: TaskState[TaskState.BACKLOG],
+        minutes: 0,
+        project_id: id,
+        sprint_id: null,
+    })) as TaskRecordInsertResult;
+
+    return result[0].insertId;
   }
 }

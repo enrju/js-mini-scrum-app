@@ -9,7 +9,7 @@ import {
   DeleteProjectResponse,
   GetAllSprintsForProjectResponse,
   CreateSprintForProjectResponse,
-  GetAllTasksForProjectResponse
+  GetAllTasksForProjectResponse, CreateTaskForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
@@ -18,6 +18,7 @@ import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintsService } from "../sprints/sprints.service";
 import { CreateSprintDto } from "../sprints/dto/create-sprint.dto";
 import { TasksService } from "../tasks/tasks.service";
+import { CreateTaskDto } from "../tasks/dto/create-task.dto";
 
 @Injectable()
 export class ProjectsService {
@@ -124,5 +125,11 @@ export class ProjectsService {
     await this.validateId(id);
 
     return this.tasksService.getAllForProject(id);
+  }
+
+  async insertTaskForProject(id: string, obj: CreateTaskDto): Promise<CreateTaskForProjectResponse> {
+    await this.validateId(id);
+
+    return this.tasksService.insertForProject(id, obj);
   }
 }
