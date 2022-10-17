@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TasksService } from './tasks.service';
-import { RecordValidationError } from "../utils/errors";
+import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 
 describe('TasksService', () => {
   let service: TasksService;
@@ -47,6 +47,27 @@ describe('TasksService', () => {
       });
     } catch (e) {
       expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
+
+  test('update(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAllForProject('1');
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.update(String(maxId + 1), {
+          title: 'updated',
+          description: 'updated',
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
     }
   });
 });
