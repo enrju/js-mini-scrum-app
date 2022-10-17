@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Inject } from "@nestjs/common";
+import { TasksService } from "./tasks.service";
 
-@Controller('tasks')
-export class TasksController {}
+@Controller('/api/v2/tasks')
+export class TasksController {
+  constructor(
+    @Inject(TasksService) private tasksService: TasksService,
+  ) {
+  }
+}
