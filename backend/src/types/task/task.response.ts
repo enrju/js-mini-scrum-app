@@ -12,3 +12,10 @@ export type CreateTaskForProjectResponse = {
     insertedId: number,
   };
 } | ErrorResponse;
+
+export type UpdateTaskResponse = {
+  isSuccess: true;
+  data: {
+    changedRows: number,
+  };
+} | ErrorResponse;

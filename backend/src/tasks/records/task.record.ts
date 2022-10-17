@@ -6,6 +6,7 @@ import { RecordValidationError } from "../../utils/errors";
 
 type TaskRecordResults = [TaskRecord[], FieldPacket[]];
 type TaskRecordInsertResult = ResultSetHeader[];
+type TaskRecordUpdateResult = ResultSetHeader[];
 
 export class TaskRecord implements TaskEntity {
   id: number;
@@ -71,5 +72,18 @@ export class TaskRecord implements TaskEntity {
     })) as TaskRecordInsertResult;
 
     return result[0].insertId;
+  }
+
+  async update(title: string, description: string): Promise<number> {
+    const result = (await pool.execute(
+      "UPDATE `tasks` " +
+      "SET `title` = :title, `description` = :description " +
+      "WHERE `id` = :id", {
+        id: this.id,
+        title: title,
+        description: description,
+      })) as TaskRecordUpdateResult;
+
+    return result[0].changedRows;
   }
 }
