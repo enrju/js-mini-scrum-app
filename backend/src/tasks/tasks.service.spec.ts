@@ -83,4 +83,32 @@ describe('TasksService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('delete(id) for not existed id should throw RecordNotFoundError', async () => {
+    const resGetAll = await service.getAllForProject('1');
+
+    if(resGetAll.isSuccess) {
+      let maxId = 0;
+
+      resGetAll.data.forEach(item => {
+        if(item.id > maxId) maxId = item.id;
+      });
+
+      try {
+        await service.delete(String(maxId + 1));
+      } catch (e) {
+        expect(e).toBeInstanceOf(RecordNotFoundError);
+      }
+    }
+  });
+
+  test('delete(id) for id="abc" (NaN) should throw RecordValidationError', async () => {
+    const id = "abc";
+
+    try {
+      await service.delete(id);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });

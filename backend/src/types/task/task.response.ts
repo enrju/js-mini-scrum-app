@@ -19,3 +19,10 @@ export type UpdateTaskResponse = {
     changedRows: number,
   };
 } | ErrorResponse;
+
+export type DeleteTaskResponse = {
+  isSuccess: true;
+  data: {
+    deletedRows: number,
+  };
+} | ErrorResponse;

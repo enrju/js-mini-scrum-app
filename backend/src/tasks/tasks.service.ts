@@ -1,17 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import {
   CreateTaskForProjectResponse,
+  DeleteTaskResponse,
   GetAllTasksForProjectResponse,
   Task,
-  UpdateSprintResponse,
   UpdateTaskResponse
 } from "../types";
 import { TaskRecord } from "./records/task.record";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { TaskEntity } from "./entities/task.entity";
-import { UpdateSprintDto } from "../sprints/dto/update-sprint.dto";
-import { SprintRecord } from "../sprints/records/sprint.record";
 import { UpdateTaskDto } from "./dto/update-task.dto";
 
 @Injectable()
@@ -66,6 +64,23 @@ export class TasksService {
         isSuccess: true,
         data: {
           changedRows: result,
+        }
+      }
+    }
+  }
+
+  async delete(id: string): Promise<DeleteTaskResponse> {
+    await this.validateId(id);
+
+    const task = await TaskRecord.getOne(Number(id));
+
+    if(task) {
+      const result = await task.delete();
+
+      return {
+        isSuccess: true,
+        data: {
+          deletedRows: result,
         }
       }
     }

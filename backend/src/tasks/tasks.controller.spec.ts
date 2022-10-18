@@ -44,4 +44,12 @@ describe('TasksController', () => {
       //I can't check updated data in DB because haven't endpoint to get one task
     }
   });
+
+  test('delete(id) should delete last inserted project', async () => {
+    const response = await controller.delete(String(testTaskRecordInsertedId));
+
+    if(response.isSuccess) {
+      expect(response.data.deletedRows).toBeGreaterThan(0);
+    }
+  });
 });

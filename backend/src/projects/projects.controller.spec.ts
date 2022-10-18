@@ -175,18 +175,18 @@ describe('ProjectsController', () => {
       expect(insertedId).toBeDefined();
       expect(insertedId).toBeGreaterThan(0);
 
-      // // --- clean data in DB after test ---
-      // let controllerTmp: TasksController;
-      //
-      // const moduleTmp: TestingModule = await Test.createTestingModule({
-      //   controllers: [TasksController],
-      //   providers: [TasksService],
-      // }).compile();
-      //
-      // controllerTmp = moduleTmp.get<TasksController>(TasksController);
-      //
-      // await controllerTmp.delete(String(insertedId));
-      // // --------------------------------------
+      // --- clean data in DB after test ---
+      let controllerTmp: TasksController;
+
+      const moduleTmp: TestingModule = await Test.createTestingModule({
+        controllers: [TasksController],
+        providers: [TasksService],
+      }).compile();
+
+      controllerTmp = moduleTmp.get<TasksController>(TasksController);
+
+      await controllerTmp.delete(String(insertedId));
+      // --------------------------------------
     }
   });
 });

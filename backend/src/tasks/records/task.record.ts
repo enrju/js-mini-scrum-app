@@ -7,6 +7,7 @@ import { RecordValidationError } from "../../utils/errors";
 type TaskRecordResults = [TaskRecord[], FieldPacket[]];
 type TaskRecordInsertResult = ResultSetHeader[];
 type TaskRecordUpdateResult = ResultSetHeader[];
+type TaskRecordDeleteResult = ResultSetHeader[];
 
 export class TaskRecord implements TaskEntity {
   id: number;
@@ -85,5 +86,13 @@ export class TaskRecord implements TaskEntity {
       })) as TaskRecordUpdateResult;
 
     return result[0].changedRows;
+  }
+
+  async delete(): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `tasks` WHERE `id` = :id", {
+      id: this.id,
+    })) as TaskRecordDeleteResult;
+
+    return result[0].affectedRows;
   }
 }
