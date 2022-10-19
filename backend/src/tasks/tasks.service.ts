@@ -4,7 +4,8 @@ import {
   DeleteTaskResponse,
   GetAllTasksForProjectResponse,
   Task,
-  UpdateTaskResponse
+  UpdateTaskResponse,
+  UpdateTasksTimeForProjectResponse
 } from "../types";
 import { TaskRecord } from "./records/task.record";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
@@ -82,6 +83,19 @@ export class TasksService {
         data: {
           deletedRows: result,
         }
+      }
+    }
+  }
+
+  async updateAllTimeForProject(id: string): Promise<UpdateTasksTimeForProjectResponse> {
+    //projectId was validated in ProjectService
+
+    const result = await TaskRecord.updateAllTimeForProject(Number(id));
+
+    return {
+      isSuccess: true,
+      data: {
+        changedRows: result,
       }
     }
   }
