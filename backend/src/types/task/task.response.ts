@@ -26,3 +26,10 @@ export type DeleteTaskResponse = {
     deletedRows: number,
   };
 } | ErrorResponse;
+
+export type UpdateTasksTimeForProjectResponse = {
+  isSuccess: true;
+  data: {
+    changedRows: number,
+  };
+} | ErrorResponse;
