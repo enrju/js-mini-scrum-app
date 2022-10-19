@@ -9,7 +9,9 @@ import {
   DeleteProjectResponse,
   GetAllSprintsForProjectResponse,
   CreateSprintForProjectResponse,
-  GetAllTasksForProjectResponse, CreateTaskForProjectResponse
+  GetAllTasksForProjectResponse,
+  CreateTaskForProjectResponse,
+  UpdateTasksTimeForProjectResponse
 } from "../types";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { ProjectEntity } from "./entities/project.entity";
@@ -131,5 +133,11 @@ export class ProjectsService {
     await this.validateId(id);
 
     return this.tasksService.insertForProject(id, obj);
+  }
+
+  async updateTasksTimeForProject(id: string): Promise<UpdateTasksTimeForProjectResponse> {
+    await this.validateId(id);
+
+    return this.tasksService.updateAllTimeForProject(id);
   }
 }

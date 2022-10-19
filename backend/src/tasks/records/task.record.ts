@@ -95,4 +95,16 @@ export class TaskRecord implements TaskEntity {
 
     return result[0].affectedRows;
   }
+
+  static async updateAllTimeForProject(id: number): Promise<number> {
+    const result = (await pool.execute(
+      "UPDATE `tasks` SET `minutes` = `minutes` + :deltaTime " +
+      "WHERE `project_id` = :projectId AND `state` = :state", {
+        deltaTime: taskConfig.DELTA_TIME_IN_MIN,
+        projectId: id,
+        state: TaskState[TaskState.DOING],
+      })) as TaskRecordUpdateResult;
+
+    return result[0].changedRows;
+  }
 }
