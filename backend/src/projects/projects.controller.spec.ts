@@ -140,7 +140,7 @@ describe('ProjectsController', () => {
 
       const moduleTmp: TestingModule = await Test.createTestingModule({
         controllers: [SprintsController],
-        providers: [SprintsService],
+        providers: [SprintsService, TasksService],
       }).compile();
 
       controllerTmp = moduleTmp.get<SprintsController>(SprintsController);
