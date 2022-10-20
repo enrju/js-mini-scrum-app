@@ -107,4 +107,42 @@ export class TaskRecord implements TaskEntity {
 
     return result[0].changedRows;
   }
+
+  async moveRightForSprint(sprintId: number): Promise<number> {
+    let result: TaskRecordUpdateResult;
+
+    switch (this.state) {
+      case TaskState.BACKLOG:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state, `sprint_id` = :sprintId WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.TODO],
+            sprintId,
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+        break;
+      case TaskState.TODO:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.DOING],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+        break;
+      case TaskState.DOING:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.DONE],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+        break;
+    }
+  }
 }
