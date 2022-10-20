@@ -124,7 +124,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
       case TaskState[TaskState.TODO]:
         result = (await pool.execute(
           "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
@@ -134,7 +133,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
       case TaskState[TaskState.DOING]:
         result = (await pool.execute(
           "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
@@ -144,7 +142,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
     }
   }
 
@@ -163,7 +160,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
       case TaskState[TaskState.DOING]:
         result = (await pool.execute(
           "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
@@ -173,7 +169,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
       case TaskState[TaskState.DONE]:
         result = (await pool.execute(
           "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
@@ -183,7 +178,6 @@ export class TaskRecord implements TaskEntity {
 
         return result[0].changedRows;
 
-        break;
     }
   }
 }

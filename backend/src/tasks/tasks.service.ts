@@ -128,7 +128,7 @@ export class TasksService {
               changedRows: result,
             }
           }
-          break;
+
         case TaskDirection[TaskDirection.left]:
           result = await task.moveLeftForSprint(Number(sprintId));
 
@@ -138,7 +138,7 @@ export class TasksService {
               changedRows: result,
             }
           }
-          break;
+
       }
     }
   }
