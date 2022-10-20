@@ -33,3 +33,10 @@ export type UpdateTasksTimeForProjectResponse = {
     changedRows: number,
   };
 } | ErrorResponse;
+
+export type UpdateTaskStateForSprintResponse = {
+  isSuccess: true;
+  data: {
+    changedRows: number,
+  };
+} | ErrorResponse;
