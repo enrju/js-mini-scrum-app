@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import {
   CreateSprintForProjectResponse,
   DeleteSprintResponse,
@@ -11,9 +11,15 @@ import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintEntity } from "./entities/sprint.entity";
 import { CreateSprintDto } from "./dto/create-sprint.dto";
 import { UpdateSprintDto } from "./dto/update-sprint.dto";
+import { TasksService } from "../tasks/tasks.service";
 
 @Injectable()
 export class SprintsService {
+  constructor(
+    @Inject(forwardRef(() => TasksService)) private tasksService: TasksService,
+  ) {
+  }
+
   async validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
