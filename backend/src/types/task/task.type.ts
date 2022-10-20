@@ -14,3 +14,8 @@ export interface Task {
   project_id: number;
   sprint_id: number;
 }
+
+export enum TaskDirection {
+  right,
+  left,
+}
