@@ -4,7 +4,7 @@ import {
   DeleteSprintResponse,
   GetAllSprintsForProjectResponse,
   Sprint,
-  UpdateSprintResponse
+  UpdateSprintResponse, UpdateTaskStateForSprintResponse
 } from "../types";
 import { SprintRecord } from "./records/sprint.record";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
@@ -90,5 +90,11 @@ export class SprintsService {
         }
       }
     }
+  }
+
+  async updateTaskStateForSprint(taskId: string, sprintId: string, moveDirection: string): Promise<UpdateTaskStateForSprintResponse> {
+    await this.validateId(sprintId);
+
+    return this.tasksService.updateStateForSprint(taskId, sprintId, moveDirection);
   }
 }
