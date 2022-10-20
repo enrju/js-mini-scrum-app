@@ -1,19 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import {
   CreateSprintForProjectResponse,
   DeleteSprintResponse,
   GetAllSprintsForProjectResponse,
   Sprint,
-  UpdateSprintResponse
+  UpdateSprintResponse, UpdateTaskStateForSprintResponse
 } from "../types";
 import { SprintRecord } from "./records/sprint.record";
 import { RecordNotFoundError, RecordValidationError } from "../utils/errors";
 import { SprintEntity } from "./entities/sprint.entity";
 import { CreateSprintDto } from "./dto/create-sprint.dto";
 import { UpdateSprintDto } from "./dto/update-sprint.dto";
+import { TasksService } from "../tasks/tasks.service";
 
 @Injectable()
 export class SprintsService {
+  constructor(
+    @Inject(forwardRef(() => TasksService)) private tasksService: TasksService,
+  ) {
+  }
+
   async validateId(id: string) {
     if(!Number(id)
       || !Number.isInteger(Number(id))) {
@@ -84,5 +90,11 @@ export class SprintsService {
         }
       }
     }
+  }
+
+  async updateTaskStateForSprint(taskId: string, sprintId: string, moveDirection: string): Promise<UpdateTaskStateForSprintResponse> {
+    await this.validateId(sprintId);
+
+    return this.tasksService.updateStateForSprint(taskId, sprintId, moveDirection);
   }
 }

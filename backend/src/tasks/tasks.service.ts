@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   CreateTaskForProjectResponse,
   DeleteTaskResponse,
   GetAllTasksForProjectResponse,
   Task,
+  TaskDirection,
   UpdateTaskResponse,
+  UpdateTaskStateForSprintResponse,
   UpdateTasksTimeForProjectResponse
 } from "../types";
 import { TaskRecord } from "./records/task.record";
@@ -24,6 +26,12 @@ export class TasksService {
     const result = await TaskRecord.getOne(Number(id));
     if(!result) {
       throw new RecordNotFoundError(`There is not Task with id = ${id}`);
+    }
+  }
+
+  async validateDirection(direction: string) {
+    if(!TaskDirection[TaskDirection[direction]]) {
+      throw new RecordValidationError('Unknown value task move direction');
     }
   }
 
@@ -96,6 +104,41 @@ export class TasksService {
       isSuccess: true,
       data: {
         changedRows: result,
+      }
+    }
+  }
+
+  async updateStateForSprint(taskId: string, sprintId: string, moveDirection: string): Promise<UpdateTaskStateForSprintResponse> {
+    //sprintId was validated in SprintService
+    await this.validateId(taskId);
+    await this.validateDirection(moveDirection);
+
+    const task = await TaskRecord.getOne(Number(taskId));
+
+    if(task) {
+      let result: number;
+
+      switch (moveDirection) {
+        case TaskDirection[TaskDirection.right]:
+          result = await task.moveRightForSprint(Number(sprintId));
+
+          return {
+            isSuccess: true,
+            data: {
+              changedRows: result,
+            }
+          }
+
+        case TaskDirection[TaskDirection.left]:
+          result = await task.moveLeftForSprint(Number(sprintId));
+
+          return {
+            isSuccess: true,
+            data: {
+              changedRows: result,
+            }
+          }
+
       }
     }
   }

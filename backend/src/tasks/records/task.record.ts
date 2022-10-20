@@ -107,4 +107,77 @@ export class TaskRecord implements TaskEntity {
 
     return result[0].changedRows;
   }
+
+  async moveRightForSprint(sprintId: number): Promise<number> {
+    let result: TaskRecordUpdateResult;
+
+    const state = TaskState[TaskState[this.state]];
+
+    switch (state) {
+      case TaskState[TaskState.BACKLOG]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state, `sprint_id` = :sprintId WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.TODO],
+            sprintId,
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+      case TaskState[TaskState.TODO]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.DOING],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+      case TaskState[TaskState.DOING]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.DONE],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+    }
+  }
+
+  async moveLeftForSprint(sprintId: number): Promise<number> {
+    let result: TaskRecordUpdateResult;
+
+    const state = TaskState[TaskState[this.state]];
+
+    switch (state) {
+      case TaskState[TaskState.TODO]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state, `sprint_id` = null WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.BACKLOG],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+      case TaskState[TaskState.DOING]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.TODO],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+      case TaskState[TaskState.DONE]:
+        result = (await pool.execute(
+          "UPDATE `tasks` SET `state` = :state WHERE `id` = :id", {
+            id: this.id,
+            state: TaskState[TaskState.DOING],
+          })) as TaskRecordUpdateResult;
+
+        return result[0].changedRows;
+
+    }
+  }
 }

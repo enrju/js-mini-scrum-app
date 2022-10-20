@@ -111,4 +111,17 @@ describe('TasksService', () => {
       expect(e).toBeInstanceOf(RecordValidationError);
     }
   });
+
+  test('updateStateForSprint() for moveDirection="abc" (NaN) should throw RecordValidationError', async () => {
+    //it was used exising task with state "BACKLOG"
+    const taskId = '12';
+    const sprintId = '1';
+    const moveDirection = 'abc';
+
+    try {
+      await service.updateStateForSprint(taskId, sprintId, moveDirection);
+    } catch (e) {
+      expect(e).toBeInstanceOf(RecordValidationError);
+    }
+  });
 });

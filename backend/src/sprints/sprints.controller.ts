@@ -1,5 +1,9 @@
 import { Body, Controller, Delete, Inject, Param, Put } from "@nestjs/common";
-import { DeleteSprintResponse, UpdateSprintResponse } from "../types";
+import {
+  DeleteSprintResponse,
+  UpdateSprintResponse,
+  UpdateTaskStateForSprintResponse
+} from "../types";
 import { UpdateSprintDto } from "./dto/update-sprint.dto";
 import { SprintsService } from "./sprints.service";
 
@@ -23,5 +27,14 @@ export class SprintsController {
     @Param('id') id: string,
   ): Promise<DeleteSprintResponse> {
     return this.sprintsService.delete(id);
+  }
+
+  @Put('/:sprintId/tasks/:taskId/:moveDirection')
+  async updateTaskStateForSprint(
+    @Param('sprintId') sprintId: string,
+    @Param('taskId') taskId: string,
+    @Param('moveDirection') moveDirection: string,
+  ): Promise<UpdateTaskStateForSprintResponse> {
+    return this.sprintsService.updateTaskStateForSprint(taskId, sprintId, moveDirection);
   }
 }
