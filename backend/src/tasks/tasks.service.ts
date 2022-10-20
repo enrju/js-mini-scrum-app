@@ -30,7 +30,7 @@ export class TasksService {
   }
 
   async validateDirection(direction: string) {
-    if(!TaskDirection[direction]) {
+    if(!TaskDirection[TaskDirection[direction]]) {
       throw new RecordValidationError('Unknown value task move direction');
     }
   }

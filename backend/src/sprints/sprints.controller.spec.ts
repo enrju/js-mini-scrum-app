@@ -3,6 +3,9 @@ import { SprintsController } from './sprints.controller';
 import { SprintsService } from "./sprints.service";
 import { SprintRecord } from "./records/sprint.record";
 import { TasksService } from "../tasks/tasks.service";
+import { TasksController } from "../tasks/tasks.controller";
+import { TaskRecord } from "../tasks/records/task.record";
+import { TaskDirection, TaskState } from "../types";
 
 describe('SprintsController', () => {
   let controller: SprintsController;
@@ -49,5 +52,46 @@ describe('SprintsController', () => {
     if(response.isSuccess) {
       expect(response.data.deletedRows).toBeGreaterThan(0);
     }
+  });
+
+  test('updateTaskStateForSprint() should change state of task', async () => {
+    //it was used exising task with state "BACKLOG"
+    const taskId = '12';
+    const sprintId = '1';
+    let task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.BACKLOG]);
+    expect(task.sprint_id).toBeNull();
+
+    let moveDirection = 'right';
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.TODO]);
+    expect(task.sprint_id).toBe(Number(sprintId));
+
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.DOING]);
+    expect(task.sprint_id).toBe(Number(sprintId));
+
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.DONE]);
+    expect(task.sprint_id).toBe(Number(sprintId));
+
+    moveDirection = 'left';
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.DOING]);
+    expect(task.sprint_id).toBe(Number(sprintId));
+
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.TODO]);
+    expect(task.sprint_id).toBe(Number(sprintId));
+
+    await controller.updateTaskStateForSprint(sprintId, taskId, moveDirection);
+    task = await TaskRecord.getOne(Number(taskId));
+    expect(task.state).toBe(TaskState[TaskState.BACKLOG]);
+    expect(task.sprint_id).toBeNull();
   });
 });
