@@ -28,6 +28,8 @@ export type UpdateProjectResponse = {
 export type DeleteProjectResponse = {
   isSuccess: true;
   data: {
-    deletedRows: number,
+    deletedProjectRows: number,
+    deletedSprintRows: number,
+    deletedTaskRows: number,
   };
 } | ErrorResponse;
