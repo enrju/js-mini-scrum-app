@@ -180,4 +180,12 @@ export class TaskRecord implements TaskEntity {
 
     }
   }
+
+  static async deleteAllForSprint(id: number): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `tasks` WHERE `sprint_id` = :id", {
+      id: id,
+    })) as TaskRecordDeleteResult;
+
+    return result[0].affectedRows;
+  }
 }
