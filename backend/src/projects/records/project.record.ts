@@ -3,6 +3,8 @@ import { pool } from "../../utils/db";
 import { FieldPacket, ResultSetHeader } from "mysql2";
 import { projectConfig } from "../../types";
 import { RecordValidationError } from "../../utils/errors";
+import { TaskRecord } from "../../tasks/records/task.record";
+import { SprintRecord } from "../../sprints/records/sprint.record";
 
 type ProjectRecordResults = [ProjectRecord[], FieldPacket[]];
 type ProjectRecordInsertResult = ResultSetHeader[];
@@ -73,11 +75,26 @@ export class ProjectRecord implements ProjectEntity {
     return result[0].changedRows;
   }
 
-  async delete(): Promise<number> {
-    const result = (await pool.execute("DELETE FROM `projects` WHERE `id` = :id", {
+  async delete(): Promise<{
+    deletedProjectRows: number,
+    deletedSprintRows: number,
+    deletedTaskRows: number,
+  }> {
+    const result = {
+      deletedProjectRows: 0,
+      deletedSprintRows: 0,
+      deletedTaskRows: 0,
+    }
+
+    result.deletedTaskRows = await TaskRecord.deleteAllForProject(this.id);
+    result.deletedSprintRows = await SprintRecord.deleteAllForProject(this.id);
+
+    const response = (await pool.execute("DELETE FROM `projects` WHERE `id` = :id", {
       id: this.id,
     })) as ProjectRecordDeleteResult;
 
-    return result[0].affectedRows;
+    result.deletedProjectRows = response[0].affectedRows;
+
+    return result;
   }
 }
