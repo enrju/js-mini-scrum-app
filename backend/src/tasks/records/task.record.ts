@@ -188,4 +188,12 @@ export class TaskRecord implements TaskEntity {
 
     return result[0].affectedRows;
   }
+
+  static async deleteAllForProject(id: number): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `tasks` WHERE `project_id` = :id", {
+      id: id,
+    })) as TaskRecordDeleteResult;
+
+    return result[0].affectedRows;
+  }
 }
