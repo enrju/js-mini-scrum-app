@@ -49,7 +49,7 @@ describe('TasksController', () => {
     const response = await controller.delete(String(testTaskRecordInsertedId));
 
     if(response.isSuccess) {
-      expect(response.data.deletedRows).toBeGreaterThan(0);
+      expect(response.data.deletedTaskRows).toBeGreaterThan(0);
     }
   });
 });
