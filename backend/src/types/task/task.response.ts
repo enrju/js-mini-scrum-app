@@ -23,7 +23,7 @@ export type UpdateTaskResponse = {
 export type DeleteTaskResponse = {
   isSuccess: true;
   data: {
-    deletedRows: number,
+    deletedTaskRows: number,
   };
 } | ErrorResponse;
 
