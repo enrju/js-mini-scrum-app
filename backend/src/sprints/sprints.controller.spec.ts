@@ -50,7 +50,7 @@ describe('SprintsController', () => {
     const response = await controller.delete(String(testSprintRecordInsertedId));
 
     if(response.isSuccess) {
-      expect(response.data.deletedRows).toBeGreaterThan(0);
+      expect(response.data.deletedSprintRows).toBeGreaterThan(0);
     }
   });
 

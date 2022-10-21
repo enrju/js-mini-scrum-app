@@ -3,6 +3,7 @@ import { pool } from "../../utils/db";
 import { FieldPacket, ResultSetHeader } from "mysql2";
 import { sprintConfig } from "../../types";
 import { RecordValidationError } from "../../utils/errors";
+import { TaskRecord } from "../../tasks/records/task.record";
 
 type SprintRecordResults = [SprintRecord[], FieldPacket[]];
 type SprintRecordInsertResult = ResultSetHeader[];
@@ -68,9 +69,29 @@ export class SprintRecord implements SprintEntity {
     return result[0].changedRows;
   }
 
-  async delete(): Promise<number> {
-    const result = (await pool.execute("DELETE FROM `sprints` WHERE `id` = :id", {
+  async delete(): Promise<{
+    deletedSprintRows: number,
+    deletedTaskRows: number,
+  }> {
+    const result = {
+      deletedSprintRows: 0,
+      deletedTaskRows: 0,
+    }
+
+    result.deletedTaskRows = await TaskRecord.deleteAllForSprint(this.id);
+
+    const response = (await pool.execute("DELETE FROM `sprints` WHERE `id` = :id", {
       id: this.id,
+    })) as SprintRecordDeleteResult;
+
+    result.deletedSprintRows = response[0].affectedRows;
+
+    return result;
+  }
+
+  static async deleteAllForProject(id: number): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `sprints` WHERE `project_id` = :id", {
+      id: id,
     })) as SprintRecordDeleteResult;
 
     return result[0].affectedRows;

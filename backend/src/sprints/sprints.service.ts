@@ -85,9 +85,7 @@ export class SprintsService {
 
       return {
         isSuccess: true,
-        data: {
-          deletedRows: result,
-        }
+        data: result,
       }
     }
   }

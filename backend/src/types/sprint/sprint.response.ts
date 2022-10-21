@@ -23,6 +23,7 @@ export type UpdateSprintResponse = {
 export type DeleteSprintResponse = {
   isSuccess: true;
   data: {
-    deletedRows: number,
+    deletedSprintRows: number,
+    deletedTaskRows: number,
   };
 } | ErrorResponse;

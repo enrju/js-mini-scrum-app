@@ -88,9 +88,7 @@ export class TasksService {
 
       return {
         isSuccess: true,
-        data: {
-          deletedRows: result,
-        }
+        data: result,
       }
     }
   }

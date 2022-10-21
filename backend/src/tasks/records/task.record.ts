@@ -88,12 +88,20 @@ export class TaskRecord implements TaskEntity {
     return result[0].changedRows;
   }
 
-  async delete(): Promise<number> {
-    const result = (await pool.execute("DELETE FROM `tasks` WHERE `id` = :id", {
+  async delete(): Promise<{
+    deletedTaskRows: number,
+  }> {
+    const result = {
+      deletedTaskRows: 0,
+    }
+
+    const response = (await pool.execute("DELETE FROM `tasks` WHERE `id` = :id", {
       id: this.id,
     })) as TaskRecordDeleteResult;
 
-    return result[0].affectedRows;
+    result.deletedTaskRows = response[0].affectedRows;
+
+    return result;
   }
 
   static async updateAllTimeForProject(id: number): Promise<number> {
@@ -179,5 +187,21 @@ export class TaskRecord implements TaskEntity {
         return result[0].changedRows;
 
     }
+  }
+
+  static async deleteAllForSprint(id: number): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `tasks` WHERE `sprint_id` = :id", {
+      id: id,
+    })) as TaskRecordDeleteResult;
+
+    return result[0].affectedRows;
+  }
+
+  static async deleteAllForProject(id: number): Promise<number> {
+    const result = (await pool.execute("DELETE FROM `tasks` WHERE `project_id` = :id", {
+      id: id,
+    })) as TaskRecordDeleteResult;
+
+    return result[0].affectedRows;
   }
 }

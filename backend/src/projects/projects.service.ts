@@ -104,9 +104,7 @@ export class ProjectsService {
 
       return {
         isSuccess: true,
-        data: {
-          deletedRows: result,
-        }
+        data: result,
       }
     }
   }

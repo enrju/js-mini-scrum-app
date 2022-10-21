@@ -107,7 +107,7 @@ describe('ProjectsController', () => {
     const response = await controller.delete(String(testProjectRecordInsertedId));
 
     if(response.isSuccess) {
-      expect(response.data.deletedRows).toBeGreaterThan(0);
+      expect(response.data.deletedProjectRows).toBeGreaterThan(0);
     }
   });
 
