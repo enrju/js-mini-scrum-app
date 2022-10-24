@@ -1,8 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {TaskState} from 'types';
 
 function App() {
+  //test working shared types
+  const tmp: TaskState = TaskState.BACKLOG;
+
   return (
     <div className="App">
       <header className="App-header">
