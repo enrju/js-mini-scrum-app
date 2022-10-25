@@ -202,6 +202,15 @@ export const App = () => {
         });
     }
 
+    const setEditedSprintIndex = (index: number) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                editedSprintIndex: index,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
