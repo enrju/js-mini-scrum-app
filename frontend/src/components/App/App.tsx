@@ -23,6 +23,25 @@ interface AppData {
 }
 
 export const App = () => {
+    const [data, setData] = useState<AppData>({
+        idOpenedProject: null,
+        titleOpenedProject: '',
+        descriptionOpenedProject: '',
+        taskListOpenedProject: [],
+        sprintListOpenedProject: [],
+        isBacklogHide: false,
+        idChosenSprint: null,
+        editedTaskIndex: -1,
+        isShowFormAddTask: false,
+        isShowFormEditTask: false,
+        editedSprintIndex: -1,
+        isShowFormAddSprint: false,
+        isShowFormEditSprint: false,
+        projectList: [],
+        editedProjectIndex: -1,
+        isShowFormAddProject: false,
+        isShowFormEditProject: false,
+    });
 
     return (
         <h1>Test - cra app</h1>
