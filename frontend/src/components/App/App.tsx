@@ -157,6 +157,15 @@ export const App = () => {
         });
     }
 
+    const setShowFormAddTask = (bool: boolean) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                isShowFormAddTask: bool,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
