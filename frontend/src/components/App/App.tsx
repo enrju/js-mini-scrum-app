@@ -6,7 +6,8 @@ import {
     Task,
     GetAllProjectsResponse,
     GetAllSprintsForProjectResponse,
-    GetAllTasksForProjectResponse
+    GetAllTasksForProjectResponse,
+    CreateProjectRequest
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -211,7 +212,7 @@ export const App = () => {
         });
     }
 
-    const getDataFromForm = () => {
+    const getDataFromForm = (): CreateProjectRequest => {
         const inpTitle: HTMLInputElement | null = document.querySelector("input[name='title']");
         const inpDescription: HTMLInputElement | null = document.querySelector("textarea[name='description']");
 
@@ -226,14 +227,21 @@ export const App = () => {
                 }
             } else {
                 return {
-                    title
+                    title,
+                    description: null,
                 }
             }
+        } else {
+            throw new Error('Problem with get data from form - probably form not exist');
         }
     }
 
     const handleShowFormAddProject = () => {
         setShowFormAddProject(true);
+    }
+
+    const handleHideFormAddProject = () => {
+        setShowFormAddProject(false);
     }
 
     return (
