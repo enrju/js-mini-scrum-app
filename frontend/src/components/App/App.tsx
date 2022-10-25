@@ -5,7 +5,8 @@ import {
     Sprint,
     Task,
     GetAllProjectsResponse,
-    GetAllSprintsForProjectResponse
+    GetAllSprintsForProjectResponse,
+    GetAllTasksForProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -103,6 +104,25 @@ export const App = () => {
                     ...prevData,
                     sprintListOpenedProject: data.data,
                     idChosenSprint: data.data.length > 0 && data.data[0].id ? data.data[0].id : null,
+                })
+            });
+        } else {
+            console.log(data.msgError);
+        }
+    }
+
+    const setTaskListOpenedProject = async (id: number) => {
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${id}/tasks`, {
+                method: 'GET'
+            });
+        const data: GetAllTasksForProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            setData((prevData) => {
+                return ({
+                    ...prevData,
+                    taskListOpenedProject: data.data,
                 })
             });
         } else {
