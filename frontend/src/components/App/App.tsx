@@ -8,7 +8,8 @@ import {
     GetAllSprintsForProjectResponse,
     GetAllTasksForProjectResponse,
     CreateProjectRequest,
-    CreateProjectResponse
+    CreateProjectResponse,
+    UpdateProjectRequest
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -33,7 +34,7 @@ interface AppData {
 }
 
 export const App = () => {
-    const [data, setData] = useState<AppData>({
+    const [appData, setAppData] = useState<AppData>({
         idOpenedProject: null,
         titleOpenedProject: '',
         descriptionOpenedProject: '',
@@ -53,7 +54,7 @@ export const App = () => {
         isShowFormEditProject: false,
     });
 
-    const [interval, setInterval] = useState(null);
+    const [appInterval, setAppInterval] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -69,7 +70,7 @@ export const App = () => {
         const data: GetAllProjectsResponse = await res.json();
 
         if(data.isSuccess) {
-            setData({
+            setAppData({
                 idOpenedProject: null,
                 titleOpenedProject: '',
                 descriptionOpenedProject: '',
@@ -101,7 +102,7 @@ export const App = () => {
         const data: GetAllSprintsForProjectResponse = await res.json();
 
         if(data.isSuccess) {
-            setData((prevData) => {
+            setAppData((prevData) => {
                 return ({
                     ...prevData,
                     sprintListOpenedProject: data.data,
@@ -121,7 +122,7 @@ export const App = () => {
         const data: GetAllTasksForProjectResponse = await res.json();
 
         if(data.isSuccess) {
-            setData((prevData) => {
+            setAppData((prevData) => {
                 return ({
                     ...prevData,
                     taskListOpenedProject: data.data,
@@ -133,7 +134,7 @@ export const App = () => {
     }
 
     const setShowFormAddProject = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormAddProject: bool,
@@ -142,7 +143,7 @@ export const App = () => {
     }
 
     const setShowFormEditProject = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormEditProject: bool,
@@ -151,7 +152,7 @@ export const App = () => {
     }
 
     const setEditedProjectIndex = (index: number) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 editedProjectIndex: index,
@@ -160,7 +161,7 @@ export const App = () => {
     }
 
     const setShowFormAddTask = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormAddTask: bool,
@@ -169,7 +170,7 @@ export const App = () => {
     }
 
     const setShowFormEditTask = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormEditTask: bool,
@@ -178,7 +179,7 @@ export const App = () => {
     }
 
     const setEditedTaskIndex = (index: number) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 editedTaskIndex: index,
@@ -187,7 +188,7 @@ export const App = () => {
     }
 
     const setShowFormAddSprint = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormAddSprint: bool,
@@ -196,7 +197,7 @@ export const App = () => {
     }
 
     const setShowFormEditSprint = (bool: boolean) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 isShowFormEditSprint: bool,
@@ -205,7 +206,7 @@ export const App = () => {
     }
 
     const setEditedSprintIndex = (index: number) => {
-        setData((prevData) => {
+        setAppData((prevData) => {
             return ({
                 ...prevData,
                 editedSprintIndex: index,
@@ -276,8 +277,8 @@ export const App = () => {
         const id = parent.dataset.id;
 
         let index = -1;
-        for(let i = 0; i < data.projectList.length; i++) {
-            if(data.projectList[i].id === Number(id)) {
+        for(let i = 0; i < appData.projectList.length; i++) {
+            if(appData.projectList[i].id === Number(id)) {
                 index = i;
                 break;
             }
@@ -291,10 +292,38 @@ export const App = () => {
         setShowFormEditProject(false);
     }
 
+    const handleEditProject = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const index = appData.editedProjectIndex;
+        const id = appData.projectList[index].id;
+        setEditedProjectIndex(-1);
+
+        const formData: UpdateProjectRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: CreateProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            await setProjectList();
+        } else {
+            console.log(data.msgError);
+        }
+
+        setShowFormEditProject(false);
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
-            <p>{data.projectList.map(item => item.title + ', ')}</p>
+            <p>{appData.projectList.map(item => item.title + ', ')}</p>
         </>
     );
 }
