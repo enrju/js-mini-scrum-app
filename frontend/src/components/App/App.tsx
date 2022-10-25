@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import './App.scss';
 import {
     Project,
@@ -7,7 +7,8 @@ import {
     GetAllProjectsResponse,
     GetAllSprintsForProjectResponse,
     GetAllTasksForProjectResponse,
-    CreateProjectRequest
+    CreateProjectRequest,
+    CreateProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -212,7 +213,7 @@ export const App = () => {
         });
     }
 
-    const getDataFromForm = (): CreateProjectRequest => {
+    const getDataFromForm = () => {
         const inpTitle: HTMLInputElement | null = document.querySelector("input[name='title']");
         const inpDescription: HTMLInputElement | null = document.querySelector("textarea[name='description']");
 
@@ -241,6 +242,30 @@ export const App = () => {
     }
 
     const handleHideFormAddProject = () => {
+        setShowFormAddProject(false);
+    }
+
+    const handleAddProject = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData: CreateProjectRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/projects`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: CreateProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            await setProjectList();
+        } else {
+            console.log(data.msgError);
+        }
+
         setShowFormAddProject(false);
     }
 
