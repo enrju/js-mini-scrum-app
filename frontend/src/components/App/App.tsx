@@ -15,6 +15,10 @@ import {
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
+interface ProjectFE extends Project {
+    isHide: boolean;
+}
+
 interface AppData {
     idOpenedProject: number | null;
     titleOpenedProject: string;
@@ -29,7 +33,7 @@ interface AppData {
     editedSprintIndex: number;
     isShowFormAddSprint: boolean;
     isShowFormEditSprint: boolean;
-    projectList: Project[];
+    projectList: ProjectFE[];
     editedProjectIndex: number;
     isShowFormAddProject: boolean;
     isShowFormEditProject: boolean;
@@ -72,6 +76,11 @@ export const App = () => {
         const data: GetAllProjectsResponse = await res.json();
 
         if(data.isSuccess) {
+            const projectListFE = data.data.map(item => ({
+                ...item,
+                isHide: false,
+            } as ProjectFE));
+
             setAppData({
                 idOpenedProject: null,
                 titleOpenedProject: '',
@@ -86,7 +95,7 @@ export const App = () => {
                 editedSprintIndex: -1,
                 isShowFormAddSprint: false,
                 isShowFormEditSprint: false,
-                projectList: data.data,
+                projectList: projectListFE,
                 editedProjectIndex: -1,
                 isShowFormAddProject: false,
                 isShowFormEditProject: false,
