@@ -130,6 +130,15 @@ export const App = () => {
         }
     }
 
+    const setShowFormAddProject = (bool: boolean) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                isShowFormAddProject: bool,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
