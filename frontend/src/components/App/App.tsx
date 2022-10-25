@@ -175,6 +175,15 @@ export const App = () => {
         });
     }
 
+    const setEditedTaskIndex = (index: number) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                editedTaskIndex: index,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
