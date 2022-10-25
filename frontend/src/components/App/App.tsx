@@ -43,6 +43,8 @@ export const App = () => {
         isShowFormEditProject: false,
     });
 
+    const [interval, setInterval] = useState(null);
+
     return (
         <h1>Test - cra app</h1>
     );
