@@ -232,6 +232,10 @@ export const App = () => {
         }
     }
 
+    const handleShowFormAddProject = () => {
+        setShowFormAddProject(true);
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
