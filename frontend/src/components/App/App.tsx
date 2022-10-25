@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import './App.scss';
-import {Project, Sprint, Task, GetAllProjectsResponse} from 'types';
+import {
+    Project,
+    Sprint,
+    Task,
+    GetAllProjectsResponse,
+    GetAllSprintsForProjectResponse
+} from 'types';
 import {appConfig} from "../../config/app-config";
 
 interface AppData {
@@ -78,6 +84,26 @@ export const App = () => {
                 editedProjectIndex: -1,
                 isShowFormAddProject: false,
                 isShowFormEditProject: false,
+            });
+        } else {
+            console.log(data.msgError);
+        }
+    }
+
+    const setSprintListOpenedProject = async (id: number) => {
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${id}/sprints`, {
+                method: 'GET'
+            });
+        const data: GetAllSprintsForProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            setData((prevData) => {
+                return ({
+                    ...prevData,
+                    sprintListOpenedProject: data.data,
+                    idChosenSprint: data.data.length > 0 && data.data[0].id ? data.data[0].id : null,
+                })
             });
         } else {
             console.log(data.msgError);
