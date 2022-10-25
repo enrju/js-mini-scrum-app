@@ -287,6 +287,10 @@ export const App = () => {
         setEditedProjectIndex(index);
     }
 
+    const handleHideFormEditProject = () => {
+        setShowFormEditProject(false);
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
