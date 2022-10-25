@@ -269,6 +269,24 @@ export const App = () => {
         setShowFormAddProject(false);
     }
 
+    const handleShowFormEditProject = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+
+        let index = -1;
+        for(let i = 0; i < data.projectList.length; i++) {
+            if(data.projectList[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        setShowFormEditProject(true);
+        setEditedProjectIndex(index);
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
