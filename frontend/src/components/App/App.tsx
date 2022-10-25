@@ -211,6 +211,27 @@ export const App = () => {
         });
     }
 
+    const getDataFromForm = () => {
+        const inpTitle: HTMLInputElement | null = document.querySelector("input[name='title']");
+        const inpDescription: HTMLInputElement | null = document.querySelector("textarea[name='description']");
+
+        if(inpTitle && inpDescription) {
+            const title = inpTitle.value;
+            const description = inpDescription ? inpDescription.value : null;
+
+            if(inpDescription) {
+                return {
+                    title,
+                    description
+                }
+            } else {
+                return {
+                    title
+                }
+            }
+        }
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
