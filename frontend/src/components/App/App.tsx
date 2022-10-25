@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, MouseEvent, useEffect, useState} from 'react';
 import './App.scss';
 import {
     Project,
@@ -353,6 +353,39 @@ export const App = () => {
             }
         }
     }
+
+    const handleHideShowProjectDescription = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = parent.dataset.id;
+
+        //copy of table
+        let newProjectList = [ ...appData.projectList ].map(item => {
+            if(item.id === id) {
+                return {
+                    ...item,
+                    isHide: !item.isHide,
+                }
+            } else {
+                return {
+                    ...item,
+                }
+            }
+        });
+
+        setAppData((prevData) => {
+            return ({
+                ...prevData,
+                projectList: newProjectList,
+            })
+        });
+
+        //don't get projects from DB
+        //because changes are only in state from App
+    }
+
+    //linia 370
 
     return (
         <>
