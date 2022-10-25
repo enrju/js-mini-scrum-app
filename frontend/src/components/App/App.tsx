@@ -9,7 +9,9 @@ import {
     GetAllTasksForProjectResponse,
     CreateProjectRequest,
     CreateProjectResponse,
-    UpdateProjectRequest
+    UpdateProjectRequest,
+    UpdateProjectResponse,
+    DeleteProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -309,7 +311,7 @@ export const App = () => {
                 },
                 body: JSON.stringify(formData),
             });
-        const data: CreateProjectResponse = await res.json();
+        const data: UpdateProjectResponse = await res.json();
 
         if(data.isSuccess) {
             await setProjectList();
@@ -318,6 +320,29 @@ export const App = () => {
         }
 
         setShowFormEditProject(false);
+    }
+
+    const handleDeleteProject = async (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const decision = window.confirm('All tasks and sprints inside project will be deleted!');
+
+        if(decision) {
+            const res = await fetch(
+                appConfig.apiURL + `/projects/${id}`, {
+                    method: 'DELETE',
+                });
+            const data: DeleteProjectResponse = await res.json();
+
+            if(data.isSuccess) {
+                await setProjectList();
+            } else {
+                console.log(data.msgError);
+            }
+        }
     }
 
     return (
