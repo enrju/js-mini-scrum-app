@@ -148,6 +148,15 @@ export const App = () => {
         });
     }
 
+    const setEditedProjectIndex = (index: number) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                editedProjectIndex: index,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
