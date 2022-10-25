@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.scss';
-import {Project, Sprint, Task} from 'types';
+import {Project, Sprint, Task, GetAllProjectsResponse} from 'types';
+import {appConfig} from "../../config/app-config";
 
 interface AppData {
     idOpenedProject: number | null;
@@ -45,7 +46,48 @@ export const App = () => {
 
     const [interval, setInterval] = useState(null);
 
+    useEffect(() => {
+        (async () => {
+            await setProjectList();
+        })();
+    }, []);
+
+    const setProjectList = async () => {
+        const res = await fetch(
+            appConfig.apiURL + '/projects', {
+            method: 'GET'
+        });
+        const data: GetAllProjectsResponse = await res.json();
+
+        if(data.isSuccess) {
+            setData({
+                idOpenedProject: null,
+                titleOpenedProject: '',
+                descriptionOpenedProject: '',
+                taskListOpenedProject: [],
+                sprintListOpenedProject: [],
+                isBacklogHide: false,
+                idChosenSprint: null,
+                editedTaskIndex: -1,
+                isShowFormAddTask: false,
+                isShowFormEditTask: false,
+                editedSprintIndex: -1,
+                isShowFormAddSprint: false,
+                isShowFormEditSprint: false,
+                projectList: data.data,
+                editedProjectIndex: -1,
+                isShowFormAddProject: false,
+                isShowFormEditProject: false,
+            });
+        } else {
+            console.log(data.msgError);
+        }
+    }
+
     return (
-        <h1>Test - cra app</h1>
-    );
+        <>
+            <h1>Test - cra app</h1>
+            <p>{data.projectList.map(item => item.title + ', ')}</p>
+        </>
+);
 }
