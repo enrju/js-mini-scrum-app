@@ -193,6 +193,15 @@ export const App = () => {
         });
     }
 
+    const setShowFormEditSprint = (bool: boolean) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                isShowFormEditSprint: bool,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
