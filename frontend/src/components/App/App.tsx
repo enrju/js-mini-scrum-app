@@ -139,10 +139,19 @@ export const App = () => {
         });
     }
 
+    const setShowFormEditProject = (bool: boolean) => {
+        setData((prevData) => {
+            return ({
+                ...prevData,
+                isShowFormEditProject: bool,
+            })
+        });
+    }
+
     return (
         <>
             <h1>Test - cra app</h1>
             <p>{data.projectList.map(item => item.title + ', ')}</p>
         </>
-);
+    );
 }
