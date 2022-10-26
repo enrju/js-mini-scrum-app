@@ -13,7 +13,8 @@ import {
     UpdateProjectResponse,
     DeleteProjectResponse,
     GetOneProjectResponse,
-    taskConfig
+    taskConfig,
+    CreateTaskForProjectRequest
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -459,7 +460,34 @@ export const App = () => {
         setShowFormAddTask(false);
     }
 
-    //////////////
+    const handleAddTask = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const id = appData.idOpenedProject;
+        const formData: CreateTaskForProjectRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${id}/tasks`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: CreateProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            if(id) {
+                await setTaskListOpenedProject(id);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+
+        setShowFormAddTask(false);
+    }
+
+    //---------------
 
     const handleUpdateTaskTime = () => {}
 
