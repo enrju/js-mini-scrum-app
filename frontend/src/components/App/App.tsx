@@ -451,6 +451,10 @@ export const App = () => {
         await setProjectList();
     }
 
+    const handleShowFormAddTask = () => {
+        setShowFormAddTask(true);
+    }
+
     //////////////
 
     const handleUpdateTaskTime = () => {}
