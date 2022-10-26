@@ -1,4 +1,4 @@
-import React, {FormEvent, MouseEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import './App.scss';
 import {
     Project,
@@ -11,7 +11,9 @@ import {
     CreateProjectResponse,
     UpdateProjectRequest,
     UpdateProjectResponse,
-    DeleteProjectResponse
+    DeleteProjectResponse,
+    GetOneProjectResponse,
+    taskConfig
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -60,7 +62,7 @@ export const App = () => {
         isShowFormEditProject: false,
     });
 
-    const [appInterval, setAppInterval] = useState(null);
+    const [appInterval, setAppInterval] = useState<NodeJS.Timer | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -383,6 +385,65 @@ export const App = () => {
 
         //don't get projects from DB
         //because changes are only in state from App
+    }
+
+    const handleOpenProject = async (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const id = Number(parent.dataset.id);
+
+        let title = '';
+        let description = '';
+
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${id}`, {
+                method: 'GET',
+            });
+        const data: GetOneProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            title = data.data.title;
+            description = data.data.description ? data.data.description : '';
+
+            //set state.sprintListOpenedProject - setState() inside
+            await setSprintListOpenedProject(id);
+
+            //set state.taskListOpenedProject - setState() inside
+            await setTaskListOpenedProject(id);
+
+            const interval = setInterval(handleUpdateTaskTime, taskConfig.DELTA_TIME_IN_MS);
+
+            setAppInterval(interval);
+
+            setAppData((prevData) => {
+                return ({
+                    ...prevData,
+                    idOpenedProject: id,
+                    //---------------------------
+                    titleOpenedProject: title,
+                    descriptionOpenedProject: description,
+                    // taskListOpenedProject: [],   //this was set above
+                    // sprintListOpenedProject: [], //this was set above
+                    isBacklogHide: false,
+                    // idChosenSprint: null,    //this was set above
+                    editedTaskIndex: -1,
+                    isShowFormAddTask: false,
+                    isShowFormEditTask: false,
+                    editedSprintIndex: -1,
+                    isShowFormAddSprint: false,
+                    isShowFormEditSprint: false,
+                    //---------------------------
+                    projectList: [],
+                    editedProjectIndex: -1,
+                    isShowFormAddProject: false,
+                    isShowFormEditProject: false,
+                })
+            });
+
+        } else {
+            console.log(data.msgError);
+        }
     }
 
     //linia 370
