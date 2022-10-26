@@ -455,6 +455,10 @@ export const App = () => {
         setShowFormAddTask(true);
     }
 
+    const handleHideFormAddTask = () => {
+        setShowFormAddTask(false);
+    }
+
     //////////////
 
     const handleUpdateTaskTime = () => {}
