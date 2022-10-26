@@ -487,11 +487,20 @@ export const App = () => {
         setShowFormAddTask(false);
     }
 
+    const handleHideShowBacklogDetails = () => {
+        setAppData((prevData) => {
+            return ({
+                ...prevData,
+                isBacklogHide: !prevData.isBacklogHide,
+            })
+        });
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
 
-    //linia 370
+    //linia 472
 
     return (
         <>
