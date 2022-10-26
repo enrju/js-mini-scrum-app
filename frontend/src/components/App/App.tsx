@@ -62,7 +62,7 @@ export const App = () => {
         isShowFormEditProject: false,
     });
 
-    const [appInterval, setAppInterval] = useState<NodeJS.Timer | null>(null);
+    const [appInterval, setAppInterval] = useState<NodeJS.Timer>();
 
     useEffect(() => {
         (async () => {
@@ -445,6 +445,13 @@ export const App = () => {
             console.log(data.msgError);
         }
     }
+
+    const handleCloseProject = async () => {
+        clearInterval(appInterval);
+        await setProjectList();
+    }
+
+    //////////////
 
     const handleUpdateTaskTime = () => {}
 
