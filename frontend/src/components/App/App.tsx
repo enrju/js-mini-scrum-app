@@ -24,7 +24,8 @@ import {
     CreateTaskForProjectResponse,
     UpdateSprintResponse,
     UpdateSprintRequest,
-    DeleteSprintResponse
+    DeleteSprintResponse,
+    UpdateTasksTimeForProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -794,11 +795,25 @@ export const App = () => {
         });
     }
 
-    //---------------
+    const handleUpdateTaskTime = async () => {
+        const idActiveProject = appData.idOpenedProject;
 
-    const handleUpdateTaskTime = () => {}
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${idActiveProject}/tasks/time`, {
+                method: 'PUT',
+            });
+        const data: UpdateTasksTimeForProjectResponse = await res.json();
 
-    //linia 618
+        if(data.isSuccess) {
+            if(appData.idOpenedProject) {
+                await setTaskListOpenedProject(appData.idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+    }
+
+    //linia 761 - render()
 
     return (
         <>
