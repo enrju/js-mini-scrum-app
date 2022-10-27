@@ -613,6 +613,32 @@ export const App = () => {
         }
     }
 
+    const handleMoveLeftTask = async (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const idTask = Number(parent.dataset.id);
+        const idChosenSprint =
+            appData.idChosenSprint !== null
+                ? appData.idChosenSprint
+                : -1;
+        const direction = 'left';
+
+        const res = await fetch(
+            appConfig.apiURL + `/sprints/${idChosenSprint}/tasks/${idTask}/${direction}`, {
+                method: 'PUT',
+            });
+        const data: UpdateTaskStateForSprintResponse = await res.json();
+
+        if(data.isSuccess) {
+            if(appData.idOpenedProject) {
+                await setTaskListOpenedProject(appData.idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
