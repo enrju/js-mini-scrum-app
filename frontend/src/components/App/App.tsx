@@ -23,7 +23,8 @@ import {
     CreateSprintForProjectResponse,
     CreateTaskForProjectResponse,
     UpdateSprintResponse,
-    UpdateSprintRequest
+    UpdateSprintRequest,
+    DeleteSprintResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -729,6 +730,31 @@ export const App = () => {
         }
 
         setShowFormEditSprint(false);
+    }
+
+    const handleDeleteSprint = async (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const decision = window.confirm('All tasks inside sprint will be deleted!');
+
+        if(decision) {
+            const res = await fetch(
+                appConfig.apiURL + `/sprints/${id}`, {
+                    method: 'DELETE',
+                });
+            const data: DeleteSprintResponse = await res.json();
+
+            if(data.isSuccess) {
+                if(appData.idOpenedProject) {
+                    await setSprintListOpenedProject(appData.idOpenedProject);
+                }
+            } else {
+                console.log(data.msgError);
+            }
+        }
     }
 
     //---------------
