@@ -766,6 +766,34 @@ export const App = () => {
         }
     }
 
+    const handleHideShowSprintDetails = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        //copy of table
+        let newSprintList = [ ...appData.sprintListOpenedProject ].map(item => {
+            if(item.id === id) {
+                return {
+                    ...item,
+                    isHide: !item.isHide,
+                }
+            } else {
+                return {
+                    ...item,
+                }
+            }
+        });
+
+        setAppData((prevData) => {
+            return ({
+                ...prevData,
+                sprintListOpenedProject: newSprintList,
+            })
+        });
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
