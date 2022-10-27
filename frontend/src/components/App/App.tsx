@@ -18,7 +18,10 @@ import {
     UpdateTaskRequest,
     UpdateTaskResponse,
     DeleteTaskResponse,
-    UpdateTaskStateForSprintResponse
+    UpdateTaskStateForSprintResponse,
+    CreateSprintForProjectRequest,
+    CreateSprintForProjectResponse,
+    CreateTaskForProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -478,7 +481,7 @@ export const App = () => {
                 },
                 body: JSON.stringify(formData),
             });
-        const data: CreateProjectResponse = await res.json();
+        const data: CreateTaskForProjectResponse = await res.json();
 
         if(data.isSuccess) {
             if(id) {
@@ -644,6 +647,33 @@ export const App = () => {
     }
 
     const handleHideFormAddSprint = () => {
+        setShowFormAddSprint(false);
+    }
+
+    const handleAddSprint = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const idOpenedProject = appData.idOpenedProject;
+        const formData: CreateSprintForProjectRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/projects/${idOpenedProject}/sprints`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: CreateSprintForProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            if(idOpenedProject) {
+                await setSprintListOpenedProject(idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+
         setShowFormAddSprint(false);
     }
 
