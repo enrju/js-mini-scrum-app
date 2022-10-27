@@ -15,7 +15,9 @@ import {
     GetOneProjectResponse,
     taskConfig,
     CreateTaskForProjectRequest,
-    UpdateTaskRequest
+    UpdateTaskRequest,
+    UpdateTaskResponse,
+    DeleteTaskResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -536,7 +538,7 @@ export const App = () => {
                 },
                 body: JSON.stringify(formData),
             });
-        const data: UpdateProjectResponse = await res.json();
+        const data: UpdateTaskResponse = await res.json();
 
         if(data.isSuccess) {
             if(appData.idOpenedProject) {
@@ -547,6 +549,28 @@ export const App = () => {
         }
 
         setShowFormEditTask(false);
+    }
+
+    const handleDeleteTask = async (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        const res = await fetch(
+            appConfig.apiURL + `/tasks/${id}`, {
+                method: 'DELETE',
+            });
+        const data: DeleteTaskResponse = await res.json();
+
+        if(data.isSuccess) {
+            // await setProjectList();
+            if(appData.idOpenedProject) {
+                await setTaskListOpenedProject(appData.idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
     }
 
     //---------------
