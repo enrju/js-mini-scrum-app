@@ -32,12 +32,16 @@ interface ProjectFE extends Project {
     isHide: boolean;
 }
 
+interface SprintFE extends Sprint {
+    isHide: boolean;
+}
+
 interface AppData {
     idOpenedProject: number | null;
     titleOpenedProject: string;
     descriptionOpenedProject: string;
     taskListOpenedProject: Task[];
-    sprintListOpenedProject: Sprint[];
+    sprintListOpenedProject: SprintFE[];
     isBacklogHide: boolean;
     idChosenSprint: number | null;
     editedTaskIndex: number;
@@ -126,11 +130,16 @@ export const App = () => {
         const data: GetAllSprintsForProjectResponse = await res.json();
 
         if(data.isSuccess) {
+            const sprintListFE = data.data.map(item => ({
+                ...item,
+                isHide: false,
+            } as SprintFE));
+
             setAppData((prevData) => {
                 return ({
                     ...prevData,
-                    sprintListOpenedProject: data.data,
-                    idChosenSprint: data.data.length > 0 && data.data[0].id ? data.data[0].id : null,
+                    sprintListOpenedProject: sprintListFE,
+                    idChosenSprint: sprintListFE.length > 0 && sprintListFE[0].id ? sprintListFE[0].id : null,
                 })
             });
         } else {
