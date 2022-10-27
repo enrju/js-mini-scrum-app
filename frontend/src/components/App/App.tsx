@@ -695,6 +695,10 @@ export const App = () => {
         setEditedSprintIndex(index);
     }
 
+    const handleHideFormEditSprint = () => {
+        setShowFormEditSprint(false);
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
