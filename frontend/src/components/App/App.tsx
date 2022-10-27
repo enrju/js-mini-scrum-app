@@ -677,6 +677,24 @@ export const App = () => {
         setShowFormAddSprint(false);
     }
 
+    const handleShowFormEditSprint = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        let index = -1;
+        for(let i = 0; i < appData.sprintListOpenedProject.length; i++) {
+            if(appData.sprintListOpenedProject[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        setShowFormEditSprint(true);
+        setEditedSprintIndex(index);
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
