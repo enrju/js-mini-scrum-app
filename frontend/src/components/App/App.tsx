@@ -514,6 +514,10 @@ export const App = () => {
         setEditedTaskIndex(index);
     }
 
+    const handleHideFormEditTask = () => {
+        setShowFormEditTask(false);
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
