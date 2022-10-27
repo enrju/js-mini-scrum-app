@@ -496,6 +496,24 @@ export const App = () => {
         });
     }
 
+    const handleShowFormEditTask = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        let index = -1;
+        for(let i = 0; i < appData.taskListOpenedProject.length; i++) {
+            if(appData.taskListOpenedProject[i].id === Number(id)) {
+                index = i;
+                break;
+            }
+        }
+
+        setShowFormEditTask(true);
+        setEditedTaskIndex(index);
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
