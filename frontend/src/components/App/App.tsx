@@ -21,7 +21,9 @@ import {
     UpdateTaskStateForSprintResponse,
     CreateSprintForProjectRequest,
     CreateSprintForProjectResponse,
-    CreateTaskForProjectResponse
+    CreateTaskForProjectResponse,
+    UpdateSprintResponse,
+    UpdateSprintRequest
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -696,6 +698,36 @@ export const App = () => {
     }
 
     const handleHideFormEditSprint = () => {
+        setShowFormEditSprint(false);
+    }
+
+    const handleEditSprint = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const index = appData.editedSprintIndex;
+        const id = appData.sprintListOpenedProject[index].id;
+        setEditedSprintIndex(-1);
+
+        const formData: UpdateSprintRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/sprints/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: UpdateSprintResponse = await res.json();
+
+        if(data.isSuccess) {
+            if(appData.idOpenedProject) {
+                await setSprintListOpenedProject(appData.idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+
         setShowFormEditSprint(false);
     }
 
