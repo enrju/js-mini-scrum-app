@@ -573,6 +573,20 @@ export const App = () => {
         }
     }
 
+    const handleChooseSprint = (e: any) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode.parentNode;
+        const id = Number(parent.dataset.id);
+
+        setAppData((prevData) => {
+            return ({
+                ...prevData,
+                idChosenSprint: id,
+            })
+        });
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
