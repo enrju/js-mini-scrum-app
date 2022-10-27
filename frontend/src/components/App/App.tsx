@@ -14,7 +14,8 @@ import {
     DeleteProjectResponse,
     GetOneProjectResponse,
     taskConfig,
-    CreateTaskForProjectRequest
+    CreateTaskForProjectRequest,
+    UpdateTaskRequest
 } from 'types';
 import {appConfig} from "../../config/app-config";
 
@@ -515,6 +516,36 @@ export const App = () => {
     }
 
     const handleHideFormEditTask = () => {
+        setShowFormEditTask(false);
+    }
+
+    const handleEditTask = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const index = appData.editedTaskIndex;
+        const id = appData.taskListOpenedProject[index].id;
+        setEditedTaskIndex(-1);
+
+        const formData: UpdateTaskRequest = getDataFromForm();
+
+        const res = await fetch(
+            appConfig.apiURL + `/tasks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            });
+        const data: UpdateProjectResponse = await res.json();
+
+        if(data.isSuccess) {
+            if(appData.idOpenedProject) {
+                await setTaskListOpenedProject(appData.idOpenedProject);
+            }
+        } else {
+            console.log(data.msgError);
+        }
+
         setShowFormEditTask(false);
     }
 
