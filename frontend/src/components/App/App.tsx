@@ -643,11 +643,15 @@ export const App = () => {
         setShowFormAddSprint(true);
     }
 
+    const handleHideFormAddSprint = () => {
+        setShowFormAddSprint(false);
+    }
+
     //---------------
 
     const handleUpdateTaskTime = () => {}
 
-    //linia 472
+    //linia 618
 
     return (
         <>
