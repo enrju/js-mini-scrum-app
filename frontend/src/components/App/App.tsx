@@ -28,12 +28,13 @@ import {
     UpdateTasksTimeForProjectResponse
 } from 'types';
 import {appConfig} from "../../config/app-config";
+import {ProjectListPanel} from "../ProjectListPanel/ProjectListPanel";
 
-interface ProjectFE extends Project {
+export interface ProjectFE extends Project {
     isHide: boolean;
 }
 
-interface SprintFE extends Sprint {
+export interface SprintFE extends Sprint {
     isHide: boolean;
 }
 
@@ -381,23 +382,23 @@ export const App = () => {
         e.preventDefault();
 
         const parent = e.target.parentNode;
-        const id = parent.dataset.id;
-
-        //copy of table
-        let newProjectList = [ ...appData.projectList ].map(item => {
-            if(item.id === id) {
-                return {
-                    ...item,
-                    isHide: !item.isHide,
-                }
-            } else {
-                return {
-                    ...item,
-                }
-            }
-        });
+        const id = Number(parent.dataset.id);
 
         setAppData((prevData) => {
+            //copy of table
+            let newProjectList = [ ...prevData.projectList ].map(item => {
+                if(item.id === id) {
+                    return {
+                        ...item,
+                        isHide: !item.isHide,
+                    }
+                } else {
+                    return {
+                        ...item,
+                    }
+                }
+            });
+
             return ({
                 ...prevData,
                 projectList: newProjectList,
@@ -818,7 +819,14 @@ export const App = () => {
     if(appData.idOpenedProject === null) {
         return (
             <main>
-                lista projektów
+                <ProjectListPanel
+                    projectList={appData.projectList}
+                    handleAddProject={handleShowFormAddProject}
+                    handleEditProject={handleShowFormEditProject}
+                    handleDeleteProject={handleDeleteProject}
+                    handleHideShowProject={handleHideShowProjectDescription}
+                    handleOpenProject={handleOpenProject}
+                />
             </main>
         )
     } else {
