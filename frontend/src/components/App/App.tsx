@@ -815,10 +815,17 @@ export const App = () => {
 
     //linia 761 - render()
 
-    return (
-        <>
-            <h1>Test - cra app</h1>
-            <p>{appData.projectList.map(item => item.title + ', ')}</p>
-        </>
-    );
+    if(appData.idOpenedProject === null) {
+        return (
+            <main>
+                lista projektów
+            </main>
+        )
+    } else {
+        return (
+            <main>
+                panel wybranego projektu
+            </main>
+        )
+    }
 }
