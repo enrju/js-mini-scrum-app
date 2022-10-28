@@ -29,6 +29,7 @@ import {
 } from 'types';
 import {appConfig} from "../../config/app-config";
 import {ProjectListPanel} from "../ProjectListPanel/ProjectListPanel";
+import {PopupForm} from "../PopupForm/PopupForm";
 
 export interface ProjectFE extends Project {
     isHide: boolean;
@@ -281,10 +282,14 @@ export const App = () => {
         setShowFormAddProject(false);
     }
 
-    const handleAddProject = async (e: FormEvent<HTMLFormElement>) => {
+    const handleAddProject = async (e: any) => {
         e.preventDefault();
 
         const formData: CreateProjectRequest = getDataFromForm();
+
+        if(formData.description === '') {
+            formData.description = null;
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/projects`, {
@@ -327,14 +332,17 @@ export const App = () => {
         setShowFormEditProject(false);
     }
 
-    const handleEditProject = async (e: FormEvent<HTMLFormElement>) => {
+    const handleEditProject = async (e: any) => {
         e.preventDefault();
 
         const index = appData.editedProjectIndex;
         const id = appData.projectList[index].id;
-        setEditedProjectIndex(-1);
 
         const formData: UpdateProjectRequest = getDataFromForm();
+
+        if(formData.description === '') {
+            formData.description = null;
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/projects/${id}`, {
@@ -353,6 +361,7 @@ export const App = () => {
         }
 
         setShowFormEditProject(false);
+        setEditedProjectIndex(-1);
     }
 
     const handleDeleteProject = async (e: any) => {
@@ -481,7 +490,7 @@ export const App = () => {
         setShowFormAddTask(false);
     }
 
-    const handleAddTask = async (e: FormEvent<HTMLFormElement>) => {
+    const handleAddTask = async (e: any) => {
         e.preventDefault();
 
         const id = appData.idOpenedProject;
@@ -539,7 +548,7 @@ export const App = () => {
         setShowFormEditTask(false);
     }
 
-    const handleEditTask = async (e: FormEvent<HTMLFormElement>) => {
+    const handleEditTask = async (e: any) => {
         e.preventDefault();
 
         const index = appData.editedTaskIndex;
@@ -664,7 +673,7 @@ export const App = () => {
         setShowFormAddSprint(false);
     }
 
-    const handleAddSprint = async (e: FormEvent<HTMLFormElement>) => {
+    const handleAddSprint = async (e: any) => {
         e.preventDefault();
 
         const idOpenedProject = appData.idOpenedProject;
@@ -713,7 +722,7 @@ export const App = () => {
         setShowFormEditSprint(false);
     }
 
-    const handleEditSprint = async (e: FormEvent<HTMLFormElement>) => {
+    const handleEditSprint = async (e: any) => {
         e.preventDefault();
 
         const index = appData.editedSprintIndex;
@@ -827,6 +836,30 @@ export const App = () => {
                     handleHideShowProject={handleHideShowProjectDescription}
                     handleOpenProject={handleOpenProject}
                 />
+                {appData.isShowFormAddProject ?
+                    <PopupForm
+                        handleSubmitForm={handleAddProject}
+                        name = "new project"
+                        isDescription={true}
+                        title=""
+                        description=""
+                        handleCancelAddBtn={handleHideFormAddProject}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
+                {appData.isShowFormEditProject ?
+                    <PopupForm
+                        handleSubmitForm={handleEditProject}
+                        name = "edit project"
+                        isDescription={true}
+                        title={appData.projectList[appData.editedProjectIndex].title}
+                        description={appData.projectList[appData.editedProjectIndex].description}
+                        handleCancelAddBtn={handleHideFormEditProject}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
             </main>
         )
     } else {
