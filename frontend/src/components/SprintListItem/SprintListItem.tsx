@@ -6,7 +6,7 @@ import {TaskList} from "../TaskList/TaskList";
 interface Props {
     taskList: Task[];
     item: SprintFE;
-    idChosenSprint: number;
+    idChosenSprint: number | null;
     handleChooseSprint: any;
     handleEditSprint: any;
     handleDeleteSprint: any;
@@ -19,15 +19,15 @@ interface Props {
 
 export const SprintListItem = (props: Props) => {
     const todoTaskList = props.taskList.filter((item) => {
-        if(item.state === TaskState.TODO) return true;
+        if(item.state === TaskState[TaskState.TODO] as unknown) return true;
         else return false;
     });
     const doingTaskList = props.taskList.filter((item) => {
-        if(item.state === TaskState.DOING) return true;
+        if(item.state === TaskState[TaskState.DOING] as unknown) return true;
         else return false;
     });
     const doneTaskList = props.taskList.filter((item) => {
-        if(item.state === TaskState.DONE) return true;
+        if(item.state === TaskState[TaskState.DONE] as unknown) return true;
         else return false;
     });
 

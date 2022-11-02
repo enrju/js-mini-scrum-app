@@ -5,7 +5,7 @@ import {SprintList} from "../SprintList/SprintList";
 
 interface Props {
     handleAddSprint: any;
-    idChosenSprint: number;
+    idChosenSprint: number | null;
     sprintList: SprintFE[];
     taskList: Task[];
     handleChooseSprint: any;

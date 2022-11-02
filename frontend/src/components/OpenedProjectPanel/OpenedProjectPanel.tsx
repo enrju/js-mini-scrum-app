@@ -17,7 +17,7 @@ interface Props {
     handleMoveLeftTask: any;
     handleMoveRightTask: any;
     handleAddSprint: any;
-    idChosenSprint: number;
+    idChosenSprint: number | null;
     sprintList: SprintFE[];
     handleChooseSprint: any;
     handleEditSprint: any;

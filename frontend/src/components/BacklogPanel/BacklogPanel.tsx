@@ -15,7 +15,7 @@ interface Props {
 
 export const BacklogPanel = (props: Props) => {
     const backlogTaskList = props.taskList.filter((item) => {
-        if(item.state === TaskState.BACKLOG) return true;
+        if(item.state === TaskState[TaskState.BACKLOG] as unknown) return true;
         else return false;
     });
 
