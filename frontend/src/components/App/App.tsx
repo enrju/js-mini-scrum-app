@@ -30,6 +30,7 @@ import {
 import {appConfig} from "../../config/app-config";
 import {ProjectListPanel} from "../ProjectListPanel/ProjectListPanel";
 import {PopupForm} from "../PopupForm/PopupForm";
+import {OpenedProjectPanel} from "../OpenedProjectPanel/OpenedProjectPanel";
 
 export interface ProjectFE extends Project {
     isHide: boolean;
@@ -256,7 +257,8 @@ export const App = () => {
 
         if(inpTitle && inpDescription) {
             const title = inpTitle.value;
-            const description = inpDescription ? inpDescription.value : null;
+            // const description = inpDescription ? inpDescription.value : null;
+            const description = inpDescription.value;
 
             if(inpDescription) {
                 return {
@@ -268,6 +270,12 @@ export const App = () => {
                     title,
                     description: null,
                 }
+            }
+        } else if(inpTitle && !inpDescription) {
+            const title = inpTitle.value;
+
+            return {
+                title,
             }
         } else {
             throw new Error('Problem with get data from form - probably form not exist');
@@ -285,10 +293,15 @@ export const App = () => {
     const handleAddProject = async (e: any) => {
         e.preventDefault();
 
-        const formData: CreateProjectRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
 
-        if(formData.description === '') {
-            formData.description = null;
+        const requestData: CreateProjectRequest = {
+            title: formData.title,
+            description: formData.description,
+        }
+
+        if(requestData.description === '') {
+            requestData.description = null;
         }
 
         const res = await fetch(
@@ -297,7 +310,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: CreateProjectResponse = await res.json();
 
@@ -338,10 +351,15 @@ export const App = () => {
         const index = appData.editedProjectIndex;
         const id = appData.projectList[index].id;
 
-        const formData: UpdateProjectRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
 
-        if(formData.description === '') {
-            formData.description = null;
+        const requestData: UpdateProjectRequest = {
+            title: formData.title,
+            description: formData.description,
+        }
+
+        if(requestData.description === '') {
+            requestData.description = null;
         }
 
         const res = await fetch(
@@ -350,7 +368,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: UpdateProjectResponse = await res.json();
 
@@ -443,7 +461,7 @@ export const App = () => {
             //set state.taskListOpenedProject - setState() inside
             await setTaskListOpenedProject(id);
 
-            const interval = setInterval(handleUpdateTaskTime, taskConfig.DELTA_TIME_IN_MS);
+            const interval = setInterval(() => {handleUpdateTaskTimeForProject(id)}, taskConfig.DELTA_TIME_IN_MS);
 
             setAppInterval(interval);
 
@@ -494,7 +512,16 @@ export const App = () => {
         e.preventDefault();
 
         const id = appData.idOpenedProject;
-        const formData: CreateTaskForProjectRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
+
+        const requestData: CreateTaskForProjectRequest = {
+            title: formData.title,
+            description: '',
+        }
+
+        if(requestData.description === '') {
+            requestData.description = null;
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/projects/${id}/tasks`, {
@@ -502,7 +529,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: CreateTaskForProjectResponse = await res.json();
 
@@ -553,9 +580,17 @@ export const App = () => {
 
         const index = appData.editedTaskIndex;
         const id = appData.taskListOpenedProject[index].id;
-        setEditedTaskIndex(-1);
 
-        const formData: UpdateTaskRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
+
+        const requestData: UpdateTaskRequest = {
+            title: formData.title,
+            description: '',
+        }
+
+        if(requestData.description === '') {
+            requestData.description = null;
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/tasks/${id}`, {
@@ -563,7 +598,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: UpdateTaskResponse = await res.json();
 
@@ -576,6 +611,7 @@ export const App = () => {
         }
 
         setShowFormEditTask(false);
+        setEditedTaskIndex(-1);
     }
 
     const handleDeleteTask = async (e: any) => {
@@ -677,7 +713,11 @@ export const App = () => {
         e.preventDefault();
 
         const idOpenedProject = appData.idOpenedProject;
-        const formData: CreateSprintForProjectRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
+
+        const requestData: CreateSprintForProjectRequest = {
+            title: formData.title,
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/projects/${idOpenedProject}/sprints`, {
@@ -685,7 +725,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: CreateSprintForProjectResponse = await res.json();
 
@@ -727,9 +767,12 @@ export const App = () => {
 
         const index = appData.editedSprintIndex;
         const id = appData.sprintListOpenedProject[index].id;
-        setEditedSprintIndex(-1);
 
-        const formData: UpdateSprintRequest = getDataFromForm();
+        const formData: any = getDataFromForm();
+
+        const requestData: UpdateSprintRequest = {
+            title: formData.title,
+        }
 
         const res = await fetch(
             appConfig.apiURL + `/sprints/${id}`, {
@@ -737,7 +780,7 @@ export const App = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(requestData),
             });
         const data: UpdateSprintResponse = await res.json();
 
@@ -750,6 +793,7 @@ export const App = () => {
         }
 
         setShowFormEditSprint(false);
+        setEditedSprintIndex(-1);
     }
 
     const handleDeleteSprint = async (e: any) => {
@@ -805,25 +849,19 @@ export const App = () => {
         });
     }
 
-    const handleUpdateTaskTime = async () => {
-        const idActiveProject = appData.idOpenedProject;
-
+    const handleUpdateTaskTimeForProject = async (projectId: number) => {
         const res = await fetch(
-            appConfig.apiURL + `/projects/${idActiveProject}/tasks/time`, {
+            appConfig.apiURL + `/projects/${projectId}/tasks/time`, {
                 method: 'PUT',
             });
         const data: UpdateTasksTimeForProjectResponse = await res.json();
 
         if(data.isSuccess) {
-            if(appData.idOpenedProject) {
-                await setTaskListOpenedProject(appData.idOpenedProject);
-            }
+            await setTaskListOpenedProject(projectId);
         } else {
             console.log(data.msgError);
         }
     }
-
-    //linia 761 - render()
 
     if(appData.idOpenedProject === null) {
         return (
@@ -864,8 +902,79 @@ export const App = () => {
         )
     } else {
         return (
+            // <!--    JSX - WYMAGA encji HTML  -->
+            // <!--    <	&#60; &#x003C;  -->
+            // <!--    >	&#62; &#x003E;	-->
+            // <!--    /	&#47; &#x002F;  -->
             <main>
-                panel wybranego projektu
+                <OpenedProjectPanel
+                    title={appData.titleOpenedProject}
+                    description={appData.descriptionOpenedProject}
+                    handleCloseProject={handleCloseProject}
+                    handleAddTask={handleShowFormAddTask}
+                    isBacklogHide={appData.isBacklogHide}
+                    handleHideShowBacklogDetails={handleHideShowBacklogDetails}
+                    handleAddSprint={handleShowFormAddSprint}
+                    idChosenSprint={appData.idChosenSprint}
+                    sprintList={appData.sprintListOpenedProject}
+                    taskList={appData.taskListOpenedProject}
+                    handleChooseSprint={handleChooseSprint}
+                    handleEditSprint={handleShowFormEditSprint}
+                    handleDeleteSprint={handleDeleteSprint}
+                    handleHideShowSprintDetails={handleHideShowSprintDetails}
+                    handleEditTask={handleShowFormEditTask}
+                    handleDeleteTask={handleDeleteTask}
+                    handleMoveLeftTask={handleMoveLeftTask}
+                    handleMoveRightTask={handleMoveRightTask}
+                />
+                {appData.isShowFormAddTask ?
+                    <PopupForm
+                        handleSubmitForm={handleAddTask}
+                        name = "new task"
+                        isDescription={false}
+                        title=""
+                        description=""
+                        handleCancelAddBtn={handleHideFormAddTask}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
+                {appData.isShowFormEditTask ?
+                    <PopupForm
+                        handleSubmitForm={handleEditTask}
+                        name = "edit task"
+                        isDescription={false}
+                        title={appData.taskListOpenedProject[appData.editedTaskIndex].title}
+                        description=""
+                        handleCancelAddBtn={handleHideFormEditTask}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
+                {appData.isShowFormAddSprint ?
+                    <PopupForm
+                        handleSubmitForm={handleAddSprint}
+                        name = "new sprint"
+                        isDescription={false}
+                        title=""
+                        description=""
+                        handleCancelAddBtn={handleHideFormAddSprint}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
+                {appData.isShowFormEditSprint ?
+                    <PopupForm
+                        handleSubmitForm={handleEditSprint}
+                        name = "edit sprint"
+                        isDescription={false}
+                        title={appData.sprintListOpenedProject[appData.editedSprintIndex].title}
+                        description=""
+                        handleCancelAddBtn={handleHideFormEditSprint}
+                        handleAddBtn={null}
+                    />
+                    : null
+                }
             </main>
         )
     }
